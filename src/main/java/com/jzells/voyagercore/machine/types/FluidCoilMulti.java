@@ -2,12 +2,17 @@ package com.jzells.voyagercore.machine.types;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
+import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
 import net.minecraftforge.fluids.FluidStack;
+
+import org.jetbrains.annotations.NotNull;
 
 public class FluidCoilMulti extends CoilWorkableElectricMultiblockMachine {
 
@@ -17,33 +22,45 @@ public class FluidCoilMulti extends CoilWorkableElectricMultiblockMachine {
     private int fluidConsumeInterval = 20;
     // private TickableSubscription tickSub;
     // private boolean canRecipeRun = false;
+    // private final FluidStack CHLORINE_STACK = GTMaterials.Water.getFluid(10);
 
-    public FluidCoilMulti(IMachineBlockEntity holder) {
+    public FluidCoilMulti(IMachineBlockEntity holder, FluidStack requiredFluid) {
         super(holder);
-        this.requiredFluid = FluidStack.EMPTY;
-    }
-
-    @Override
-    public boolean onWorking() {
-        var val = super.onWorking();
-
-        if (this.runningTimer % fluidConsumeInterval == 0 && !RecipeHelper
-                .handleRecipeIO(this, this.getFluidConsumptionRecipe(), IO.IN, this.recipeLogic.getChanceCaches())
-                .isSuccess()) {
-            this.recipeLogic.interruptRecipe();
-            return false;
-        }
-        ++this.runningTimer;
-
-        this.runningTimer %= fluidConsumeInterval;
-
-        return val;
+        this.requiredFluid = requiredFluid;
     }
 
     protected GTRecipe getFluidConsumptionRecipe() {
         return GTRecipeBuilder.ofRaw()
-                .inputFluids(requiredFluid)
+                .inputFluids(this.requiredFluid)
                 .buildRawRecipe();
+    }
+
+    public ModifierFunction recipeModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+        if (!(machine instanceof FluidCoilMulti fluidMachine)) {
+            return RecipeModifier.nullWrongType(FluidCoilMulti.class, machine);
+        }
+        if (RecipeHelper.matchRecipe(fluidMachine, fluidMachine.getFluidConsumptionRecipe()).isSuccess()) {
+            return ModifierFunction.builder().build();
+        }
+        return ModifierFunction.NULL;
+    }
+
+    @Override
+    public boolean onWorking() {
+        boolean val = super.onWorking();
+
+        if (runningTimer % fluidConsumeInterval == 0) {
+            if (!RecipeHelper
+                    .handleRecipeIO(this, getFluidConsumptionRecipe(), IO.IN, this.recipeLogic.getChanceCaches())
+                    .isSuccess()) {
+                recipeLogic.interruptRecipe();
+                return false;
+            }
+        }
+        runningTimer++;
+        // runningTimer %= fluidConsumeInterval;
+
+        return val;
     }
 
     public void setFluidConsumption(FluidStack fluid, int amount, int intervalTicks) {
