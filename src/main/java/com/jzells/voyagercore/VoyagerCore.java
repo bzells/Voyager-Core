@@ -28,7 +28,7 @@ public class VoyagerCore {
 
     public static final String MOD_ID = "voyagercore";
     public static final Logger LOGGER = LogManager.getLogger();
-    public static GTRegistrate EXAMPLE_REGISTRATE = GTRegistrate.create(VoyagerCore.MOD_ID);
+    public static GTRegistrate VOYAGERCORE_REGISTRATE = GTRegistrate.create(VoyagerCore.MOD_ID);
 
     public VoyagerCore() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -49,7 +49,7 @@ public class VoyagerCore {
         // we need to register our object like this!
         MinecraftForge.EVENT_BUS.register(this);
 
-        EXAMPLE_REGISTRATE.registerRegistrate();
+        VOYAGERCORE_REGISTRATE.registerRegistrate();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
