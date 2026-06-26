@@ -15,6 +15,8 @@ import net.minecraftforge.fluids.FluidStack;
 
 import org.jetbrains.annotations.NotNull;
 
+import static com.jzells.voyagercore.VoyagerCore.LOGGER;
+
 public class FluidCoilMulti extends CoilWorkableElectricMultiblockMachine {
 
     private int runningTimer = 0;
@@ -23,16 +25,20 @@ public class FluidCoilMulti extends CoilWorkableElectricMultiblockMachine {
     private int fluidConsumeInterval = 20;
     // private TickableSubscription tickSub;
     // private boolean canRecipeRun = false;
-    private final FluidStack CHLORINE_STACK = GTMaterials.Water.getFluid(200);
+
+    private final FluidStack CHLORINE_STACK = GTMaterials.Chlorine.getFluid(200);
 
     public FluidCoilMulti(IMachineBlockEntity holder, FluidStack requiredFluid) {
         super(holder);
+        LOGGER.info("This is: {}", this.getHolder().getDefinition().getName());
+        LOGGER.info("FluidStack given: {}", requiredFluid.getDisplayName().getString());
         this.requiredFluid = requiredFluid;
+        LOGGER.info("Defined: Fluid Required: {}", this.requiredFluid.getDisplayName().getString());
     }
 
     protected GTRecipe getFluidConsumptionRecipe() {
         return GTRecipeBuilder.ofRaw()
-                .inputFluids(CHLORINE_STACK)
+                .inputFluids(this.requiredFluid)
                 .buildRawRecipe();
     }
 
@@ -41,6 +47,8 @@ public class FluidCoilMulti extends CoilWorkableElectricMultiblockMachine {
             return RecipeModifier.nullWrongType(FluidCoilMulti.class, machine);
         }
         if (RecipeHelper.matchRecipe(fluidMachine, fluidMachine.getFluidConsumptionRecipe()).isSuccess()) {
+            LOGGER.info("Machine is: {}", fluidMachine.getDefinition().getName());
+            LOGGER.info("Fluid of Machine is: {}", fluidMachine.requiredFluid.getDisplayName().getString());
             return ModifierFunction.IDENTITY;
         }
         return ModifierFunction.NULL;
@@ -51,8 +59,11 @@ public class FluidCoilMulti extends CoilWorkableElectricMultiblockMachine {
         boolean val = super.onWorking();
 
         if (runningTimer % fluidConsumeInterval == 0) {
+            var fluidRecipe = this.getFluidConsumptionRecipe();
+            // LOGGER.info("Required Fluid:");
+            LOGGER.info("Required Fluid:{}", this.requiredFluid.getDisplayName().getString());
             if (!RecipeHelper
-                    .handleRecipeIO(this, getFluidConsumptionRecipe(), IO.IN, this.recipeLogic.getChanceCaches())
+                    .handleRecipeIO(this, fluidRecipe, IO.IN, this.recipeLogic.getChanceCaches())
                     .isSuccess()) {
                 recipeLogic.interruptRecipe();
                 return false;
