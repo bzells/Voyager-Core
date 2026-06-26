@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
 import net.minecraftforge.fluids.FluidStack;
@@ -22,7 +23,7 @@ public class FluidCoilMulti extends CoilWorkableElectricMultiblockMachine {
     private int fluidConsumeInterval = 20;
     // private TickableSubscription tickSub;
     // private boolean canRecipeRun = false;
-    // private final FluidStack CHLORINE_STACK = GTMaterials.Water.getFluid(10);
+    private final FluidStack CHLORINE_STACK = GTMaterials.Water.getFluid(200);
 
     public FluidCoilMulti(IMachineBlockEntity holder, FluidStack requiredFluid) {
         super(holder);
@@ -31,16 +32,16 @@ public class FluidCoilMulti extends CoilWorkableElectricMultiblockMachine {
 
     protected GTRecipe getFluidConsumptionRecipe() {
         return GTRecipeBuilder.ofRaw()
-                .inputFluids(this.requiredFluid)
+                .inputFluids(CHLORINE_STACK)
                 .buildRawRecipe();
     }
 
-    public ModifierFunction recipeModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+    public static ModifierFunction recipeModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
         if (!(machine instanceof FluidCoilMulti fluidMachine)) {
             return RecipeModifier.nullWrongType(FluidCoilMulti.class, machine);
         }
         if (RecipeHelper.matchRecipe(fluidMachine, fluidMachine.getFluidConsumptionRecipe()).isSuccess()) {
-            return ModifierFunction.builder().build();
+            return ModifierFunction.IDENTITY;
         }
         return ModifierFunction.NULL;
     }
