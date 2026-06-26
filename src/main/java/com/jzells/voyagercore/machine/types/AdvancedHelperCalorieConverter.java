@@ -1,6 +1,5 @@
 package com.jzells.voyagercore.machine.types;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -13,9 +12,11 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
+
 import net.minecraftforge.fluids.FluidStack;
 
 public class AdvancedHelperCalorieConverter extends WorkableElectricMultiblockMachine implements ITieredMachine {
+
     public AdvancedHelperCalorieConverter(IMachineBlockEntity holder, int tier) {
         super(holder, new Object[0]);
         this.tier = tier;
@@ -31,12 +32,14 @@ public class AdvancedHelperCalorieConverter extends WorkableElectricMultiblockMa
     @Override
     public boolean onWorking() {
         boolean val = super.onWorking();
-        if (this.runningTimer % 72 == 0 && !RecipeHelper.handleRecipeIO(this, this.getMilkRecipe(), IO.IN, this.recipeLogic.getChanceCaches()).isSuccess()) {
+        if (this.runningTimer % 72 == 0 && !RecipeHelper
+                .handleRecipeIO(this, this.getMilkRecipe(), IO.IN, this.recipeLogic.getChanceCaches()).isSuccess()) {
             this.recipeLogic.interruptRecipe();
             return false;
         } else {
             GTRecipe boosterRecipe = this.getMilkRecipe();
-            this.milkBoosted = RecipeHelper.matchRecipe(this, boosterRecipe).isSuccess() && RecipeHelper.handleRecipeIO(this, boosterRecipe, IO.IN, this.recipeLogic.getChanceCaches()).isSuccess();
+            this.milkBoosted = RecipeHelper.matchRecipe(this, boosterRecipe).isSuccess() && RecipeHelper
+                    .handleRecipeIO(this, boosterRecipe, IO.IN, this.recipeLogic.getChanceCaches()).isSuccess();
 
             ++this.runningTimer;
             if (this.runningTimer > 72000) {
@@ -47,43 +50,31 @@ public class AdvancedHelperCalorieConverter extends WorkableElectricMultiblockMa
         }
     }
 
-
-    protected GTRecipe getMilkRecipe()
-    {
+    protected GTRecipe getMilkRecipe() {
         return GTRecipeBuilder.ofRaw().inputFluids(MILK_STACK).buildRawRecipe();
     }
 
-    protected double getProductionBoost()
-    {
-        if(!this.milkBoosted)
-        {
+    protected double getProductionBoost() {
+        if (!this.milkBoosted) {
             return 1;
-        }
-        else
-        {
+        } else {
             return 1.5;
         }
     }
 
-    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe)
-    {
-        if(machine instanceof AdvancedHelperCalorieConverter calorieConverter)
-        {
+    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
+        if (machine instanceof AdvancedHelperCalorieConverter calorieConverter) {
             EnergyStack EUt = recipe.getOutputEUt();
-            if (!EUt.isEmpty() && RecipeHelper.matchRecipe(calorieConverter, calorieConverter.getMilkRecipe()).isSuccess())
-            {
+            if (!EUt.isEmpty() &&
+                    RecipeHelper.matchRecipe(calorieConverter, calorieConverter.getMilkRecipe()).isSuccess()) {
                 double eutMultiplier = calorieConverter.getProductionBoost();
                 return ModifierFunction.builder()
                         .eutMultiplier(eutMultiplier)
                         .build();
-            }
-            else
-            {
+            } else {
                 return ModifierFunction.NULL;
             }
-        }
-        else
-        {
+        } else {
             return RecipeModifier.nullWrongType(AdvancedHelperCalorieConverter.class, machine);
         }
     }

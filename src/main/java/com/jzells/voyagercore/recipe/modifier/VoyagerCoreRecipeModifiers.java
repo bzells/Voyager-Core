@@ -8,8 +8,6 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 
-import static com.jzells.voyagercore.VoyagerCore.LOGGER;
-
 public class VoyagerCoreRecipeModifiers {
 
     // private static final FluidStack MILK_STACK = GTMaterials.Milk.getFluid(3);
