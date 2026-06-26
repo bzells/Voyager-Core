@@ -18,6 +18,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import com.jzells.voyagercore.data.VoyagerMaterials;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,7 +26,7 @@ import org.apache.logging.log4j.Logger;
 @SuppressWarnings("removal")
 public class VoyagerCore {
 
-    public static final String MOD_ID = "examplemod";
+    public static final String MOD_ID = "voyagercore";
     public static final Logger LOGGER = LogManager.getLogger();
     public static GTRegistrate EXAMPLE_REGISTRATE = GTRegistrate.create(VoyagerCore.MOD_ID);
 
@@ -91,6 +92,7 @@ public class VoyagerCore {
      */
     private void addMaterials(MaterialEvent event) {
         // CustomMaterials.init();
+        VoyagerMaterials.init();
     }
 
     /**

@@ -26,14 +26,17 @@ public class FluidCoilMulti extends CoilWorkableElectricMultiblockMachine {
     // private TickableSubscription tickSub;
     // private boolean canRecipeRun = false;
 
-    private final FluidStack CHLORINE_STACK = GTMaterials.Chlorine.getFluid(200);
+    public final FluidStack CHLORINE_STACK = GTMaterials.Chlorine.getFluid(200);
 
-    public FluidCoilMulti(IMachineBlockEntity holder, FluidStack requiredFluid) {
+    public FluidCoilMulti(IMachineBlockEntity holder) {
         super(holder);
-        LOGGER.info("This is: {}", this.getHolder().getDefinition().getName());
-        LOGGER.info("FluidStack given: {}", requiredFluid.getDisplayName().getString());
-        this.requiredFluid = requiredFluid;
-        LOGGER.info("Defined: Fluid Required: {}", this.requiredFluid.getDisplayName().getString());
+        this.requiredFluid = CHLORINE_STACK;
+    }
+
+    public void setRequiredFluid(FluidStack fluid) {
+        // LOGGER.info("This is: {}", this.getHolder().getDefinition().getName());
+        // LOGGER.info("FluidStack given: {}", fluid.getDisplayName().getString());
+        this.requiredFluid = fluid;
     }
 
     protected GTRecipe getFluidConsumptionRecipe() {
