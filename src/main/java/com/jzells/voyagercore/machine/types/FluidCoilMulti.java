@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
+import com.jzells.voyagercore.data.VoyagerMaterials;
 import net.minecraftforge.fluids.FluidStack;
 
 import org.jetbrains.annotations.NotNull;
@@ -27,6 +28,7 @@ public class FluidCoilMulti extends CoilWorkableElectricMultiblockMachine {
     // private boolean canRecipeRun = false;
 
     public final FluidStack CHLORINE_STACK = GTMaterials.Chlorine.getFluid(200);
+    private final FluidStack PYROTHEUM_STACK = VoyagerMaterials.Pyrotheum.getFluid(200);
 
     public FluidCoilMulti(IMachineBlockEntity holder) {
         super(holder);
