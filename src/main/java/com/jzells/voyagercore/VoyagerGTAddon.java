@@ -6,6 +6,8 @@ import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 
+import com.jzells.voyagercore.recipe.types.VoyagerRecipeTypes;
+
 import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
@@ -32,7 +34,7 @@ public class VoyagerGTAddon implements IGTAddon {
 
     @Override
     public void addRecipes(Consumer<FinishedRecipe> provider) {
-        // CustomRecipes.init(provider);
+        VoyagerRecipeTypes.init();
     }
 
     @Override

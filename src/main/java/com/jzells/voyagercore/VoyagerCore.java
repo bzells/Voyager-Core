@@ -19,6 +19,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import com.jzells.voyagercore.common.data.VoyagerMaterials;
+import com.jzells.voyagercore.machine.multis.VoyagerMultiRegistry;
+import com.jzells.voyagercore.recipe.types.VoyagerRecipeTypes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,6 +39,7 @@ public class VoyagerCore {
         modEventBus.addListener(this::clientSetup);
 
         modEventBus.addListener(this::addMaterialRegistries);
+
         modEventBus.addListener(this::addMaterials);
         modEventBus.addListener(this::modifyMaterials);
 
@@ -77,7 +80,7 @@ public class VoyagerCore {
      * Create a material manager for your mod using GT's API.
      * You MUST have this if you have custom materials.
      * Remember to register them not to GT's namespace, but your own.
-     * 
+     *
      * @param event
      */
     private void addMaterialRegistries(MaterialRegistryEvent event) {
@@ -87,7 +90,7 @@ public class VoyagerCore {
     /**
      * You will also need this for registering custom materials
      * Call init() from your Material class(es) here
-     * 
+     *
      * @param event
      */
     private void addMaterials(MaterialEvent event) {
@@ -97,7 +100,7 @@ public class VoyagerCore {
 
     /**
      * (Optional) Used to modify pre-existing materials from GregTech
-     * 
+     *
      * @param event
      */
     private void modifyMaterials(PostMaterialEvent event) {
@@ -107,11 +110,12 @@ public class VoyagerCore {
     /**
      * Used to register your own new RecipeTypes.
      * Call init() from your RecipeType class(es) here
-     * 
+     *
      * @param event
      */
     private void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
         // CustomRecipeTypes.init();
+        VoyagerRecipeTypes.init();
     }
 
     /**
@@ -121,7 +125,7 @@ public class VoyagerCore {
      * @param event
      */
     private void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
-        // CustomMachines.init();
+        VoyagerMultiRegistry.init();
     }
 
     /**
