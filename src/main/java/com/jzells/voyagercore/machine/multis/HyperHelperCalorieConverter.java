@@ -1,14 +1,15 @@
 package com.jzells.voyagercore.machine.multis;
 
+import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
-import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
+import com.jzells.voyagercore.recipe.types.VoyagerRecipeTypes;
 import com.jzells.voyagercore.util.VoyagerKJSIntegration;
+import dev.latvian.mods.kubejs.KubeJS;
 
 import static com.jzells.voyagercore.VoyagerCore.VOYAGER_REGISTRATE;
 
@@ -49,13 +50,15 @@ public class HyperHelperCalorieConverter {
 
     public static final MultiblockMachineDefinition TEST = VOYAGER_REGISTRATE
             .multiblock("hyper_helper_calorie_converter", WorkableElectricMultiblockMachine::new)
-            // .rotationState(RotationState.ALL)
-            // .recipeTypes(VoyagerRecipeTypes.ADVANCED_CALORIE_CONVERSION)
-            .recipeType(GTRecipeTypes.BENDER_RECIPES)
-            // .recipeTypes(GTRecipeTypes.BENDER_RECIPES)
-            // .generator(true)
-//            .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT)
-            // .appearanceBlock(GCYMBlocks.CASING_ATOMIC)
+            .rotationState(RotationState.ALL)
+            .recipeTypes(VoyagerRecipeTypes.ADVANCED_CALORIE_CONVERSION)
+            // .recipeType()
+            // .recipeTypes
+            // (GTRecipeTypes.BENDER_RECIPES)
+            .langValue("Hyper Helper Calorie Converter (HHCC)")
+            .generator(true)
+            // .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT)
+            .appearanceBlock(() -> VoyagerKJSIntegration.getBlockFromKubeJSRegistry(("radiant_titanex_casing")))
             .pattern(def -> FactoryBlockPattern.start()
                     .aisle("CCC", "CDC", "CCC")
                     .aisle("CCC", "CBC", "CCC")
@@ -80,8 +83,10 @@ public class HyperHelperCalorieConverter {
                     .where('I',
                             Predicates.blocks(
                                     VoyagerKJSIntegration.getBlockFromKubeJSRegistry("radiant_titanex_vent_casing")))
-                    .where('D', Predicates.abilities(PartAbility.IMPORT_ITEMS))
+                    .where('D', Predicates.abilities(PartAbility.OUTPUT_ENERGY))
                     .build())
+            .workableCasingModel(KubeJS.id("block/casing/radiant_titanex_casing"),
+                    KubeJS.id("block/multiblock/hyper_helper_calorie_converter"))
             .register();
 
     public static void init() {}
