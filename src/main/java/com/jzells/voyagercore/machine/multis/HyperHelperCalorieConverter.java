@@ -3,10 +3,10 @@ package com.jzells.voyagercore.machine.multis;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 
+import com.jzells.voyagercore.machine.types.AdvancedHelperCalorieConverterType;
 import com.jzells.voyagercore.recipe.types.VoyagerRecipeTypes;
 import com.jzells.voyagercore.util.VoyagerKJSIntegration;
 import dev.latvian.mods.kubejs.KubeJS;
@@ -49,9 +49,10 @@ public class HyperHelperCalorieConverter {
     // .register();
 
     public static final MultiblockMachineDefinition TEST = VOYAGER_REGISTRATE
-            .multiblock("hyper_helper_calorie_converter", WorkableElectricMultiblockMachine::new)
+            .multiblock("hyper_helper_calorie_converter", AdvancedHelperCalorieConverterType::new)
             .rotationState(RotationState.ALL)
             .recipeTypes(VoyagerRecipeTypes.ADVANCED_CALORIE_CONVERSION)
+            .recipeModifier(AdvancedHelperCalorieConverterType::recipeModifier)
             // .recipeType()
             // .recipeTypes
             // (GTRecipeTypes.BENDER_RECIPES)
