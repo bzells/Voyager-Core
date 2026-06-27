@@ -1,4 +1,4 @@
-package com.jzells.voyagercore.machine.types;
+package com.jzells.voyagercore.common.machine.multiblock.generator;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;

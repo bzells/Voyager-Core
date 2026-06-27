@@ -1,4 +1,4 @@
-package com.jzells.voyagercore.recipe.modifier;
+package com.jzells.voyagercore.common.data;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;

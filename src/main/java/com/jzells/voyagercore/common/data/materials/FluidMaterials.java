@@ -1,11 +1,11 @@
-package com.jzells.voyagercore.data.materials;
+package com.jzells.voyagercore.common.data.materials;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
 
 import com.jzells.voyagercore.VoyagerCore;
 
-import static com.jzells.voyagercore.data.VoyagerMaterials.*;
+import static com.jzells.voyagercore.common.data.VoyagerMaterials.*;
 
 public class FluidMaterials {
 

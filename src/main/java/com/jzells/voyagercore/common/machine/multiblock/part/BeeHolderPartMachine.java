@@ -1,4 +1,4 @@
-package com.jzells.voyagercore.machine.multiblock.part;
+package com.jzells.voyagercore.common.machine.multiblock.part;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;

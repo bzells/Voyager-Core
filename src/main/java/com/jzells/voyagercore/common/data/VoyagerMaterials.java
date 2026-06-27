@@ -1,8 +1,8 @@
-package com.jzells.voyagercore.data;
+package com.jzells.voyagercore.common.data;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 
-import com.jzells.voyagercore.data.materials.FluidMaterials;
+import com.jzells.voyagercore.common.data.materials.FluidMaterials;
 
 public class VoyagerMaterials {
 

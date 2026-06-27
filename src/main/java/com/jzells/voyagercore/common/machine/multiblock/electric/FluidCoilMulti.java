@@ -1,4 +1,4 @@
-package com.jzells.voyagercore.machine.types;
+package com.jzells.voyagercore.common.machine.multiblock.electric;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -11,7 +11,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
-import com.jzells.voyagercore.data.VoyagerMaterials;
+import com.jzells.voyagercore.common.data.VoyagerMaterials;
 import net.minecraftforge.fluids.FluidStack;
 
 import org.jetbrains.annotations.NotNull;
