@@ -16,7 +16,7 @@ public class VoyagerGTAddon implements IGTAddon {
 
     @Override
     public GTRegistrate getRegistrate() {
-        return VoyagerCore.VOYAGER_REGISTRATE;
+        return VoyagerCore.VOYAGERCORE_REGISTRATE;
     }
 
     @Override

@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.api.sound.SoundEntry;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -19,6 +18,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import com.jzells.voyagercore.common.data.VoyagerMaterials;
 import com.jzells.voyagercore.machine.multis.VoyagerMultiRegistry;
 import com.jzells.voyagercore.recipe.types.VoyagerRecipeTypes;
 import org.apache.logging.log4j.LogManager;
@@ -28,9 +28,9 @@ import org.apache.logging.log4j.Logger;
 @SuppressWarnings("removal")
 public class VoyagerCore {
 
-    public static final String MOD_ID = "examplemod";
+    public static final String MOD_ID = "voyagercore";
     public static final Logger LOGGER = LogManager.getLogger();
-    public static GTRegistrate VOYAGER_REGISTRATE = GTRegistrate.create(VoyagerCore.MOD_ID);
+    public static GTRegistrate VOYAGERCORE_REGISTRATE = GTRegistrate.create(VoyagerCore.MOD_ID);
 
     public VoyagerCore() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -52,13 +52,13 @@ public class VoyagerCore {
         // we need to register our object like this!
         MinecraftForge.EVENT_BUS.register(this);
 
-        VOYAGER_REGISTRATE.registerRegistrate();
+        VOYAGERCORE_REGISTRATE.registerRegistrate();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             LOGGER.info("Hello from common setup! This is *after* registries are done, so we can do this:");
-            LOGGER.info("Look, I found a {}!", Items.DIAMOND);
+            // LOGGER.info("Look, I found a {}!", Items.DIAMOND);
         });
     }
 
@@ -95,6 +95,7 @@ public class VoyagerCore {
      */
     private void addMaterials(MaterialEvent event) {
         // CustomMaterials.init();
+        VoyagerMaterials.init();
     }
 
     /**
