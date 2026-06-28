@@ -14,6 +14,8 @@ import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
 import net.minecraftforge.fluids.FluidStack;
 
+import lombok.val;
+
 public class AdvancedHelperCalorieConverterType extends WorkableElectricMultiblockMachine {
 
     public AdvancedHelperCalorieConverterType(IMachineBlockEntity holder, Object... args) {
@@ -23,12 +25,16 @@ public class AdvancedHelperCalorieConverterType extends WorkableElectricMultiblo
     private static final FluidStack DISTILLED_WATER_STACK;
     private static final FluidStack MILK_STACK;
     private static final FluidStack BLUE_HELPERADE_STACK;
+    private static final FluidStack WATER_STACK;
 
     private boolean dt_boosted = false;
     private boolean milk_boosted = false;
     private boolean helperade_boosted = false;
+    private boolean not_boosted = true;
 
-    private int refresh = 100;
+    private final int refresh = 100;
+
+    private int state = 0;
 
     private int runningTimer = 0;
 
@@ -36,74 +42,87 @@ public class AdvancedHelperCalorieConverterType extends WorkableElectricMultiblo
     public boolean onWorking() {
         boolean val = super.onWorking();
 
-        if (!hasFluidInputs() && this.runningTimer % refresh == 0) {
-            this.recipeLogic.interruptRecipe();
-            return false;
-        } else {
-            GTRecipe getDTR = this.getDTRecipe();
-            GTRecipe getMR = this.getMilkRecipe();
-            GTRecipe getHPR = this.getHelperadeRecipe();
+        GTRecipe milkRecipe = this.getMilkRecipe();
+        GTRecipe dtRecipe = this.getDTRecipe();
+        GTRecipe helperadeRecipe = this.getHelperadeRecipe();
+        GTRecipe waterRecipe = this.getWaterRecipe();
 
-            this.dt_boosted = RecipeHelper.matchRecipe(this, getDTR).isSuccess() &&
-                    RecipeHelper.handleRecipeIO(this, getDTR, IO.IN, this.recipeLogic.getChanceCaches()).isSuccess();
-            this.milk_boosted = RecipeHelper.matchRecipe(this, getMR).isSuccess() &&
-                    RecipeHelper.handleRecipeIO(this, getMR, IO.IN, this.recipeLogic.getChanceCaches()).isSuccess();
-            this.helperade_boosted = RecipeHelper.matchRecipe(this, getHPR).isSuccess() &&
-                    RecipeHelper.handleRecipeIO(this, getHPR, IO.IN, this.recipeLogic.getChanceCaches()).isSuccess();
+        ++this.runningTimer;
+        if (this.runningTimer > refresh) {
+            this.runningTimer %= refresh;
+        }
 
-            ++this.runningTimer;
-            if (this.runningTimer > refresh) {
-                this.runningTimer %= refresh;
-//                add +1 to this prob to prevent double
+        if (this.runningTimer % refresh == 0) {
+
+            if (!hasFluidInputs()) {
+                recipeLogic.interruptRecipe();
             }
+            this.milk_boosted = RecipeHelper.matchRecipe(this, milkRecipe).isSuccess() &&
+                    RecipeHelper.handleRecipeIO(this, milkRecipe, IO.IN, this.recipeLogic.getChanceCaches())
+                            .isSuccess();
+            this.dt_boosted = RecipeHelper.matchRecipe(this, dtRecipe).isSuccess() &&
+                    RecipeHelper.handleRecipeIO(this, dtRecipe, IO.IN, this.recipeLogic.getChanceCaches()).isSuccess();
+            this.helperade_boosted = RecipeHelper.matchRecipe(this, helperadeRecipe).isSuccess() && RecipeHelper
+                    .handleRecipeIO(this, helperadeRecipe, IO.IN, this.recipeLogic.getChanceCaches()).isSuccess();
+            this.not_boosted = RecipeHelper.matchRecipe(this, waterRecipe).isSuccess() && RecipeHelper
+                    .handleRecipeIO(this, waterRecipe, IO.IN, this.recipeLogic.getChanceCaches()).isSuccess();
+        }
 
-            return val;
+        return val;
+    }
 
+    private double getEUtMultiplier() {
+        if (milk_boosted) {
+            return 2;
+        } else if (dt_boosted) {
+            return 1;
+        } else if (helperade_boosted) {
+            return 4;
+        } else if (not_boosted) {
+            return .5;
+        } else {
+            return 0;
+        }
+    }
+
+    private double getDurationModifier() {
+        if (milk_boosted) {
+            return 1.5;
+        } else if (dt_boosted) {
+            return 1;
+        } else if (helperade_boosted) {
+            return 4;
+        } else if (not_boosted) {
+            return .5;
+        } else {
+            return 0;
         }
     }
 
     protected GTRecipe getMilkRecipe() {
-        if (this.runningTimer % refresh == 0) {
-            return GTRecipeBuilder.ofRaw().inputFluids(MILK_STACK).buildRawRecipe();
-        }
-        return GTRecipeBuilder.ofRaw().buildRawRecipe();
+        return GTRecipeBuilder.ofRaw().inputFluids(MILK_STACK).buildRawRecipe();
     }
 
     protected GTRecipe getDTRecipe() {
-        if (this.runningTimer % refresh == 0) {
-            return GTRecipeBuilder.ofRaw().inputFluids(DISTILLED_WATER_STACK).buildRawRecipe();
-        }
-        return GTRecipeBuilder.ofRaw().buildRawRecipe();
+        return GTRecipeBuilder.ofRaw().inputFluids(DISTILLED_WATER_STACK).buildRawRecipe();
     }
 
     protected GTRecipe getHelperadeRecipe() {
-        if (this.runningTimer % refresh == 0) {
-            return GTRecipeBuilder.ofRaw().inputFluids(BLUE_HELPERADE_STACK).buildRawRecipe();
-        }
-        return GTRecipeBuilder.ofRaw().buildRawRecipe();
+        return GTRecipeBuilder.ofRaw().inputFluids(BLUE_HELPERADE_STACK).buildRawRecipe();
     }
 
-    protected double getProductionBoost() {
-        return 3;
+    protected GTRecipe getWaterRecipe() {
+        return GTRecipeBuilder.ofRaw().inputFluids(WATER_STACK).buildRawRecipe();
     }
-
-    // public static RecipeModifier ADVANCED_CALORIE_CONVERSION = AdvancedHelperCalorieConverterType::recipeModifier;
 
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
         if (machine instanceof AdvancedHelperCalorieConverterType calorieConverter) {
             EnergyStack EUt = recipe.getOutputEUt();
-            if (!EUt.isEmpty()) {
-                if (calorieConverter.hasDTRecipe()) {
-                    return ModifierFunction.builder().eutMultiplier(1).build();
-                } else if (calorieConverter.hasMilkRecipe()) {
-                    return ModifierFunction.builder().eutMultiplier(2).durationMultiplier(1.5).build();
-                } else if (calorieConverter.hasHelperadeRecipe()) {
-                    return ModifierFunction.builder().eutMultiplier(4).durationMultiplier(4).build();
-                } else {
-                    return ModifierFunction.builder().eutMultiplier(.5).durationMultiplier(.5).build();
-                }
+            if (!EUt.isEmpty() && calorieConverter.hasFluidInputs()) {
+                return ModifierFunction.builder().eutMultiplier(calorieConverter.getEUtMultiplier())
+                        .durationMultiplier(calorieConverter.getDurationModifier()).build();
             } else {
-                return ModifierFunction.NULL;
+                return ModifierFunction.builder().eutMultiplier(.1).build();
             }
         } else {
             return RecipeModifier.nullWrongType(AdvancedHelperCalorieConverterType.class, machine);
@@ -111,14 +130,7 @@ public class AdvancedHelperCalorieConverterType extends WorkableElectricMultiblo
     }
 
     private boolean hasFluidInputs() {
-        boolean distilled_water = (RecipeHelper
-                .handleRecipeIO(this, this.getDTRecipe(), IO.IN, this.recipeLogic.getChanceCaches()).isSuccess());
-        boolean milk = (RecipeHelper
-                .handleRecipeIO(this, this.getMilkRecipe(), IO.IN, this.recipeLogic.getChanceCaches()).isSuccess());
-        boolean helperade = (RecipeHelper
-                .handleRecipeIO(this, this.getHelperadeRecipe(), IO.IN, this.recipeLogic.getChanceCaches())
-                .isSuccess());
-        return (distilled_water || milk || helperade);
+        return (not_boosted || dt_boosted || milk_boosted || helperade_boosted);
     }
 
     private boolean hasMilkRecipe() {
@@ -138,10 +150,10 @@ public class AdvancedHelperCalorieConverterType extends WorkableElectricMultiblo
     }
 
     static {
-        DISTILLED_WATER_STACK = GTMaterials.DistilledWater.getFluid(500);
-        MILK_STACK = GTMaterials.Milk.getFluid(175);
-        BLUE_HELPERADE_STACK = GTMaterials.Ammonia.getFluid(25);
-        // For whatever reason, what the recipe runs, it uses the amount x2...
-//        I think it is because refresh % 0 can be 0 at x = refresh, and 0. So it does it twice.
+        WATER_STACK = GTMaterials.Water.getFluid(5000);
+        DISTILLED_WATER_STACK = GTMaterials.DistilledWater.getFluid(1000);
+        MILK_STACK = GTMaterials.Milk.getFluid(350);
+        BLUE_HELPERADE_STACK = GTMaterials.Ammonia.getFluid(50);
+
     }
 }
