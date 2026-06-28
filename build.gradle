@@ -73,7 +73,17 @@ repositories {
             includeGroup "dev.latvian.apps"
         }
     }
-
+    maven { // KubeJS and Rhino
+        name = "Saps.dev Maven"
+        url = "https://maven.saps.dev/minecraft"
+    }
+    exclusiveContent { // shedaniel - REI, architectury, cloth-config
+        forRepository { maven { url = "https://maven.shedaniel.me/" } }
+        filter {
+            includeGroupAndSubgroups("me.shedaniel")
+            includeGroup("dev.architectury")
+        }
+    }
     maven {
         url 'https://jitpack.io'
         content {
@@ -94,6 +104,7 @@ group = maven_group
 base { archivesName = archives_base_name }
 java { sourceCompatibility = targetCompatibility = JavaVersion.VERSION_17 }
 
+
 legacyForge {
     version = project.minecraft_version + '-' + project.forge_version
 
@@ -101,7 +112,15 @@ legacyForge {
         mappingsVersion = project.mapping_version
         minecraftVersion = project.minecraft_version
     }
-
+    mods {
+        // define mod <-> source bindings
+        // these are used to tell the game which sources are for which mod
+        // mostly optional in a single mod project
+        // but multi mod projects should define one per mod
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
     runs {
         configureEach {
             // Recommended logging data for a userdev environment
@@ -131,25 +150,16 @@ legacyForge {
         data {
             data()
             sourceSet = sourceSets.main
+            ideName = "Data Generation"
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
             programArguments.addAll('--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath())
             programArguments.addAll('--existing-mod', 'gtceu')
         }
     }
-
-    mods {
-        // define mod <-> source bindings
-        // these are used to tell the game which sources are for which mod
-        // mostly optional in a single mod project
-        // but multi mod projects should define one per mod
-        "${mod_id}" {
-            sourceSet(sourceSets.main)
-        }
-    }
 }
 jar {
     manifest.attributes([
-            "MixinConfigs": "examplemod.mixins.json"
+            "MixinConfigs": "voyagercore.mixins.json"
     ])
 }
 
@@ -168,10 +178,11 @@ dependencies {
     modRuntimeOnly("dev.emi:emi-forge:${emi_version}+${minecraft_version}")
     modRuntimeOnly("curse.maven:jade-324717:5390389")
 
-    modImplementation("dev.latvian.mods:kubejs-forge:$project.kubejs_version")
+    // modImplementation("dev.latvian.mods:kubejs-forge:${project.kubejs_version}")
+    modImplementation(forge.bundles.kjs)
 
     // GregTech and dependencies
-    modImplementation("com.gregtechceu.gtceu:gtceu-${minecraft_version}:${gtceu_version}:slim") { transitive = false }
+    modImplementation("com.gregtechceu.gtceu:gtceu-${minecraft_version}:${gtceu_version}") { transitive = false }
     modImplementation("com.lowdragmc.ldlib:ldlib-forge-${minecraft_version}:${ldlib_version}") { transitive = false }
     modImplementation("com.tterrag.registrate:Registrate:${registrate_version}")
     modImplementation("dev.toma.configuration:configuration-forge-${minecraft_version}:${configuration_version}")
