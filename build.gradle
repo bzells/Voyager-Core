@@ -83,6 +83,12 @@ repositories {
 
 }
 
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
 version = mod_version
 group = maven_group
 base { archivesName = archives_base_name }
