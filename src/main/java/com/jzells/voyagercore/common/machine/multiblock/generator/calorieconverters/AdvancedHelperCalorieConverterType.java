@@ -1,4 +1,4 @@
-package com.jzells.voyagercore.machine.types;
+package com.jzells.voyagercore.common.machine.multiblock.generator.calorieconverters;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -54,6 +54,7 @@ public class AdvancedHelperCalorieConverterType extends WorkableElectricMultiblo
             ++this.runningTimer;
             if (this.runningTimer > refresh) {
                 this.runningTimer %= refresh;
+//                add +1 to this prob to prevent double
             }
 
             return val;
@@ -137,9 +138,10 @@ public class AdvancedHelperCalorieConverterType extends WorkableElectricMultiblo
     }
 
     static {
-        DISTILLED_WATER_STACK = GTMaterials.DistilledWater.getFluid(1000);
-        MILK_STACK = GTMaterials.Milk.getFluid(350);
-        BLUE_HELPERADE_STACK = GTMaterials.Ammonia.getFluid(50);
-        // BLUE_HELPERADE_STACK = VoyagerKJSIntegration.getFluidStackFromKubeJSRegistry("helperade_br");
+        DISTILLED_WATER_STACK = GTMaterials.DistilledWater.getFluid(500);
+        MILK_STACK = GTMaterials.Milk.getFluid(175);
+        BLUE_HELPERADE_STACK = GTMaterials.Ammonia.getFluid(25);
+        // For whatever reason, what the recipe runs, it uses the amount x2...
+//        I think it is because refresh % 0 can be 0 at x = refresh, and 0. So it does it twice.
     }
 }

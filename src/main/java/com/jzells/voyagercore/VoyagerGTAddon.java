@@ -6,7 +6,7 @@ import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 
-import com.jzells.voyagercore.recipe.types.VoyagerRecipeTypes;
+import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
 
 import java.util.function.Consumer;
 

@@ -19,8 +19,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import com.jzells.voyagercore.common.data.VoyagerMaterials;
-import com.jzells.voyagercore.machine.multis.VoyagerMultiRegistry;
-import com.jzells.voyagercore.recipe.types.VoyagerRecipeTypes;
+import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
+import com.jzells.voyagercore.common.machine.multiblock.VoyagerMultiRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

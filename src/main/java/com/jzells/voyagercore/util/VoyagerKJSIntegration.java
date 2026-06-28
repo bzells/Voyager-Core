@@ -16,6 +16,7 @@ public class VoyagerKJSIntegration extends KubeJSPlugin {
 
     public static FluidStack getFluidStackFromKubeJSRegistry(String fluid) {
         Fluid kjsfluid = ForgeRegistries.FLUIDS.getValue(KubeJS.id(fluid));
+        assert kjsfluid != null;
         return new FluidStack(kjsfluid, 1);
     }
 }

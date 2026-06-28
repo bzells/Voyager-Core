@@ -11,9 +11,9 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
-import com.jzells.voyagercore.common.data.VoyagerMaterials;
 import net.minecraftforge.fluids.FluidStack;
 
+import com.jzells.voyagercore.common.data.VoyagerMaterials;
 import org.jetbrains.annotations.NotNull;
 
 import static com.jzells.voyagercore.VoyagerCore.LOGGER;

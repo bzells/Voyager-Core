@@ -1,4 +1,4 @@
-package com.jzells.voyagercore.recipe.types;
+package com.jzells.voyagercore.common.data;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
