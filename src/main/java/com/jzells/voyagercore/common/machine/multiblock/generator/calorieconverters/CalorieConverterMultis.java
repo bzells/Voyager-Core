@@ -7,11 +7,13 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 
 import com.jzells.voyagercore.VoyagerCore;
+import com.jzells.voyagercore.common.data.VoyagerBlocks;
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
 import com.jzells.voyagercore.util.VoyagerKJSIntegration;
 import dev.latvian.mods.kubejs.KubeJS;
 
 import static com.jzells.voyagercore.VoyagerCore.VOYAGERCORE_REGISTRATE;
+import static com.jzells.voyagercore.common.data.VoyagerBlocks.*;
 
 public class CalorieConverterMultis {
 
@@ -22,7 +24,7 @@ public class CalorieConverterMultis {
             .recipeModifier(AdvancedHelperCalorieConverterType::recipeModifier)
             .langValue("Hyper Helper Calorie Converter (HHCC)")
             .generator(true)
-            .appearanceBlock(() -> VoyagerKJSIntegration.getBlockFromKubeJSRegistry(("radiant_titanex_casing")))
+            .appearanceBlock(CASING_RADIANT_TITANEX)
             .pattern(def -> FactoryBlockPattern.start()
                     .aisle("CCC", "CDC", "CCC")
                     .aisle("CCC", "CBC", "CCC")
@@ -31,7 +33,7 @@ public class CalorieConverterMultis {
                     .where('@', Predicates.controller(Predicates.blocks(def.get())))
                     .where('C',
                             Predicates
-                                    .blocks(VoyagerKJSIntegration.getBlockFromKubeJSRegistry("radiant_titanex_casing"))
+                                    .blocks(CASING_RADIANT_TITANEX.get())
                                     // .where('C', Predicates.blocks(GCYMBlocks.CASING_ATOMIC.get())
                                     .setMinGlobalLimited(5)
                                     .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setExactLimit(1)
@@ -43,13 +45,12 @@ public class CalorieConverterMultis {
                                     .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setExactLimit(1)
                                             .setPreviewCount(1))
                                     .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
-                    .where('B', Predicates.blocks(VoyagerKJSIntegration.getBlockFromKubeJSRegistry("cooling_lamp")))
+                    .where('B', Predicates.blocks(COOLING_LAMP.get()))
                     .where('I',
-                            Predicates.blocks(
-                                    VoyagerKJSIntegration.getBlockFromKubeJSRegistry("radiant_titanex_vent_casing")))
+                            Predicates.blocks(CASING_VENT_RADIANT_TITANEX.get()))
                     .where('D', Predicates.abilities(PartAbility.OUTPUT_ENERGY))
                     .build())
-            .workableCasingModel(KubeJS.id("block/casing/radiant_titanex_casing"),
+            .workableCasingModel(VoyagerCore.id("block/casing/radiant_titanex_casing"),
                     VoyagerCore.id("block/overlay/hyper_helper_calorie_converter"))
             .register();
 

@@ -1,0 +1,9 @@
+{
+  "block.voyagercore.cooling_lamp": "Cooling Lamp",
+  "block.voyagercore.hyper_helper_calorie_converter": "Hyper Helper Calorie Converter (HHCC)",
+  "block.voyagercore.magmatic_foundry": "Magmatic Foundry",
+  "block.voyagercore.radiant_titanex_casing": "Radiant Titanex Casing",
+  "block.voyagercore.radiant_titanite_vent_casing": "Radiant Titanite Vent Casing",
+  "itemGroup.voyagercore.main": "Voyager Core Blocks",
+  "material.voyagercore.pyrotheum": "Pyrotheum"
+}

@@ -18,6 +18,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import com.jzells.voyagercore.common.data.VoyagerBlocks;
 import com.jzells.voyagercore.common.data.VoyagerMaterials;
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
 import com.jzells.voyagercore.common.machine.multiblock.VoyagerMultiRegistry;
@@ -33,6 +34,7 @@ public class VoyagerCore {
     public static GTRegistrate VOYAGERCORE_REGISTRATE = GTRegistrate.create(VoyagerCore.MOD_ID);
 
     public VoyagerCore() {
+        VoyagerCore.init();
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(this::commonSetup);
@@ -53,6 +55,10 @@ public class VoyagerCore {
         MinecraftForge.EVENT_BUS.register(this);
 
         VOYAGERCORE_REGISTRATE.registerRegistrate();
+    }
+
+    private static void init() {
+        VoyagerBlocks.init();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

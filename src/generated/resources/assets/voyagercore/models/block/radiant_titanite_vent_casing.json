@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "voyagercore:block/casing/radiant_titanex_vent_casing"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "voyagercore:block/cooling_lamp"
+    }
+  }
+}
