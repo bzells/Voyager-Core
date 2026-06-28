@@ -31,18 +31,17 @@ public class VoyagerBlocks {
     public static final BlockEntry<Block> CASING_VENT_RADIANT_TITANEX = createCasingBlock(
             "radiant_titanite_vent_casing", VoyagerCore.id("block/casing/radiant_titanex_vent_casing"));
 
-    public static final BlockEntry<Block> COOLING_LAMP = VOYAGERCORE_REGISTRATE.block("cooling_lamp",Block::new)
+    public static final BlockEntry<Block> COOLING_LAMP = VOYAGERCORE_REGISTRATE.block("cooling_lamp", Block::new)
             .initialProperties(() -> Blocks.SEA_LANTERN)
-            .properties(p -> p.isValidSpawn((state,level,pos,ent) -> false)
+            .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false)
                     .sound(SoundType.GLASS)
-                    .strength(0.3f,8.0f))
+                    .strength(0.3f, 8.0f))
             .addLayer(() -> RenderType::solid)
             .exBlockstate(GTModels.cubeAllModel(VoyagerCore.id("block/cooling_lamp")))
             .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH)
             .item(BlockItem::new)
             .build()
             .register();
-
 
     // Ripped Directly from GTCEu
 

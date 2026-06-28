@@ -7,10 +7,7 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 
 import com.jzells.voyagercore.VoyagerCore;
-import com.jzells.voyagercore.common.data.VoyagerBlocks;
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
-import com.jzells.voyagercore.util.VoyagerKJSIntegration;
-import dev.latvian.mods.kubejs.KubeJS;
 
 import static com.jzells.voyagercore.VoyagerCore.VOYAGERCORE_REGISTRATE;
 import static com.jzells.voyagercore.common.data.VoyagerBlocks.*;

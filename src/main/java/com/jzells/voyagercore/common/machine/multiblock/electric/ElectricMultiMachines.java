@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
+import com.jzells.voyagercore.VoyagerCore;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -55,7 +56,7 @@ public class ElectricMultiMachines {
                     .where("@", Predicates.controller(blocks(definition.get())))
                     .build())
             .workableCasingModel(GTCEu.id("block/casings/gcym/high_temperature_smelting_casing"),
-                    KubeJS.id("block/multiblock/magmatic_foundry"))
+                    VoyagerCore.id("block/multiblock/magmatic_foundry"))
             .register();
 
     public static void init() {}

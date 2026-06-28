@@ -54,7 +54,7 @@ public class AdvancedHelperCalorieConverterType extends WorkableElectricMultiblo
             ++this.runningTimer;
             if (this.runningTimer > refresh) {
                 this.runningTimer %= refresh;
-//                add +1 to this prob to prevent double
+                // add +1 to this prob to prevent double
             }
 
             return val;
@@ -142,6 +142,6 @@ public class AdvancedHelperCalorieConverterType extends WorkableElectricMultiblo
         MILK_STACK = GTMaterials.Milk.getFluid(175);
         BLUE_HELPERADE_STACK = GTMaterials.Ammonia.getFluid(25);
         // For whatever reason, what the recipe runs, it uses the amount x2...
-//        I think it is because refresh % 0 can be 0 at x = refresh, and 0. So it does it twice.
+        // I think it is because refresh % 0 can be 0 at x = refresh, and 0. So it does it twice.
     }
 }
