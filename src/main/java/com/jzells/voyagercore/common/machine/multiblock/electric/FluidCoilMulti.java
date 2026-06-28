@@ -28,7 +28,7 @@ public class FluidCoilMulti extends CoilWorkableElectricMultiblockMachine {
     // private boolean canRecipeRun = false;
 
     public final FluidStack CHLORINE_STACK = GTMaterials.Chlorine.getFluid(200);
-    private final FluidStack PYROTHEUM_STACK = VoyagerMaterials.Pyrotheum.getFluid(200);
+    private final FluidStack PYROTHEUM_STACK = VoyagerMaterials.Pyrotheum.getFluid(10);
 
     public FluidCoilMulti(IMachineBlockEntity holder, FluidStack requiredFluid) {
         super(holder);
