@@ -48,7 +48,7 @@ public class CalorieConverterMultis {
                     .where('D', Predicates.abilities(PartAbility.OUTPUT_ENERGY))
                     .build())
             .workableCasingModel(VoyagerCore.id("block/casing/radiant_titanex_casing"),
-                    VoyagerCore.id("block/overlay/hyper_helper_calorie_converter"))
+                    VoyagerCore.id("block/multiblock/hyper_helper_calorie_converter"))
             .register();
 
     public static void init() {}

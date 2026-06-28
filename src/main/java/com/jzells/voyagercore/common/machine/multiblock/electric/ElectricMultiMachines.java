@@ -9,12 +9,11 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
-import com.jzells.voyagercore.VoyagerCore;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.common.data.VoyagerMaterials;
-import dev.latvian.mods.kubejs.KubeJS;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gregtechceu.gtceu.common.data.GCYMBlocks.*;
