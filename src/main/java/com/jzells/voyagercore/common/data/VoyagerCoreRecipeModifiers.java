@@ -2,6 +2,7 @@ package com.jzells.voyagercore.common.data;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
@@ -14,6 +15,7 @@ public class VoyagerCoreRecipeModifiers {
 
     public static RecipeModifier CUBE_BOOSTING = VoyagerCoreRecipeModifiers::cubeModifier;
     public static RecipeModifier HEAT_BOOSTING = VoyagerCoreRecipeModifiers::heatBoostingModifier;
+    public static RecipeModifier BASIC_BOOSTING = VoyagerCoreRecipeModifiers::basicBoostingModifier;
 
     public static ModifierFunction cubeModifier(MetaMachine machine, GTRecipe recipe) {
         if (!(machine instanceof MetaMachine)) {
@@ -22,9 +24,9 @@ public class VoyagerCoreRecipeModifiers {
         if (!(recipe instanceof GTRecipe)) {
             return ModifierFunction.NULL;
         }
-        int parallelMod = 3;
-        double durationMod = 0.6;
-        double eutMod = 0.6;
+        int parallelMod = 2;
+        double durationMod = 0.75;
+        double eutMod = 0.75;
 
         return ModifierFunction.builder()
                 .modifyAllContents(ContentModifier.multiplier(parallelMod))
@@ -74,7 +76,47 @@ public class VoyagerCoreRecipeModifiers {
                     .parallels(parallels)
                     .build();
         } else {
-            int pars = Math.max(0, ParallelLogic.getParallelAmountWithoutEU(machine, recipe, parallels));
+            int pars = Math.max(0, ParallelLogic.getParallelAmount(machine, recipe, parallels));
+            return ModifierFunction.builder()
+                    .modifyAllContents(ContentModifier.multiplier(pars))
+                    .durationMultiplier(durationMod)
+                    .eutMultiplier(eutMod)
+                    .parallels(pars)
+                    .build();
+        }
+    }
+
+    public static ModifierFunction basicBoostingModifier(MetaMachine machine, GTRecipe recipe) {
+        if (!(machine instanceof MetaMachine)) {
+            return ModifierFunction.NULL;
+        }
+        if (!(recipe instanceof GTRecipe)) {
+            return ModifierFunction.NULL;
+        }
+
+        long machineVoltage = ((WorkableElectricMultiblockMachine) machine).getMaxVoltage();
+        long recipeVoltage = recipe.getInputEUt().voltage();
+
+        double eutMod = .85;
+        int parallels = 1;
+        double durationMod = 1;
+
+        for (long recV = recipeVoltage; recV < machineVoltage; recV *= 4) {
+            parallels += 2;
+            durationMod *= .9;
+        }
+
+        int parallelAvailable = Math.max(0, ParallelLogic.getParallelAmountWithoutEU(machine, recipe, parallels));
+
+        if (parallelAvailable >= parallels) {
+            return ModifierFunction.builder()
+                    .modifyAllContents(ContentModifier.multiplier(parallels))
+                    .durationMultiplier(durationMod)
+                    .eutMultiplier(eutMod)
+                    .parallels(parallels)
+                    .build();
+        } else {
+            int pars = Math.max(0, ParallelLogic.getParallelAmount(machine, recipe, parallels));
             return ModifierFunction.builder()
                     .modifyAllContents(ContentModifier.multiplier(pars))
                     .durationMultiplier(durationMod)

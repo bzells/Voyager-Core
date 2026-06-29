@@ -1,5 +1,5 @@
 {
     "ldlib": {
-        "connection": "kubejs:block/casing/radiant_titanex_casing_ctm"
+        "connection": "voyagercore:block/casing/radiant_titanex_casing_ctm"
     }
 }

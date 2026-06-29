@@ -14,5 +14,10 @@ public class FluidMaterials {
                 .color(0xff5900, true)
                 .liquid(new FluidBuilder().temperature(2000))
                 .buildAndRegister();
+
+        Cryotheum = new Material.Builder(VoyagerCore.id("cryotheum"))
+                .color(0x00fffb, true)
+                .liquid(new FluidBuilder().temperature(50))
+                .buildAndRegister();
     }
 }
