@@ -1,9 +1,13 @@
 {
   "block.voyagercore.cooling_lamp": "dɯɐꞀ buıןooƆ",
+  "block.voyagercore.everfrost_chiller": "ɹǝןןıɥƆ ʇsoɹɟɹǝʌƎ",
+  "block.voyagercore.foundry_casing": "buısɐƆ ʎɹpunoℲ",
+  "block.voyagercore.frost_conducting_casing": "buısɐƆ buıʇɔnpuoƆ ʇsoɹℲ",
   "block.voyagercore.hyper_helper_calorie_converter": ")ƆƆHH( ɹǝʇɹǝʌuoƆ ǝıɹoןɐƆ ɹǝdןǝH ɹǝdʎH",
   "block.voyagercore.magmatic_foundry": "ʎɹpunoℲ ɔıʇɐɯbɐW",
   "block.voyagercore.radiant_titanex_casing": "buısɐƆ xǝuɐʇı⟘ ʇuɐıpɐᴚ",
   "block.voyagercore.radiant_titanite_vent_casing": "buısɐƆ ʇuǝΛ ǝʇıuɐʇı⟘ ʇuɐıpɐᴚ",
   "itemGroup.voyagercore.main": "sʞɔoןᗺ ǝɹoƆ ɹǝbɐʎoΛ",
+  "material.voyagercore.cryotheum": "ɯnǝɥʇoʎɹƆ",
   "material.voyagercore.pyrotheum": "ɯnǝɥʇoɹʎԀ"
 }

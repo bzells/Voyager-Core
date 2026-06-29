@@ -11,4 +11,5 @@ public class VoyagerMaterials {
     }
 
     public static Material Pyrotheum;
+    public static Material Cryotheum;
 }
