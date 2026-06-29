@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.*;
 
 import com.jzells.voyagercore.common.data.VoyagerCoreRecipeModifiers;
+import com.jzells.voyagercore.common.data.VoyagerMaterials;
 import com.jzells.voyagercore.util.VoyagerKJSIntegration;
 import dev.latvian.mods.kubejs.KubeJS;
 
@@ -18,7 +19,8 @@ import static com.jzells.voyagercore.VoyagerCore.VOYAGERCORE_REGISTRATE;
 public class FluidCoilMultis {
 
     public static final MultiblockMachineDefinition MAGMATIC_FOUNDRY = VOYAGERCORE_REGISTRATE
-            .multiblock("magmatic_foundry", FluidCoilMulti::new)
+            .multiblock("magmatic_foundairy",
+                    (holder) -> new FluidCoilMulti(holder, VoyagerMaterials.Pyrotheum.getFluid(200)))
             .rotationState(RotationState.ALL)
             .recipeTypes(GTRecipeTypes.BLAST_RECIPES)
             .recipeModifiers(FluidCoilMulti::recipeModifier, VoyagerCoreRecipeModifiers.HEAT_BOOSTING,
