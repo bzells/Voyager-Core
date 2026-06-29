@@ -47,8 +47,19 @@ public class VoyagerCoreRecipeModifiers {
             return ModifierFunction.NULL;
         }
 
+        int recipetemp = 0;
+
+        if (!recipe.data.contains("ebf_temp")) {
+            long voltage = recipe.getInputEUt().voltage();
+
+            for (long i = 32; i < voltage; i *= 4) {
+                recipetemp += 1000;
+            }
+        } else {
+            recipetemp = recipe.data.getInt("ebf_temp");
+        }
+
         int coilTemp = ((CoilWorkableElectricMultiblockMachine) machine).getCoilType().getCoilTemperature();
-        int recipetemp = recipe.data.getInt("ebf_temp");
 
         double eutMod = .85;
         int parallels = 1;

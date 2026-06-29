@@ -1,0 +1,76 @@
+{
+  "variants": {
+    "facing=east,upwards_facing=east": {
+      "gtceu:z": 270,
+      "model": "voyagercore:block/machine/beam_of_teus",
+      "y": 90
+    },
+    "facing=east,upwards_facing=north": {
+      "model": "voyagercore:block/machine/beam_of_teus",
+      "y": 90
+    },
+    "facing=east,upwards_facing=south": {
+      "gtceu:z": 180,
+      "model": "voyagercore:block/machine/beam_of_teus",
+      "y": 90
+    },
+    "facing=east,upwards_facing=west": {
+      "gtceu:z": 90,
+      "model": "voyagercore:block/machine/beam_of_teus",
+      "y": 90
+    },
+    "facing=north,upwards_facing=east": {
+      "gtceu:z": 270,
+      "model": "voyagercore:block/machine/beam_of_teus"
+    },
+    "facing=north,upwards_facing=north": {
+      "model": "voyagercore:block/machine/beam_of_teus"
+    },
+    "facing=north,upwards_facing=south": {
+      "gtceu:z": 180,
+      "model": "voyagercore:block/machine/beam_of_teus"
+    },
+    "facing=north,upwards_facing=west": {
+      "gtceu:z": 90,
+      "model": "voyagercore:block/machine/beam_of_teus"
+    },
+    "facing=south,upwards_facing=east": {
+      "gtceu:z": 270,
+      "model": "voyagercore:block/machine/beam_of_teus",
+      "y": 180
+    },
+    "facing=south,upwards_facing=north": {
+      "model": "voyagercore:block/machine/beam_of_teus",
+      "y": 180
+    },
+    "facing=south,upwards_facing=south": {
+      "gtceu:z": 180,
+      "model": "voyagercore:block/machine/beam_of_teus",
+      "y": 180
+    },
+    "facing=south,upwards_facing=west": {
+      "gtceu:z": 90,
+      "model": "voyagercore:block/machine/beam_of_teus",
+      "y": 180
+    },
+    "facing=west,upwards_facing=east": {
+      "gtceu:z": 270,
+      "model": "voyagercore:block/machine/beam_of_teus",
+      "y": 270
+    },
+    "facing=west,upwards_facing=north": {
+      "model": "voyagercore:block/machine/beam_of_teus",
+      "y": 270
+    },
+    "facing=west,upwards_facing=south": {
+      "gtceu:z": 180,
+      "model": "voyagercore:block/machine/beam_of_teus",
+      "y": 270
+    },
+    "facing=west,upwards_facing=west": {
+      "gtceu:z": 90,
+      "model": "voyagercore:block/machine/beam_of_teus",
+      "y": 270
+    }
+  }
+}

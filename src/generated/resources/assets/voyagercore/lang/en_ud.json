@@ -1,4 +1,7 @@
 {
+  "block.voyagercore.beam_of_teus": "snǝ⟘ ɟO ɯɐǝᗺ",
+  "block.voyagercore.chemical_plant": "ʇuɐןԀ ןɐɔıɯǝɥƆ",
+  "block.voyagercore.chemical_plant_casing": "buısɐƆ ʇuɐןԀ ןɐɔıɯǝɥƆ",
   "block.voyagercore.cooling_lamp": "dɯɐꞀ buıןooƆ",
   "block.voyagercore.everfrost_chiller": "ɹǝןןıɥƆ ʇsoɹɟɹǝʌƎ",
   "block.voyagercore.foundry_casing": "buısɐƆ ʎɹpunoℲ",
@@ -7,6 +10,7 @@
   "block.voyagercore.magmatic_foundry": "ʎɹpunoℲ ɔıʇɐɯbɐW",
   "block.voyagercore.radiant_titanex_casing": "buısɐƆ xǝuɐʇı⟘ ʇuɐıpɐᴚ",
   "block.voyagercore.radiant_titanite_vent_casing": "buısɐƆ ʇuǝΛ ǝʇıuɐʇı⟘ ʇuɐıpɐᴚ",
+  "item.voyagercore.heat_redstone_cover": "ǝuoʇspǝᴚ ʇɐǝH",
   "itemGroup.voyagercore.main": "sʞɔoןᗺ ǝɹoƆ ɹǝbɐʎoΛ",
   "material.voyagercore.cryotheum": "ɯnǝɥʇoʎɹƆ",
   "material.voyagercore.pyrotheum": "ɯnǝɥʇoɹʎԀ"

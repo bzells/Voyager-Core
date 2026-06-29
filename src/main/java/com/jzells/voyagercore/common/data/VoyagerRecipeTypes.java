@@ -16,7 +16,29 @@ public class VoyagerRecipeTypes {
             .setMaxIOSize(4, 2, 2, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_RECYCLER, ProgressTexture.FillDirection.DOWN_TO_UP)
             .setSlotOverlay(false, false, GuiTextures.ARROW_INPUT_OVERLAY)
-            .setSound(GTSoundEntries.MORTAR_TOOL);
+            .setSound(GTSoundEntries.BATH);
+
+    public static final GTRecipeType CHEMICAL_PLANT = GTRecipeTypes
+            .register("chemical_plant", GTRecipeTypes.MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(6, 6, 6, 6)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSlotOverlay(true, false, GuiTextures.VIAL_OVERLAY_1)
+            .addDataInfo(tag -> {
+                if (tag.contains("ebf_temp")) {
+                    return "Temperature: " + tag.getInt("ebf_temp") + " K";
+                }
+                return "";
+            })
+            .setSound(GTSoundEntries.CHEMICAL);
+
+    public static final GTRecipeType BEAM_HEATING = GTRecipeTypes
+            .register("beam_heating", GTRecipeTypes.MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(2, 0, 1, 1)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARC_FURNACE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSlotOverlay(false, false, GuiTextures.LENS_OVERLAY)
+            .setSound(GTSoundEntries.ARC);
 
     public static void init() {}
 }

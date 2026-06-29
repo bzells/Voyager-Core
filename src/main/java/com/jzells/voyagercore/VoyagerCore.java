@@ -19,6 +19,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import com.jzells.voyagercore.common.data.VoyagerBlocks;
+import com.jzells.voyagercore.common.data.VoyagerItems;
 import com.jzells.voyagercore.common.data.VoyagerMaterials;
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
 import com.jzells.voyagercore.common.machine.multiblock.VoyagerMultiRegistry;
@@ -59,6 +60,7 @@ public class VoyagerCore {
 
     private static void init() {
         VoyagerBlocks.init();
+        VoyagerItems.init();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

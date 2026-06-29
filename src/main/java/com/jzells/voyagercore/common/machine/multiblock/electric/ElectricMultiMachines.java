@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.common.data.*;
 import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.common.data.VoyagerCoreRecipeModifiers;
 import com.jzells.voyagercore.common.data.VoyagerMaterials;
+import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
 
 import java.util.Objects;
 
@@ -19,8 +20,7 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gregtechceu.gtceu.common.data.GCYMBlocks.*;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.jzells.voyagercore.VoyagerCore.VOYAGERCORE_REGISTRATE;
-import static com.jzells.voyagercore.common.data.VoyagerBlocks.CASING_FOUNDRY;
-import static com.jzells.voyagercore.common.data.VoyagerBlocks.CASING_FROST_CONDUCTING;
+import static com.jzells.voyagercore.common.data.VoyagerBlocks.*;
 
 @SuppressWarnings("removal")
 
@@ -98,6 +98,73 @@ public class ElectricMultiMachines {
                     .build())
             .workableCasingModel(VoyagerCore.id("block/casing/frost_conducting_casing"),
                     VoyagerCore.id("block/multiblock/everfrost_chiller"))
+            .register();
+
+    public static final MultiblockMachineDefinition CHEMICAL_PLANT = VOYAGERCORE_REGISTRATE
+            .multiblock("chemical_plant",
+                    ChemicalPlantMachine::new)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeTypes(GTRecipeTypes.CHEMICAL_RECIPES, GTRecipeTypes.LARGE_CHEMICAL_RECIPES,
+                    VoyagerRecipeTypes.CHEMICAL_PLANT)
+            .recipeModifiers(VoyagerCoreRecipeModifiers.HEAT_BOOSTING,
+                    GTRecipeModifiers.OC_PERFECT, ChemicalPlantMachine::recipeModifier)
+            .appearanceBlock(CASING_CHEM_PLANT)
+            .pattern(def -> FactoryBlockPattern.start()
+                    .aisle("aaaaa", "cdddc", "cdddc", "cdddc", "aaaaa")
+                    .aisle("aaaaa", "deeed", "dfffd", "deeed", "aaaaa")
+                    .aisle("aaaaa", "deded", "dfdfd", "deded", "aaaaa")
+                    .aisle("aaaaa", "deeed", "dfffd", "deeed", "aaaaa")
+                    .aisle("aa@aa", "cdddc", "cdddc", "cdddc", "aaaaa")
+
+                    .where("a",
+                            Predicates.blocks(CASING_CHEM_PLANT.get())
+                                    .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
+                                    .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
+                                    .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
+                                    .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
+                                    .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                                    .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setExactLimit(1)))
+                    .where("@", Predicates.controller(Predicates.blocks(def.get())))
+                    .where("c", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
+                            .get(TagPrefix.frameGt, GTMaterials.Tungsten)).get()))
+                    .where("d", any())
+                    .where("e", Predicates.blocks(CASING_TUNGSTENSTEEL_PIPE.get()))
+                    .where("f", Predicates.heatingCoils())
+                    .build())
+            .workableCasingModel(VoyagerCore.id("block/casing/chemical_plant_casing"),
+                    VoyagerCore.id("block/multiblock/magmatic_foundry"))
+            .register();
+
+    public static final MultiblockMachineDefinition BEAM_OF_TEUS = VOYAGERCORE_REGISTRATE
+            .multiblock("beam_of_teus",
+                    (holder) -> new BeamMachine(holder, .1f, .1f))
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeTypes(VoyagerRecipeTypes.BEAM_HEATING)
+            .recipeModifiers(BeamMachine::recipeModifier)
+            .appearanceBlock(CASING_FOUNDRY)
+            .pattern(def -> FactoryBlockPattern.start()
+                    .aisle("aaa", "aaa", "aaa")
+                    .aisle("aaa", "aba", "aaa")
+                    .aisle("aaa", "a@a", "aaa")
+                    .where("b", Predicates.blocks(CASING_RADIANT_TITANEX.get()))
+                    .where("@", Predicates.controller(Predicates.blocks(def.get())))
+                    .where("a",
+                            Predicates.blocks(CASING_FOUNDRY.get())
+                                    .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
+                                    .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
+                                    .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
+                                    .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
+                                    .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                                    .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setExactLimit(1)))
+                    .where("@", Predicates.controller(Predicates.blocks(def.get())))
+                    .where("c", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
+                            .get(TagPrefix.frameGt, GTMaterials.Tungsten)).get()))
+                    .where("d", any())
+                    .where("e", Predicates.blocks(CASING_TUNGSTENSTEEL_PIPE.get()))
+                    .where("f", Predicates.heatingCoils())
+                    .build())
+            .workableCasingModel(VoyagerCore.id("block/casing/foundry_casing"),
+                    VoyagerCore.id("block/multiblock/magmatic_foundry"))
             .register();
 
     public static void init() {}
