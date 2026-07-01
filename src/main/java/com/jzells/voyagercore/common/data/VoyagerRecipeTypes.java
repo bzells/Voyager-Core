@@ -35,7 +35,7 @@ public class VoyagerRecipeTypes {
     public static final GTRecipeType BEAM_HEATING = GTRecipeTypes
             .register("beam_heating", GTRecipeTypes.MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(2, 0, 1, 1)
+            .setMaxIOSize(2, 1, 1, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARC_FURNACE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSlotOverlay(false, false, GuiTextures.LENS_OVERLAY)
             .setSound(GTSoundEntries.ARC);
