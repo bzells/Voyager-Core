@@ -16,7 +16,8 @@ public class ChemicalPlantRecipes {
 
     public static void chemPlantRecipes(Consumer<FinishedRecipe> provider) {
         VoyagerRecipeTypes.CHEMICAL_PLANT.recipeBuilder("nitrobenzene")
-                .inputFluids(GTMaterials.Benzene.getFluid(5000), GTMaterials.NitrationMixture.getFluid(2000))
+                .inputFluids(GTMaterials.Benzene.getFluid(5000), GTMaterials.NitrationMixture.getFluid(2000),
+                        GTMaterials.DistilledWater.getFluid(2000))
                 .outputFluids(GTMaterials.Nitrobenzene.getFluid(8000), GTMaterials.DilutedSulfuricAcid.getFluid(1000))
                 .EUt(480)
                 .duration(8 * 20)

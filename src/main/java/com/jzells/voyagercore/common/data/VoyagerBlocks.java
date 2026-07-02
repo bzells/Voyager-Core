@@ -40,6 +40,15 @@ public class VoyagerBlocks {
     public static final BlockEntry<Block> CASING_CHEM_PLANT = createCasingBlock(
             "chemical_plant_casing", VoyagerCore.id("block/casing/chemical_plant_casing"));
 
+    public static final BlockEntry<Block> CASING_INDUSTRIAL_MACERATION = createCasingBlock(
+            "industrial_maceration_casing", VoyagerCore.id("block/casing/industrial_maceration_casing"));
+
+    public static final BlockEntry<Block> CASING_BEAM_CONTROL = createCasingBlock(
+            "beam_control_casing", VoyagerCore.id("block/casing/beam_control_casing"));
+
+    public static final BlockEntry<Block> CASING_TITANITE = createCasingBlock(
+            "titanite_casing", VoyagerCore.id("block/casing/titanite_casing"));
+
     public static final BlockEntry<Block> COOLING_LAMP = VOYAGERCORE_REGISTRATE.block("cooling_lamp", Block::new)
             .initialProperties(() -> Blocks.SEA_LANTERN)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false)

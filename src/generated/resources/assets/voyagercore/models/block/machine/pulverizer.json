@@ -1,17 +1,17 @@
 {
   "parent": "minecraft:block/block",
   "loader": "gtceu:machine",
-  "machine": "voyagercore:beam_of_teus",
+  "machine": "voyagercore:pulverizer",
   "texture_overrides": {
-    "all": "voyagercore:block/casing/titanite_casing"
+    "all": "voyagercore:block/casing/industrial_maceration_casing"
   },
   "variants": {
     "is_formed=false,recipe_logic_status=idle": {
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "voyagercore:block/casing/titanite_casing",
-          "overlay_front": "voyagercore:block/multiblock/magmatic_foundry/overlay_front"
+          "all": "voyagercore:block/casing/industrial_maceration_casing",
+          "overlay_front": "voyagercore:block/multiblock/pulverizer/overlay_front"
         }
       }
     },
@@ -19,8 +19,8 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "voyagercore:block/casing/titanite_casing",
-          "overlay_front": "voyagercore:block/multiblock/magmatic_foundry/overlay_front"
+          "all": "voyagercore:block/casing/industrial_maceration_casing",
+          "overlay_front": "voyagercore:block/multiblock/pulverizer/overlay_front"
         }
       }
     },
@@ -28,8 +28,8 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "voyagercore:block/casing/titanite_casing",
-          "overlay_front": "voyagercore:block/multiblock/magmatic_foundry/overlay_front"
+          "all": "voyagercore:block/casing/industrial_maceration_casing",
+          "overlay_front": "voyagercore:block/multiblock/pulverizer/overlay_front"
         }
       }
     },
@@ -37,8 +37,8 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "voyagercore:block/casing/titanite_casing",
-          "overlay_front": "voyagercore:block/multiblock/magmatic_foundry/overlay_front"
+          "all": "voyagercore:block/casing/industrial_maceration_casing",
+          "overlay_front": "voyagercore:block/multiblock/pulverizer/overlay_front"
         }
       }
     },
@@ -46,8 +46,8 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "voyagercore:block/casing/titanite_casing",
-          "overlay_front": "voyagercore:block/multiblock/magmatic_foundry/overlay_front"
+          "all": "voyagercore:block/casing/industrial_maceration_casing",
+          "overlay_front": "voyagercore:block/multiblock/pulverizer/overlay_front"
         }
       }
     },
@@ -55,8 +55,8 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "voyagercore:block/casing/titanite_casing",
-          "overlay_front": "voyagercore:block/multiblock/magmatic_foundry/overlay_front"
+          "all": "voyagercore:block/casing/industrial_maceration_casing",
+          "overlay_front": "voyagercore:block/multiblock/pulverizer/overlay_front"
         }
       }
     },
@@ -64,8 +64,8 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "voyagercore:block/casing/titanite_casing",
-          "overlay_front": "voyagercore:block/multiblock/magmatic_foundry/overlay_front"
+          "all": "voyagercore:block/casing/industrial_maceration_casing",
+          "overlay_front": "voyagercore:block/multiblock/pulverizer/overlay_front"
         }
       }
     },
@@ -73,8 +73,8 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "voyagercore:block/casing/titanite_casing",
-          "overlay_front": "voyagercore:block/multiblock/magmatic_foundry/overlay_front"
+          "all": "voyagercore:block/casing/industrial_maceration_casing",
+          "overlay_front": "voyagercore:block/multiblock/pulverizer/overlay_front"
         }
       }
     }

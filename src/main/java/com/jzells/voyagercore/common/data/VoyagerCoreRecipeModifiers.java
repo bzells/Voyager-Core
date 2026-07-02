@@ -10,6 +10,10 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 
+import net.minecraft.network.chat.Component;
+
+import com.jzells.voyagercore.util.VoyagerVoltageTierUtils;
+
 public class VoyagerCoreRecipeModifiers {
 
     // private static final FluidStack MILK_STACK = GTMaterials.Milk.getFluid(3);
@@ -18,6 +22,7 @@ public class VoyagerCoreRecipeModifiers {
     public static RecipeModifier HEAT_BOOSTING = VoyagerCoreRecipeModifiers::heatBoostingModifier;
     public static RecipeModifier BASIC_BOOSTING = VoyagerCoreRecipeModifiers::basicBoostingModifier;
     public static RecipeModifier ADVANCED_BOOSTING = VoyagerCoreRecipeModifiers::advancedBoostingModifier;
+    public static RecipeModifier ADVANCED_BOOSTING_FUSION = VoyagerCoreRecipeModifiers::advancedBoostingModifierFusion;
 
     public static ModifierFunction cubeModifier(MetaMachine machine, GTRecipe recipe) {
         if (!(machine instanceof MetaMachine)) {
@@ -148,24 +153,22 @@ public class VoyagerCoreRecipeModifiers {
             return ModifierFunction.NULL;
         }
 
-        long machineVoltage = ((WorkableElectricMultiblockMachine) machine).getMaxVoltage();
+        long machineVoltage = ((WorkableElectricMultiblockMachine) machine).getOverclockVoltage();
         long recipeVoltage = recipe.getInputEUt().voltage();
 
-        System.out.println("Recipe volt: " + recipeVoltage);
+        int recipeTier = VoyagerVoltageTierUtils.getExactVoltageTier(recipeVoltage);
+        int machineTier = VoyagerVoltageTierUtils.getExactVoltageTier(machineVoltage);
 
         double eutMod = .80;
         int parallels = 4;
         double durationMod = 1;
 
-        int energyRequirement = 4;
-        if (machine instanceof FusionReactorMachine fusionReactorMachine) {
-            energyRequirement = 64;
-        }
+        double eutMult = 4;
 
-        for (long recV = recipeVoltage; recV < machineVoltage; recV *= energyRequirement) {
+        for (int i = recipeTier; i < machineTier; i++) {
             parallels *= 2;
             durationMod *= .9;
-            eutMod *= 4;
+            eutMod *= eutMult;
         }
 
         int parallelAvailable = Math.max(0, ParallelLogic.getParallelAmountWithoutEU(machine, recipe, parallels));
@@ -185,6 +188,66 @@ public class VoyagerCoreRecipeModifiers {
                     .eutMultiplier(eutMod)
                     .parallels(pars)
                     .build();
+        }
+    }
+
+    public static ModifierFunction advancedBoostingModifierFusion(MetaMachine machine, GTRecipe recipe) {
+        if (!(machine instanceof MetaMachine)) {
+            return ModifierFunction.NULL;
+        }
+        if (!(recipe instanceof GTRecipe)) {
+            return ModifierFunction.NULL;
+        }
+
+        if (machine instanceof FusionReactorMachine fusionReactorMachine) {
+
+            long machineVoltage = ((WorkableElectricMultiblockMachine) machine).getOverclockVoltage();
+            long recipeVoltage = recipe.getInputEUt().voltage();
+
+            int recipeTier = VoyagerVoltageTierUtils.getExactVoltageTier(recipeVoltage);
+            int machineTier = VoyagerVoltageTierUtils.getExactVoltageTier(machineVoltage);
+
+            // System.out.println("Recipe volt: " + recipeVoltage);
+
+            double eutMod = .80;
+            int parallels = 4;
+            double durationMod = 1;
+
+            double eutMult = 2;
+
+            // System.out.println(fusionReactorMachine.getTier());
+
+            if (recipeTier > fusionReactorMachine.getTier())
+                return ModifierFunction.cancel(Component.literal("Fusion tier too low"));
+
+            durationMod = Math.pow(0.5, fusionReactorMachine.getTier() - recipeTier);
+
+            for (int i = recipeTier; i < machineTier; i++) {
+                parallels *= 2;
+                durationMod *= .9;
+                eutMod *= eutMult;
+            }
+
+            int parallelAvailable = Math.max(0, ParallelLogic.getParallelAmountWithoutEU(machine, recipe, parallels));
+
+            if (parallelAvailable >= parallels) {
+                return ModifierFunction.builder()
+                        .modifyAllContents(ContentModifier.multiplier(parallels))
+                        .durationMultiplier(durationMod)
+                        .eutMultiplier(eutMod)
+                        .parallels(parallels)
+                        .build();
+            } else {
+                int pars = Math.max(0, ParallelLogic.getParallelAmount(machine, recipe, parallels));
+                return ModifierFunction.builder()
+                        .modifyAllContents(ContentModifier.multiplier(pars))
+                        .durationMultiplier(durationMod)
+                        .eutMultiplier(eutMod)
+                        .parallels(pars)
+                        .build();
+            }
+        } else {
+            return ModifierFunction.cancel(Component.literal("This isn't a fusion reactor!"));
         }
     }
 

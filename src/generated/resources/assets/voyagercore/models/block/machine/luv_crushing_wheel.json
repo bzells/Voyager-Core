@@ -1,0 +1,42 @@
+{
+  "parent": "minecraft:block/block",
+  "loader": "gtceu:machine",
+  "machine": "voyagercore:luv_crushing_wheel",
+  "texture_overrides": {
+    "all": "voyagercore:block/crushing_wheel/luv/luv_crushing_wheel"
+  },
+  "variants": {
+    "recipe_logic_status=idle": {
+      "model": {
+        "parent": "gtceu:block/machine/template/cube_all/sided",
+        "textures": {
+          "all": "voyagercore:block/crushing_wheel/luv/luv_crushing_wheel"
+        }
+      }
+    },
+    "recipe_logic_status=suspend": {
+      "model": {
+        "parent": "gtceu:block/machine/template/cube_all/sided",
+        "textures": {
+          "all": "voyagercore:block/crushing_wheel/luv/luv_crushing_wheel"
+        }
+      }
+    },
+    "recipe_logic_status=waiting": {
+      "model": {
+        "parent": "gtceu:block/machine/template/cube_all/sided",
+        "textures": {
+          "all": "voyagercore:block/crushing_wheel/luv/luv_crushing_wheel"
+        }
+      }
+    },
+    "recipe_logic_status=working": {
+      "model": {
+        "parent": "gtceu:block/machine/template/cube_all/sided",
+        "textures": {
+          "all": "voyagercore:block/crushing_wheel/luv/luv_crushing_wheel"
+        }
+      }
+    }
+  }
+}
