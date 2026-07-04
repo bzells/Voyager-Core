@@ -122,7 +122,7 @@ public class VoyagerCoreRecipeModifiers {
         for (long recV = recipeVoltage; recV < machineVoltage; recV *= 4) {
             parallels += 2;
             durationMod *= .9;
-            eutMod *= 4;
+            // eutMod *= 4;
         }
 
         int parallelAvailable = Math.max(0, ParallelLogic.getParallelAmountWithoutEU(machine, recipe, parallels));

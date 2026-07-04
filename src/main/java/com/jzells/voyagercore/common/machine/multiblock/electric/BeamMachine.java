@@ -58,9 +58,7 @@ public class BeamMachine extends WorkableElectricMultiblockMachine {
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        this.beamConcentrationWithBlock = this.getBeamBlockConcentration() + this.beamConcentration;
-        this.usedBeamConcentration = (float) (this.beamConcentrationWithBlock +
-                (0.05 * VoyagerVoltageTierUtils.getOverclockCount(8192, this.getMaxVoltage())));
+        resetConcentration();
         if (!isRemote()) {
             tickSubscription = this.subscribeServerTick(this::coolOnIdle);
         }
@@ -69,7 +67,7 @@ public class BeamMachine extends WorkableElectricMultiblockMachine {
     public void resetConcentration() {
         this.beamConcentrationWithBlock = this.getBeamBlockConcentration() + this.beamConcentration;
         this.usedBeamConcentration = (float) (this.beamConcentrationWithBlock +
-                (0.05 * VoyagerVoltageTierUtils.getOverclockCount(8192, this.getMaxVoltage())));
+                (0.05 * VoyagerVoltageTierUtils.getOverclockCount(8192, this.getOverclockVoltage())));
     }
 
     public float getBeamBlockConcentration() {
@@ -100,6 +98,13 @@ public class BeamMachine extends WorkableElectricMultiblockMachine {
         ++this.runningTimer;
         if (this.runningTimer > interval) {
             this.runningTimer %= interval;
+        }
+
+        for (CoverBehavior cover : this.getCoverContainer().getCovers()) {
+            if (cover instanceof HeatRedstoneCover heatRedstoneCover) {
+                heatRedstoneCover.setHeat(this.heat);
+                // System.out.println("Heat:" + beamMachine.heat);
+            }
         }
 
         if (this.runningTimer % interval == 0) {
@@ -134,16 +139,9 @@ public class BeamMachine extends WorkableElectricMultiblockMachine {
             return RecipeModifier.nullWrongType(BeamMachine.class, machine);
         }
 
-        for (CoverBehavior cover : beamMachine.getCoverContainer().getCovers()) {
-            if (cover instanceof HeatRedstoneCover heatRedstoneCover) {
-                heatRedstoneCover.setHeat(beamMachine.heat);
-                // System.out.println("Heat:" + beamMachine.heat);
-            }
-        }
-
         // beamMachine.usedBeamConcentration = beamMachine.beamConcentrationWithBlock;
 
-        long machineEUt = beamMachine.getMaxVoltage();
+        long machineEUt = beamMachine.getOverclockVoltage();
         long recipeEUt = recipe.getInputEUt().voltage();
         int eutMult = 1;
 
@@ -210,7 +208,7 @@ public class BeamMachine extends WorkableElectricMultiblockMachine {
 
         if (concentration > 0.1f) {
             int steps = (int) ((concentration - 0.1f) / 0.05f);
-            multiplier *= (float) Math.pow(0.85f, steps);
+            multiplier *= (float) Math.pow(0.75f, steps);
         }
 
         return multiplier;
@@ -236,6 +234,13 @@ public class BeamMachine extends WorkableElectricMultiblockMachine {
             }
             if (this.waitingTimer % interval == 0) {
                 this.heat = (float) Math.max(this.heat - 0.02, this.baseHeat);
+            }
+
+            for (CoverBehavior cover : this.getCoverContainer().getCovers()) {
+                if (cover instanceof HeatRedstoneCover heatRedstoneCover) {
+                    heatRedstoneCover.setHeat(this.heat);
+                    // System.out.println("Heat:" + beamMachine.heat);
+                }
             }
 
             GTRecipe coolantRecipe = this.getCoolantRecipe();

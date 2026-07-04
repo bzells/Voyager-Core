@@ -35,6 +35,17 @@ public class VoyagerMachines {
             .tooltips(Component.literal("Crushing Wheel Tier: " + GTValues.ZPM))
             .register();
 
+    public static final MachineDefinition UV_CRUSH_WHEEL = VoyagerCore.VOYAGERCORE_REGISTRATE.machine(
+            "uv_crushing_wheel",
+            holder -> new CrushingWheelPartMachine(holder, GTValues.UV))
+
+            .rotationState(RotationState.NON_Y_AXIS)
+            .abilities(VoyagerPartAbilities.CRUSHING_WHEEL)
+            .workableCasingModel(VoyagerCore.id("block/crushing_wheel/uv/uv_crushing_wheel"),
+                    VoyagerCore.id("block/crushing_wheel/uv/uv_crushing_wheel"))
+            .tooltips(Component.literal("Crushing Wheel Tier: " + GTValues.UV))
+            .register();
+
     public static final MachineDefinition NETHER_STAR_BEAM = VoyagerCore.VOYAGERCORE_REGISTRATE.machine(
             "nether_star_beam",
             holder -> new BeamPartMachine(holder, .1f))
