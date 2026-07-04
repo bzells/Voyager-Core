@@ -18,9 +18,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-import com.jzells.voyagercore.common.data.VoyagerBlocks;
-import com.jzells.voyagercore.common.data.VoyagerMaterials;
-import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
+import com.jzells.voyagercore.common.data.*;
 import com.jzells.voyagercore.common.machine.multiblock.VoyagerMultiRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -59,6 +57,7 @@ public class VoyagerCore {
 
     private static void init() {
         VoyagerBlocks.init();
+        VoyagerItems.init();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -132,6 +131,8 @@ public class VoyagerCore {
      */
     private void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
         VoyagerMultiRegistry.init();
+        VoyagerMachines.init();
+        // VoyagerPartAbilityRegistry.register();
     }
 
     /**

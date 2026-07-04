@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "voyagercore:block/beam_control_casing"
+    }
+  }
+}
