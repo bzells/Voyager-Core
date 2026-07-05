@@ -59,8 +59,6 @@ public class TieredPulverizerMachine extends WorkableElectricMultiblockMachine i
             int recipeTier = recipe.data.getInt("crushing_wheel_tier");
             int pulverizerTier = pulverizer.tier;
 
-
-
             if (recipeTier > pulverizerTier) {
                 return ModifierFunction.NULL;
             }
@@ -81,8 +79,7 @@ public class TieredPulverizerMachine extends WorkableElectricMultiblockMachine i
         super.addDisplayText(textList);
     }
 
-    private int getCrushingOverclock(@NotNull GTRecipe recipe, TieredPulverizerMachine pulverizer)
-    {
+    private int getCrushingOverclock(@NotNull GTRecipe recipe, TieredPulverizerMachine pulverizer) {
         return pulverizer.tier - recipe.data.getInt("crushing_wheel_tier");
     }
 }

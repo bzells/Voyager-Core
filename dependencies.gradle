@@ -4,6 +4,7 @@ dependencies {
     //Probably something to due with this guy's repos
     //Needed to gen Data otherwise it shitsabrick
     modImplementation("com.github.thedarkcolour:ModKit:8bdec17d20")
+    //modImplementation(forge.modkit)
 
     // Mixin
     annotationProcessor('org.spongepowered:mixin:0.8.5:processor')
@@ -20,13 +21,15 @@ dependencies {
 
     // GregTech and dependencies
     modImplementation(forge.gtceu)
-    modImplementation("com.lowdragmc.ldlib:ldlib-forge-${minecraft_version}:${ldlib_version}") { transitive = false }
-    modImplementation("com.tterrag.registrate:Registrate:${registrate_version}")
+    //modImplementation("com.lowdragmc.ldlib:ldlib-forge-${minecraft_version}:${ldlib_version}") { transitive = false }
+    modImplementation(forge.ldlib)
+    //modImplementation("com.tterrag.registrate:Registrate:${registrate_version}")
+    modImplementation(forge.registrate)
     modImplementation("dev.toma.configuration:configuration-forge-${minecraft_version}:${configuration_version}")
 
     //Forestry
     modRuntimeOnly(forge.patchouli) //WHY. THE. HELL. IS. THIS. NEEDED.
-    modRuntimeOnly(forge.curios) // FORESTRY PLEASE
+    modImplementation(forge.curios) // FORESTRY PLEASE
     modImplementation(forge.forestry)
 
     // lombok

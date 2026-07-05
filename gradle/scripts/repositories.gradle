@@ -28,9 +28,6 @@ repositories {
         url = "https://maven.blamejared.com/"
     }
     maven {
-        url = "https://maven.theillusivec4.top/"
-    }
-    maven {
         // Curse Forge File
         url "https://cursemaven.com/"
         content {
@@ -74,16 +71,12 @@ repositories {
         url 'https://jitpack.io'
         content { includeGroup 'com.github.thedarkcolour' }
     }
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = 'Modrinth'
-                url = 'https://api.modrinth.com/maven'
-            }
-        }
-        filter {
-            includeGroup 'maven.modrinth'
-        }
+
+    maven { // Curios
+        url = "https://maven.theillusivec4.top/"
+    }
+    maven {
+        url = "https://api.modrinth.com/maven"
     }
 
 }

@@ -32,12 +32,12 @@ version = mod_version
 group = maven_group
 base { archivesName = archives_base_name }
 java { sourceCompatibility = targetCompatibility = JavaVersion.VERSION_17 }
-/*
+
 configurations.all{
     resolutionStrategy {
         cacheChangingModulesFor 0, 'seconds'
     }
-}*/
+}
 
 
 
