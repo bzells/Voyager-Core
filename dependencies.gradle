@@ -21,7 +21,7 @@ dependencies {
     modImplementation("dev.toma.configuration:configuration-forge-${minecraft_version}:${configuration_version}")
 
     //Forestry
-    modImplementation(forge.bundles.patchouli) //WHY. THE. HELL. IS. THIS. NEEDED.
+    modRuntimeOnly(forge.patchouli) //WHY. THE. HELL. IS. THIS. NEEDED.
     modImplementation(forge.forestry)
 
     // lombok
