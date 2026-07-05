@@ -20,6 +20,10 @@ dependencies {
     modImplementation("com.tterrag.registrate:Registrate:${registrate_version}")
     modImplementation("dev.toma.configuration:configuration-forge-${minecraft_version}:${configuration_version}")
 
+    //Forestry
+    modImplementation(forge.bundles.patchouli) //WHY. THE. HELL. IS. THIS. NEEDED.
+    modImplementation(forge.forestry)
+
     // lombok
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'

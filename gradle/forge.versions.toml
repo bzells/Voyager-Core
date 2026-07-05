@@ -12,8 +12,13 @@ kubejs = "2001.6.5-build.16"
 rhino = "2001.2.3-build.10"
 architectury = "9.2.14"
 
+patchouli = "1.20.1-85-FORGE"
+patchouliapi = "1.20.1-85-FORGE-api"
 
-## cursemaven ##
+
+## modrinthmaven ##
+
+forestry = "2.10.2"
 
 [libraries]
 gtceu               = { module = "com.gregtechceu.gtceu:gtceu-1.20.1", version.ref = "gtceu"}
@@ -34,9 +39,14 @@ kubejs              = { module = "dev.latvian.mods:kubejs-forge", version.ref = 
 rhino               = { module = "dev.latvian.mods:rhino-forge", version.ref = "rhino" }
 architectury        = { module = "dev.architectury:architectury-forge", version.ref = "architectury" }
 
+forestry            = { module = "maven.modrinth:forestry-community-edition", version.ref = "forestry"}
+patchouli-api       = { module = "vazkii.patchouli:Patchouli", version.ref = "patchouliapi"}
+patchouli           = { module = "vazkii.patchouli:Patchouli", version.ref = "patchouli"}
+
 
 ## cursemaven as a backup ##
 
 [bundles]
 jei = ["jei-common-api", "jei-forge-api", "jei-forge-impl"]
 kjs = ["kubejs", "rhino", "architectury"]
+patchouli = ["patchouli","patchouli-api"]
