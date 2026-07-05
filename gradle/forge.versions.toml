@@ -15,6 +15,11 @@ architectury = "9.2.14"
 patchouli = "1.20.1-85-FORGE"
 patchouliapi = "1.20.1-85-FORGE-api"
 
+curios = "5.14.1+1.20.1"
+
+## From https://github.com/thedarkcolour/ModKit/
+## Uses the first 10 chars of the git commit
+#modkit = "8bdec17d20"
 
 ## modrinthmaven ##
 
@@ -39,9 +44,13 @@ kubejs              = { module = "dev.latvian.mods:kubejs-forge", version.ref = 
 rhino               = { module = "dev.latvian.mods:rhino-forge", version.ref = "rhino" }
 architectury        = { module = "dev.architectury:architectury-forge", version.ref = "architectury" }
 
+#modkit              = { module = "com.github.thedarkcolour:ModKit", version.ref = "modkit"}
+
 forestry            = { module = "maven.modrinth:forestry-community-edition", version.ref = "forestry"}
 patchouli-api       = { module = "vazkii.patchouli:Patchouli", version.ref = "patchouliapi"}
 patchouli           = { module = "vazkii.patchouli:Patchouli", version.ref = "patchouli"}
+
+curios              = { module = "top.theillusivec4.curios:curios-forge", version.ref = "curios" }
 
 
 ## cursemaven as a backup ##

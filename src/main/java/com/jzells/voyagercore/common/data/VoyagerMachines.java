@@ -1,15 +1,25 @@
 package com.jzells.voyagercore.common.data;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 
+import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.common.data.models.GTMachineModels;
+import com.gregtechceu.gtceu.common.data.models.GTModels;
+import com.jzells.voyagercore.common.machine.multiblock.part.BeeHolderPartMachine;
 import net.minecraft.network.chat.Component;
 
 import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.common.machine.multiblock.part.BeamPartMachine;
 import com.jzells.voyagercore.common.machine.multiblock.part.CrushingWheelPartMachine;
 import com.jzells.voyagercore.common.machine.multiblock.part.VoyagerPartAbilities;
+
+import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.capability.recipe.IO.*;
+import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableTieredHullMachineModel;
 
 public class VoyagerMachines {
 
@@ -56,6 +66,20 @@ public class VoyagerMachines {
                     VoyagerCore.id("block/beam/nether_star_beam_block"))
             .tooltips(Component.literal("Beam concentration: " + .1f * 100 + "%"))
             .register();
+
+    public static final MachineDefinition BEE_HATCH = VoyagerCore.VOYAGERCORE_REGISTRATE.machine("bee_holder", holder -> new BeeHolderPartMachine(holder, IN))
+            .langValue("Bee Holder")
+            .tier(HV)
+            .rotationState(RotationState.ALL)
+            .abilities(VoyagerPartAbilities.BEE_HOLDER)
+            .modelProperty(GTMachineModelProperties.IS_FORMED,false)
+            .modelProperty(RecipeLogic.STATUS_PROPERTY, RecipeLogic.Status.IDLE)
+            .model(createWorkableTieredHullMachineModel(GTCEu.id("block/machines/object_holder"))
+                    .andThen((ctx, prov, model) -> {
+                        model.addReplaceableTextures("bottom", "top", "side");
+                    }))
+            .register();
+
 
     public static void init() {};
 }

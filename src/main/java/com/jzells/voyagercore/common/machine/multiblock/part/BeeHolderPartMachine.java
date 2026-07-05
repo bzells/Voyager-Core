@@ -13,13 +13,19 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import forestry.api.apiculture.genetics.IBee;
+import forestry.api.genetics.ILifeStage;
+import forestry.core.utils.SpeciesUtil;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+
+import static forestry.api.apiculture.genetics.BeeLifeStage.*;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
@@ -87,7 +93,20 @@ public class BeeHolderPartMachine extends MultiblockPartMachine implements ICont
 
         @Override
         public boolean isItemValid(int slot, ItemStack stack) {
-            return super.isItemValid(slot, stack);
+            if (stack.isEmpty()){
+                return true;
+            }
+
+
+            //Slot mapping 0 -> Queen/Princess, Else Drone
+            if (stack.getItem() instanceof IBee bee){
+                ILifeStage beeAge = SpeciesUtil.BEE_TYPE.get().getLifeStage(stack);
+                if (slot == 0 && (beeAge == QUEEN || beeAge == PRINCESS)){
+                    return true;
+                }
+                return slot != 0 && beeAge == DRONE;
+            }
+            return false;
         }
     }
 }

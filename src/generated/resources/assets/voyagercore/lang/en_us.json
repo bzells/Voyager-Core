@@ -1,6 +1,7 @@
 {
   "block.voyagercore.beam_control_casing": "Beam Control Casing",
   "block.voyagercore.beam_of_teus": "Beam Of Teus",
+  "block.voyagercore.bee_holder": "Bee Holder",
   "block.voyagercore.chemical_plant": "Chemical Plant",
   "block.voyagercore.chemical_plant_casing": "Chemical Plant Casing",
   "block.voyagercore.cooling_lamp": "Cooling Lamp",
@@ -17,10 +18,11 @@
   "block.voyagercore.radiant_titanex_casing": "Radiant Titanex Casing",
   "block.voyagercore.radiant_titanite_vent_casing": "Radiant Titanite Vent Casing",
   "block.voyagercore.titanite_casing": "Titanite Casing",
+  "block.voyagercore.uv_crushing_wheel": "Uv Crushing Wheel",
   "block.voyagercore.uv_super_donut": "Supermassive Fusion Array Mk III (Super Donut)",
   "block.voyagercore.zpm_crushing_wheel": "Zpm Crushing Wheel",
   "block.voyagercore.zpm_super_donut": "Supermassive Fusion Array Mk II (Super Donut)",
-  "item.voyagercore.heat_redstone_cover": "Heat Detector",
+  "item.voyagercore.heat_redstone_cover": "Heat Redstone",
   "itemGroup.voyagercore.main": "Voyager Core Blocks",
   "material.voyagercore.cryotheum": "Cryotheum",
   "material.voyagercore.pyrotheum": "Pyrotheum"

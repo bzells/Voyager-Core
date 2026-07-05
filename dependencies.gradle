@@ -1,5 +1,9 @@
 dependencies {
     compileOnly("org.jetbrains:annotations:26.0.1")
+    //I have no idea why this has to be like this, Greg doesn't show in the libs otherwise
+    //Probably something to due with this guy's repos
+    //Needed to gen Data otherwise it shitsabrick
+    modImplementation("com.github.thedarkcolour:ModKit:8bdec17d20")
 
     // Mixin
     annotationProcessor('org.spongepowered:mixin:0.8.5:processor')
@@ -22,6 +26,7 @@ dependencies {
 
     //Forestry
     modRuntimeOnly(forge.patchouli) //WHY. THE. HELL. IS. THIS. NEEDED.
+    modRuntimeOnly(forge.curios) // FORESTRY PLEASE
     modImplementation(forge.forestry)
 
     // lombok
