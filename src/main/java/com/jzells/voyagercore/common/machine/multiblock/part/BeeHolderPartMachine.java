@@ -4,7 +4,6 @@ import com.gregtechceu.gtceu.api.capability.IControllable;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.BlockableSlotWidget;
-import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
@@ -14,20 +13,16 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
-import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
-import com.lowdragmc.lowdraglib.utils.Position;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.api.apiculture.genetics.IBee;
 import forestry.api.genetics.ILifeStage;
 import forestry.core.utils.SpeciesUtil;
 import lombok.Getter;
@@ -74,6 +69,10 @@ public class BeeHolderPartMachine extends MultiblockPartMachine
     @Override
     public void onMachineRemoved(){
         clearInventory(this.beeHolder.storage);
+    }
+
+    public ItemStack getRoyal(){
+        return this.beeHolder.getStackInSlot(0);
     }
 
     // Maybe not needed? Used in RotorHolderPartMachine, but missing in later versions
@@ -164,7 +163,6 @@ public class BeeHolderPartMachine extends MultiblockPartMachine
         group.addWidget(container);
         return group;
     }
-
 }
 
 // Need to filter slots done
