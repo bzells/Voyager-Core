@@ -5,26 +5,37 @@ import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
+import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
+import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.common.machine.multiblock.part.BeeHolderPartMachine;
 import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.utils.SpeciesUtil;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
+import java.util.List;
 
 import static forestry.api.apiculture.genetics.BeeLifeStage.*;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ApiaryMachine extends WorkableElectricMultiblockMachine {
     private ArrayList<BeeHolderPartMachine> beeHolders;
-    private ArrayList<IBee> beeQueenList;
-    private ArrayList<ItemStack> beeQueenItemStackList;
-    private ArrayList<IBee> beePrincessList;
-    private ArrayList<ItemStack> beePrincessItemStackList;
-    private ArrayList<NotifiableItemStackHandler> outputBuses;
+    private int uptime;
+    private NotifiableItemStackHandler outputBus;
+    private ArrayList<ItemBusPartMachine> outputBuses;
     private TickableSubscription beeLogicSubscription;
 
     public ApiaryMachine(IMachineBlockEntity holder){
@@ -35,8 +46,11 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
     public void onStructureFormed() {
         super.onStructureFormed();
         initializePartLists();
+        uptime = 0;
         beeLogicSubscription = subscribeServerTick(this::beeLogic);
     }
+
+
     private void initializePartLists(){
         this.beeHolders = new ArrayList<>();
         this.outputBuses = new ArrayList<>();
@@ -44,71 +58,118 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
             //Bee Holders
             if (part instanceof BeeHolderPartMachine beeHolder){
                 this.beeHolders.add(beeHolder);
+                VoyagerCore.LOGGER.info("Found {}", beeHolder.getDefinition().getName());
                 continue;
             }
             // Add Frame Holder List Here
             // Output Bus
-            var handlerLists = part.getRecipeHandlers();
-            for (var handlerList : handlerLists){
-                var recipeCap = handlerList.getCapability(ItemRecipeCapability.CAP);
-                if (handlerList.getHandlerIO().support(IO.OUT) && !recipeCap.isEmpty()){
-                    NotifiableItemStackHandler outputInstance = (NotifiableItemStackHandler) recipeCap.get(0);
-                    this.outputBuses.add(outputInstance);
-                }
+            if (part instanceof ItemBusPartMachine bus){
+                outputBuses.add(bus);
             }
+//            var handlerLists = part.getRecipeHandlers();
+//            for (var handlerList : handlerLists){
+//                var recipeCap = handlerList.getCapability(ItemRecipeCapability.CAP);
+//                if (handlerList.getHandlerIO().support(IO.OUT) && !recipeCap.isEmpty()){
+//                    outputBuses.add( (NotifiableItemStackHandler) recipeCap.get(0));
+//                }
+//            }
         }
     }
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        resetState();
+        this.resetState();
     }
 
     @Override
     public void onPartUnload(){
         super.onPartUnload();
-        resetState();
+        this.resetState();
     }
 
     private void resetState(){
         unsubscribe(beeLogicSubscription);
-        beeHolders = null;
-        beeQueenList = null;
-        beeQueenItemStackList = null;
-        beePrincessItemStackList = null;
-        beePrincessList = null;
+        this.beeHolders = null;
+        this.uptime = 0;
         //Other holders need to be set to null here;
     }
 
-    private void beeInit(BeeHolderPartMachine machine){
-        if (this.beeQueenList == null){
-            this.beeQueenList = new ArrayList<>();
-        }
-        if (this.beePrincessList == null){
-            this.beePrincessList = new ArrayList<>();
-        }
+    public void queenTick(IBee queen, ItemStack queenStack){
 
-        var royal = (IBee) IIndividualHandlerItem.getIndividual(machine.getRoyal());
-        if (royal != null){
-            ILifeStage beeAge = SpeciesUtil.BEE_TYPE.get().getLifeStage(machine.getRoyal());
-            if (beeAge == QUEEN){
-                this.beeQueenList.add(royal);
-                this.beeQueenItemStackList.add(machine.getRoyal());
-            }
-            if (beeAge == PRINCESS){
-                this.beePrincessList.add(royal);
-                this.beePrincessItemStackList.add(machine.getRoyal());
-            }
-        }
     }
 
+    public void breed(BeeHolderPartMachine machine){
+
+    }
+
+//    private void beeInit(BeeHolderPartMachine machine){
+//        if (this.beeQueenList == null){
+//            this.beeQueenList = new ArrayList<>();
+//        }
+//        if (this.beePrincessList == null){
+//            this.beePrincessList = new ArrayList<>();
+//        }
+//
+//        var royal = (IBee) IIndividualHandlerItem.getIndividual(machine.getRoyal());
+//        if (royal != null){
+//            ILifeStage beeAge = SpeciesUtil.BEE_TYPE.get().getLifeStage(machine.getRoyal());
+//            if (beeAge == QUEEN){
+//                this.beeQueenList.add(royal);
+//                this.beeQueenItemStackList.add(machine.getRoyal());
+//            }
+//            if (beeAge == PRINCESS){
+//                this.beePrincessList.add(royal);
+//                this.beePrincessItemStackList.add(machine.getRoyal());
+//            }
+//        }
+//    }
+
     private void beeLogic(){
-        //Bee Initialization
-        if (beeHolders != null){
+        this.uptime++;
+        VoyagerCore.LOGGER.info("Running!");
+        if (!beeHolders.isEmpty() && getOffsetTimer() % 20 == 0 && isFormed()){
             for (BeeHolderPartMachine part : beeHolders) {
-                beeInit(part);
+                 var royal = (IBee) IIndividualHandlerItem.getIndividual(part.getRoyal());
+                 if (royal != null ){
+                     ILifeStage beeAge = SpeciesUtil.BEE_TYPE.get().getLifeStage(part.getRoyal());
+                     if (beeAge == PRINCESS){
+                         if (!part.getDrones().isEmpty()){
+                             breed(part);
+                             beeAge = QUEEN;
+                         }
+                     }
+                     if (beeAge == QUEEN){
+                     }
+                 }
             }
         }
+        for (BeeHolderPartMachine part : beeHolders){
+            if (getOffsetTimer() % 20 == beeHolders.indexOf(part)){
+                var royal = (IBee) IIndividualHandlerItem.getIndividual(part.getRoyal());
+                if (royal != null ){
+                    ILifeStage beeAge = SpeciesUtil.BEE_TYPE.get().getLifeStage(part.getRoyal());
+                    if (beeAge == PRINCESS){
+                        if (!part.getDrones().isEmpty()){
+                            breed(part);
+                            beeAge = QUEEN;
+                        }
+                    }
+                    if (beeAge == QUEEN){
+                        IBeeSpecies primary = royal.getSpecies();
+                        IBeeSpecies secondary = royal.getInactiveSpecies();
+                        for (var product : primary.getProducts()){
+                            VoyagerCore.LOGGER.info("Attempting Product! {}", product.toString());
+                            VoyagerCore.LOGGER.info("Creating Stack: {}",product.createStack().toString());
+                            //if (uptime % 20 == 0){
+                            VoyagerCore.LOGGER.info("Bus used {}", outputBuses.get(0).getDefinition().getName());
+                                outputBuses.get(0).getInventory().handleRecipe(IO.OUT, GTRecipeBuilder.ofRaw().buildRawRecipe(), List.of(Ingredient.of(product.createStack())), false);
+                            //}
+                        }
+                    }
+                }
+            }
+        }
+
         //Production
         if (getOffsetTimer() % 20 == 0 && isFormed() && !getMultiblockState().hasError()){
             //Get Frame values here

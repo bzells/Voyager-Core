@@ -32,6 +32,8 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import java.util.ArrayList;
+
 import static forestry.api.apiculture.genetics.BeeLifeStage.*;
 
 @MethodsReturnNonnullByDefault
@@ -58,6 +60,12 @@ public class BeeHolderPartMachine extends MultiblockPartMachine
     @Persisted
     @DescSynced
     public boolean isLocked;
+    @Getter
+    @Setter
+    public boolean hasQueen;
+    @Getter
+    @Setter
+    public boolean hasPrincess;
 
     public BeeHolderPartMachine(IMachineBlockEntity holder, IO io) {
         super(holder);
@@ -73,6 +81,14 @@ public class BeeHolderPartMachine extends MultiblockPartMachine
 
     public ItemStack getRoyal(){
         return this.beeHolder.getStackInSlot(0);
+    }
+
+    public ArrayList<ItemStack> getDrones(){
+        ArrayList<ItemStack> list = new ArrayList<>();
+        for (int i = 1; i < 4; i++){
+            list.add(this.beeHolder.getStackInSlot(i));
+        }
+        return list;
     }
 
     // Maybe not needed? Used in RotorHolderPartMachine, but missing in later versions
@@ -94,11 +110,11 @@ public class BeeHolderPartMachine extends MultiblockPartMachine
             case NONE -> null;
         };
     }
-
+// TODO: Change this to tiered size?
     private class BeeHolderHandler extends NotifiableItemStackHandler {
 
         public BeeHolderHandler(MetaMachine machine) {
-            super(machine, 4, IO.IN, IO.BOTH, size -> new CustomItemStackHandler(size) {
+            super(machine, 4, IO.IN, IO.IN, size -> new CustomItemStackHandler(size) {
 
                 // Limits stack size of machine to 4 per slot, no drone singularity :P. Probably not needed, but JIC
                 @Override
