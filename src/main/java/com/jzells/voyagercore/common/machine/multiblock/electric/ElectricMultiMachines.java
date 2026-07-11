@@ -457,19 +457,20 @@ public class ElectricMultiMachines {
             .appearanceBlock(CASING_FROST_CONDUCTING)
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .pattern(def -> FactoryBlockPattern.start()
-                    .aisle("XXX","XXX","XXX")
-                    .aisle("XXX","XAX","XXX")
-                    .aisle("XXX","XCX","XXX")
+                    .aisle("XXX", "XXX", "XXX")
+                    .aisle("XXX", "XAX", "XXX")
+                    .aisle("XXX", "XCX", "XXX")
                     .where("X", Predicates.blocks(CASING_FROST_CONDUCTING.get())
-                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setExactLimit(1))
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(4, 1))
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
                             .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                             .or(Predicates.abilities(VoyagerPartAbilities.BEE_HOLDER).setPreviewCount(1))
-                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2,1)))
-                    .where("A",Predicates.any())
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2, 1)))
+                    .where("A", Predicates.any())
                     .where("C", Predicates.controller(Predicates.blocks(def.get())))
                     .build())
-            .workableCasingModel(VoyagerCore.id("block/casing/frost_conducting_casing"),VoyagerCore.id("block/multiblock/magmatic_foundry"))
+            .workableCasingModel(VoyagerCore.id("block/casing/frost_conducting_casing"),
+                    VoyagerCore.id("block/multiblock/magmatic_foundry"))
             .register();
 
     public static void init() {}

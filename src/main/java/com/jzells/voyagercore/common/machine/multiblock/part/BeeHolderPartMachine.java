@@ -30,9 +30,9 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import java.util.ArrayList;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import static forestry.api.apiculture.genetics.BeeLifeStage.*;
 
@@ -53,7 +53,7 @@ public class BeeHolderPartMachine extends MultiblockPartMachine
     @Setter
     @Persisted
     @DescSynced
-    @RequireRerender //Necessary?
+    @RequireRerender // Necessary?
     protected boolean workingEnabled;
     @Getter
     @Setter
@@ -75,17 +75,17 @@ public class BeeHolderPartMachine extends MultiblockPartMachine
     }
 
     @Override
-    public void onMachineRemoved(){
+    public void onMachineRemoved() {
         clearInventory(this.beeHolder.storage);
     }
 
-    public ItemStack getRoyal(){
+    public ItemStack getRoyal() {
         return this.beeHolder.getStackInSlot(0);
     }
 
-    public ArrayList<ItemStack> getDrones(){
+    public ArrayList<ItemStack> getDrones() {
         ArrayList<ItemStack> list = new ArrayList<>();
-        for (int i = 1; i < 4; i++){
+        for (int i = 1; i < 4; i++) {
             list.add(this.beeHolder.getStackInSlot(i));
         }
         return list;
@@ -110,11 +110,12 @@ public class BeeHolderPartMachine extends MultiblockPartMachine
             case NONE -> null;
         };
     }
-// TODO: Change this to tiered size?
+
+    // TODO: Change this to tiered size?
     private class BeeHolderHandler extends NotifiableItemStackHandler {
 
         public BeeHolderHandler(MetaMachine machine) {
-            super(machine, 4, IO.IN, IO.IN, size -> new CustomItemStackHandler(size) {
+            super(machine, 4, IO.IN, IO.BOTH, size -> new CustomItemStackHandler(size) {
 
                 // Limits stack size of machine to 4 per slot, no drone singularity :P. Probably not needed, but JIC
                 @Override
@@ -138,41 +139,41 @@ public class BeeHolderPartMachine extends MultiblockPartMachine
             boolean isRoyal = false;
             // Slot mapping 0 -> Queen/Princess, Else Drone
             ILifeStage beeAge = SpeciesUtil.BEE_TYPE.get().getLifeStage(stack);
-            if ((beeAge == QUEEN)||(beeAge == PRINCESS)){
+            if ((beeAge == QUEEN) || (beeAge == PRINCESS)) {
                 isRoyal = true;
             }
             if ((beeAge == DRONE)) {
-                   isDrone = true;
+                isDrone = true;
             }
 
-            if (slot == 0 && isRoyal){
+            if (slot == 0 && isRoyal) {
                 return true;
             } else return slot != 0 && isDrone;
         }
 
-        public ItemStack extractItem(int slot, int amount, boolean simulate){
-            if (!isLocked()){
+        public ItemStack extractItem(int slot, int amount, boolean simulate) {
+            if (!isLocked()) {
                 return super.extractItem(slot, amount, simulate);
             }
             return ItemStack.EMPTY;
         }
     }
 
-    //I'm lazy, and just want this thing to work lol
+    // I'm lazy, and just want this thing to work lol
     @Override
     public Widget createUIWidget() {
-        var group = new WidgetGroup(0,0,18*2+16,18*2+16);
-        var container = new WidgetGroup(4,4,18*2+8,18*2+8);
-        container.addWidget(new BlockableSlotWidget(beeHolder,0,4,4)
+        var group = new WidgetGroup(0, 0, 18 * 2 + 16, 18 * 2 + 16);
+        var container = new WidgetGroup(4, 4, 18 * 2 + 8, 18 * 2 + 8);
+        container.addWidget(new BlockableSlotWidget(beeHolder, 0, 4, 4)
                 .setIsBlocked(this::isLocked)
-                .setBackground(GuiTextures.SLOT)); //Can add overlay to slot
-        container.addWidget(new BlockableSlotWidget(beeHolder,1,4+18,4)
-                .setIsBlocked(this::isLocked)
-                .setBackground(GuiTextures.SLOT));
-        container.addWidget(new BlockableSlotWidget(beeHolder,2,4,4+18)
+                .setBackground(GuiTextures.SLOT)); // Can add overlay to slot
+        container.addWidget(new BlockableSlotWidget(beeHolder, 1, 4 + 18, 4)
                 .setIsBlocked(this::isLocked)
                 .setBackground(GuiTextures.SLOT));
-        container.addWidget(new BlockableSlotWidget(beeHolder,3,4+18,4+18)
+        container.addWidget(new BlockableSlotWidget(beeHolder, 2, 4, 4 + 18)
+                .setIsBlocked(this::isLocked)
+                .setBackground(GuiTextures.SLOT));
+        container.addWidget(new BlockableSlotWidget(beeHolder, 3, 4 + 18, 4 + 18)
                 .setIsBlocked(this::isLocked)
                 .setBackground(GuiTextures.SLOT));
         container.setBackground(GuiTextures.BACKGROUND_INVERSE);
