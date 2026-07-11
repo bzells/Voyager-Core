@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "voyagercore:block/machine/uv_crushing_wheel",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "voyagercore:block/machine/uv_crushing_wheel"
+    },
+    "facing=south": {
+      "model": "voyagercore:block/machine/uv_crushing_wheel",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "voyagercore:block/machine/uv_crushing_wheel",
+      "y": 270
+    }
+  }
+}

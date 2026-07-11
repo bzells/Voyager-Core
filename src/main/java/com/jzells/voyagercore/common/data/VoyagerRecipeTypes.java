@@ -1,5 +1,6 @@
 package com.jzells.voyagercore.common.data;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -54,8 +55,8 @@ public class VoyagerRecipeTypes {
             .setSlotOverlay(false, false, GuiTextures.LENS_OVERLAY)
             .setSound(GTSoundEntries.ARC)
             .addDataInfo(tag -> {
-                if (tag.contains("crushing_wheel_tier")) {
-                    return "Beam Concentration: " + tag.getFloat("beam_concentration") * 100 + "%";
+                if (tag.contains("beam_concentration")) {
+                    return "Beam Concentration: " + (tag.getFloat("beam_concentration") * 100) + "%";
                 }
                 return "";
             });
@@ -68,11 +69,29 @@ public class VoyagerRecipeTypes {
             .setSlotOverlay(true, false, GuiTextures.CRUSHED_ORE_OVERLAY)
             .addDataInfo(tag -> {
                 if (tag.contains("crushing_wheel_tier")) {
-                    return "Crushing Wheel Tier: " + tag.getInt("crushing_wheel_tier");
+                    return "Crushing Wheel Tier: " + GTValues.ALL_TIERS[tag.getInt("crushing_wheel_tier")];
                 }
                 return "";
             })
             .setSound(GTSoundEntries.MACERATOR);
+
+    public static final GTRecipeType PLANET_EXTRACTING = GTRecipeTypes
+            .register("planet_extracting", GTRecipeTypes.MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(1, 6, 1, 6)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_EXTRACT, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSlotOverlay(true, false, GuiTextures.CRUSHED_ORE_OVERLAY)
+
+            .setSound(GTSoundEntries.JET_ENGINE);
+
+    public static final GTRecipeType COILTRONICS_ASSEMBLY = GTRecipeTypes
+            .register("coiltronics_assembly", GTRecipeTypes.MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(5, 1, 0, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ASSEMBLY_LINE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSlotOverlay(true, false, GuiTextures.BOX_OVERLAY)
+
+            .setSound(GTSoundEntries.ASSEMBLER);
 
     public static void init() {}
 }

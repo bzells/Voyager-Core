@@ -1,5 +1,6 @@
 package com.jzells.voyagercore.util;
 
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -12,6 +13,10 @@ public class VoyagerKJSIntegration extends KubeJSPlugin {
 
     public static Block getBlockFromKubeJSRegistry(String block) {
         return ForgeRegistries.BLOCKS.getValue(KubeJS.id(block));
+    }
+
+    public static Item getItemFromKubeJSRegistry(String item) {
+        return ForgeRegistries.ITEMS.getValue(KubeJS.id(item));
     }
 
     public static FluidStack getFluidStackFromKubeJSRegistry(String fluid) {

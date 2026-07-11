@@ -14,6 +14,7 @@ public class VoyagerPartAbilityRegistry {
         VoyagerPartAbilities.registerCrushingWheel(GTValues.UV, VoyagerMachines.UV_CRUSH_WHEEL.getBlock());
 
         VoyagerPartAbilities.registerBeamLens(1, VoyagerMachines.NETHER_STAR_BEAM.getBlock());
+        VoyagerPartAbilities.registerBeamLens(1, VoyagerMachines.CRYSTAL_CALCULATED_BEAM.getBlock());
     }
 
     private VoyagerPartAbilityRegistry() {}

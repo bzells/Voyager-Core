@@ -168,7 +168,7 @@ public class VoyagerCoreRecipeModifiers {
         for (int i = recipeTier; i < machineTier; i++) {
             parallels *= 2;
             durationMod *= .9;
-            eutMod *= eutMult;
+            // eutMod *= eutMult;
         }
 
         int parallelAvailable = Math.max(0, ParallelLogic.getParallelAmountWithoutEU(machine, recipe, parallels));

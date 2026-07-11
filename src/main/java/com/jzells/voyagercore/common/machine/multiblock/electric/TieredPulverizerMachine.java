@@ -4,22 +4,23 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 
 import net.minecraft.network.chat.Component;
+import net.minecraftforge.fluids.FluidStack;
 
 import com.jzells.voyagercore.common.machine.multiblock.part.CrushingWheelPartMachine;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class TieredPulverizerMachine extends WorkableElectricMultiblockMachine implements ITieredMachine {
+public class TieredPulverizerMachine extends FluidBasicMulti implements ITieredMachine {
 
-    public TieredPulverizerMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public TieredPulverizerMachine(IMachineBlockEntity holder, FluidStack fluidStack) {
+        super(holder, fluidStack);
     }
 
     protected int tier;
@@ -56,14 +57,19 @@ public class TieredPulverizerMachine extends WorkableElectricMultiblockMachine i
         }
 
         if (pulverizer.valid) {
+
             int recipeTier = recipe.data.getInt("crushing_wheel_tier");
             int pulverizerTier = pulverizer.tier;
-
-
 
             if (recipeTier > pulverizerTier) {
                 return ModifierFunction.NULL;
             }
+
+            int crushOC = pulverizerTier - recipeTier;
+
+            return ModifierFunction.builder()
+                    .outputModifier(ContentModifier.multiplier(crushOC + 1))
+                    .build();
 
         }
 
@@ -81,8 +87,7 @@ public class TieredPulverizerMachine extends WorkableElectricMultiblockMachine i
         super.addDisplayText(textList);
     }
 
-    private int getCrushingOverclock(@NotNull GTRecipe recipe, TieredPulverizerMachine pulverizer)
-    {
+    private int getCrushingOverclock(@NotNull GTRecipe recipe, TieredPulverizerMachine pulverizer) {
         return pulverizer.tier - recipe.data.getInt("crushing_wheel_tier");
     }
 }

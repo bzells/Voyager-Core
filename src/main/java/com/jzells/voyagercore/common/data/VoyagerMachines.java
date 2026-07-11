@@ -57,5 +57,16 @@ public class VoyagerMachines {
             .tooltips(Component.literal("Beam concentration: " + .1f * 100 + "%"))
             .register();
 
+    public static final MachineDefinition CRYSTAL_CALCULATED_BEAM = VoyagerCore.VOYAGERCORE_REGISTRATE.machine(
+            "crystal_calculated_beam",
+            holder -> new BeamPartMachine(holder, .2f))
+
+            .rotationState(RotationState.ALL)
+            .abilities(VoyagerPartAbilities.BEAM_LENS)
+            .workableCasingModel(VoyagerCore.id("block/beam/crystal_calculated_beam"),
+                    VoyagerCore.id("block/beam/crystal_calculated_beam"))
+            .tooltips(Component.literal("Beam concentration: " + .2f * 100 + "%"))
+            .register();
+
     public static void init() {};
 }

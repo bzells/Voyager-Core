@@ -19,5 +19,10 @@ public class FluidMaterials {
                 .color(0x00fffb, true)
                 .liquid(new FluidBuilder().temperature(50))
                 .buildAndRegister();
+
+        HIGH_STRESS_LUBRICANT = new Material.Builder(VoyagerCore.id("high_stress_lubricant"))
+                .color(0x9972a8, true)
+                .liquid(new FluidBuilder().temperature(300))
+                .buildAndRegister();
     }
 }
