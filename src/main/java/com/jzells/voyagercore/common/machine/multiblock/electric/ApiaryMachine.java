@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
@@ -22,7 +23,9 @@ import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.common.machine.multiblock.part.BeeHolderPartMachine;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.genetics.IBeeSpecies;
+import forestry.api.genetics.IGenome;
 import forestry.api.genetics.ILifeStage;
+import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.utils.SpeciesUtil;
 import lombok.Getter;
@@ -32,6 +35,7 @@ import java.util.*;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import static com.gregtechceu.gtceu.api.GTValues.*;
 import static forestry.api.apiculture.genetics.BeeLifeStage.*;
 
 @ParametersAreNonnullByDefault
@@ -47,6 +51,7 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
     @Setter
     private boolean didWork;
     private final GTRecipe emptyRecipe = GTRecipeBuilder.ofRaw().buildRawRecipe();
+    private final GTRecipe powerRecipe = GTRecipeBuilder.ofRaw().EUt(VHA[HV]).duration(20).buildRawRecipe();
 
     public ApiaryMachine(IMachineBlockEntity holder) {
         super(holder);
@@ -57,7 +62,20 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
         super.onStructureFormed();
         initializePartLists();
         uptime = 0;
-        beeLogicSubscription = subscribeServerTick(this::beeLogic);
+        // VoyagerCore.LOGGER.info("Has recipetype: {}",this.getRecipeType().toString());
+        // beeLogicSubscription = subscribeServerTick(this::beeLogic);
+    }
+
+    @Override
+    protected RecipeLogic createRecipeLogic(Object... args) {
+        return new ApiaryRecipeLogic(this);
+    }
+
+    // Probably should've made the recipe actually work lol
+
+    @Override
+    public ApiaryRecipeLogic getRecipeLogic() {
+        return (ApiaryRecipeLogic) super.getRecipeLogic();
     }
 
     private void initializePartLists() {
@@ -67,14 +85,14 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
             // Bee Holders
             if (part instanceof BeeHolderPartMachine beeHolder) {
                 this.beeHolders.add(beeHolder);
-                VoyagerCore.LOGGER.info("Found {}", beeHolder.getDefinition().getName());
-                continue;
+                // VoyagerCore.LOGGER.info("Found {}", beeHolder.getDefinition().getName());
+                // continue;
             }
             // Add Frame Holder List Here
             // Output Bus
-            if (part instanceof ItemBusPartMachine bus) {
-                outputBuses.add(bus);
-            }
+            // if (part instanceof ItemBusPartMachine bus) {
+            // outputBuses.add(bus);
+            // }
         }
     }
 
@@ -91,10 +109,26 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
     }
 
     private void resetState() {
-        unsubscribe(beeLogicSubscription);
+        // unsubscribe(beeLogicSubscription);
+        // beeHolders.forEach(p ->p.setLocked(false));
         this.beeHolders = null;
         this.uptime = 0;
         // Other holders need to be set to null here;
+    }
+
+    // @Override
+    // public boolean beforeWorking(@Nullable GTRecipe recipe) {
+    // if (!super.beforeWorking(recipe)) return false;
+    // var t = beeHolders.stream().filter(p ->p.getRoyal() != ItemStack.EMPTY).toList().isEmpty();
+    // return !t;
+    // }
+
+    @Override
+    public boolean onWorking() {
+        if (super.onWorking()) {
+            this.beeLogic();
+            return true;
+        } else return false;
     }
 
     public void queenTick(IBee queen, ItemStack queenStack) {}
@@ -124,6 +158,8 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
     // }
 
     private void beeLogic() {
+        this.uptime++;
+        this.uptime %= 1200;
         VoyagerCore.LOGGER.info("Running!");
 
         if (!this.isWorkingEnabled()) {
@@ -153,15 +189,18 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
             }
         }
         if (beeAge == QUEEN) {
+            IGenome genome = royal.getGenome();
             IBeeSpecies primary = royal.getSpecies();
             IBeeSpecies secondary = royal.getInactiveSpecies();
+            float speed = genome.getActiveValue(BeeChromosomes.SPEED);
+            int lifespan = genome.getActiveValue(BeeChromosomes.LIFESPAN);
             // Uptime check here
 
             List<Ingredient> outputs = new ArrayList<>();
             for (var product : primary.getProducts()) {
                 VoyagerCore.LOGGER.info("Attempting Product! {}", product.toString());
                 VoyagerCore.LOGGER.info("Creating Stack: {}", product.createStack().toString());
-                outputs.add(Ingredient.of(product.createStack()));
+                outputs.add(Ingredient.of(new ItemStack(product.item(), 1)));
             }
             /*
              * TODO Rework this into actually giving it on a random interval?
@@ -182,15 +221,31 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
             // emptyRecipe,
             // List.of(Ingredient.of(product.createStack())), false);
         }
-        this.uptime++;
-        this.uptime %= 1200;
+    }
+
+    public class ApiaryRecipeLogic extends RecipeLogic {
+
+        public ApiaryRecipeLogic(ApiaryMachine machine) {
+            super(machine);
+        }
+
+        @Override
+        public void findAndHandleRecipe() {
+            lastRecipe = null;
+            setupRecipe(powerRecipe);
+        }
+
+        @Override
+        public void onRecipeFinish() {
+            machine.afterWorking();
+            setupRecipe(lastRecipe);
+            if (suspendAfterFinish) {
+                setStatus(Status.SUSPEND);
+                suspendAfterFinish = false;
+            }
+        }
     }
 }
-// public static class ApiaryRecipeLogic extends RecipeLogic {
-// public ApiaryRecipeLogic(ApiaryMachine machine){
-// super(machine);
-// }
-// }
 
 /*
  * TODO: Create logic for this such that it reads the NBT of the bees in each hatch.

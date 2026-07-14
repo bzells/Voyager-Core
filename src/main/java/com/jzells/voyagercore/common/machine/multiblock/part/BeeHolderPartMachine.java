@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
@@ -72,6 +73,12 @@ public class BeeHolderPartMachine extends MultiblockPartMachine
         this.io = io;
         this.workingEnabled = true;
         beeHolder = new BeeHolderHandler(this);
+    }
+
+    @Override
+    public void removedFromController(IMultiController controller) {
+        super.removedFromController(controller);
+        this.setLocked(false);
     }
 
     @Override
