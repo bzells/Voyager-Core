@@ -456,6 +456,7 @@ public class ElectricMultiMachines {
             .rotationState(RotationState.ALL)
             .appearanceBlock(CASING_FROST_CONDUCTING)
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
+            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
             .pattern(def -> FactoryBlockPattern.start()
                     .aisle("XXX", "XXX", "XXX")
                     .aisle("XXX", "XAX", "XXX")

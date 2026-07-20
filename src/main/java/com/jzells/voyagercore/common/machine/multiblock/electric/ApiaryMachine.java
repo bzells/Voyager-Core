@@ -33,6 +33,7 @@ import lombok.Setter;
 
 import java.util.*;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
@@ -44,12 +45,6 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
 
     private ArrayList<BeeHolderPartMachine> beeHolders;
     private int uptime;
-    private NotifiableItemStackHandler outputBus;
-    private ArrayList<ItemBusPartMachine> outputBuses;
-    private TickableSubscription beeLogicSubscription;
-    @Getter
-    @Setter
-    private boolean didWork;
     private final GTRecipe emptyRecipe = GTRecipeBuilder.ofRaw().buildRawRecipe();
     private final GTRecipe powerRecipe = GTRecipeBuilder.ofRaw().EUt(VHA[HV]).duration(20).buildRawRecipe();
 
@@ -80,7 +75,6 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
 
     private void initializePartLists() {
         this.beeHolders = new ArrayList<>();
-        this.outputBuses = new ArrayList<>();
         for (IMultiPart part : getParts()) {
             // Bee Holders
             if (part instanceof BeeHolderPartMachine beeHolder) {
@@ -108,6 +102,12 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
         this.resetState();
     }
 
+    public void unlockHolders() {
+        if (!beeHolders.isEmpty()){
+            beeHolders.forEach(p -> p.setLocked(false));
+        }
+    }
+
     private void resetState() {
         // unsubscribe(beeLogicSubscription);
         // beeHolders.forEach(p ->p.setLocked(false));
@@ -116,12 +116,14 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
         // Other holders need to be set to null here;
     }
 
-    // @Override
-    // public boolean beforeWorking(@Nullable GTRecipe recipe) {
-    // if (!super.beforeWorking(recipe)) return false;
-    // var t = beeHolders.stream().filter(p ->p.getRoyal() != ItemStack.EMPTY).toList().isEmpty();
-    // return !t;
-    // }
+    @Override
+    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+        if (!super.beforeWorking(recipe)) return false;
+        // Queen Check, don't run if no queen.
+        // Should get OC tier here, to increase productivity.
+        var t = beeHolders.stream().filter(p ->p.getRoyal() != ItemStack.EMPTY).toList().isEmpty();
+        return !t;
+    }
 
     @Override
     public boolean onWorking() {
@@ -209,6 +211,9 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
              * }
              */
 
+            //Using the map to build a raw recipe output instead of creating a new recipe.
+            //Genius? probably not, but at least it saves a check in RecipeBuilder.
+
             Map<RecipeCapability<?>, List<Content>> outputMap = new IdentityHashMap<>();
             outputMap.computeIfAbsent(ItemRecipeCapability.CAP, c -> new ArrayList<>())
                     .addAll(Arrays.stream(outputs.toArray(Ingredient[]::new))
@@ -235,6 +240,8 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
             setupRecipe(powerRecipe);
         }
 
+        //Not Fully working as intended, probably need to reset uptime in this as well, maybe.
+
         @Override
         public void onRecipeFinish() {
             machine.afterWorking();
@@ -242,7 +249,9 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
             if (suspendAfterFinish) {
                 setStatus(Status.SUSPEND);
                 suspendAfterFinish = false;
+                if (getMachine() instanceof ApiaryMachine) unlockHolders();
             }
+
         }
     }
 }
