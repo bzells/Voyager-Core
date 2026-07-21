@@ -14,6 +14,8 @@ public class VoyagerMaterials {
 
     public static Material Pyrotheum;
     public static Material Cryotheum;
+    public static Material HIGH_STRESS_LUBRICANT;
 
     public static Material Calorite;
+    public static Material Desh;
 }

@@ -6,6 +6,9 @@ import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.RotationState;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 
 import net.minecraft.network.chat.Component;
 
@@ -18,6 +21,9 @@ import com.jzells.voyagercore.common.machine.multiblock.part.VoyagerPartAbilitie
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.capability.recipe.IO.*;
 import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableTieredHullMachineModel;
+
+import com.jzells.voyagercore.common.machine.multiblock.part.CrushingWheelPartMachine;
+import com.jzells.voyagercore.common.machine.multiblock.part.VoyagerPartAbilities;
 
 public class VoyagerMachines {
 
@@ -77,6 +83,15 @@ public class VoyagerMachines {
                     .andThen((ctx, prov, model) -> {
                         model.addReplaceableTextures("bottom", "top", "side");
                     }))
+    public static final MachineDefinition CRYSTAL_CALCULATED_BEAM = VoyagerCore.VOYAGERCORE_REGISTRATE.machine(
+            "crystal_calculated_beam",
+            holder -> new BeamPartMachine(holder, .2f))
+
+            .rotationState(RotationState.ALL)
+            .abilities(VoyagerPartAbilities.BEAM_LENS)
+            .workableCasingModel(VoyagerCore.id("block/beam/crystal_calculated_beam"),
+                    VoyagerCore.id("block/beam/crystal_calculated_beam"))
+            .tooltips(Component.literal("Beam concentration: " + .2f * 100 + "%"))
             .register();
 
     public static void init() {};

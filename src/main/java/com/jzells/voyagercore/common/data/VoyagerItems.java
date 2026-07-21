@@ -12,7 +12,7 @@ public class VoyagerItems {
 
     public static ItemEntry<ComponentItem> COVER_HEAT_REDSTONE = VOYAGERCORE_REGISTRATE
             .item("heat_redstone_cover", ComponentItem::create)
-            .lang("Heat Redstone")
+            .lang("Heat Detector")
             .onRegister(item -> item.attachComponents(
                     new CoverPlaceBehavior(HeatRedstoneCoverDefinition.HEAT_REDSTONE_COVER)))
             .register();

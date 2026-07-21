@@ -2,112 +2,112 @@
   "variants": {
     "facing=down,upwards_facing=east": {
       "gtceu:z": 90,
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "x": 90
     },
     "facing=down,upwards_facing=north": {
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "x": 90
     },
     "facing=down,upwards_facing=south": {
       "gtceu:z": 180,
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "x": 90
     },
     "facing=down,upwards_facing=west": {
       "gtceu:z": 270,
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "x": 90
     },
     "facing=east,upwards_facing=east": {
       "gtceu:z": 270,
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "y": 90
     },
     "facing=east,upwards_facing=north": {
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "y": 90
     },
     "facing=east,upwards_facing=south": {
       "gtceu:z": 180,
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "y": 90
     },
     "facing=east,upwards_facing=west": {
       "gtceu:z": 90,
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "y": 90
     },
     "facing=north,upwards_facing=east": {
       "gtceu:z": 270,
-      "model": "voyagercore:block/machine/beam_of_teus"
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly"
     },
     "facing=north,upwards_facing=north": {
-      "model": "voyagercore:block/machine/beam_of_teus"
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly"
     },
     "facing=north,upwards_facing=south": {
       "gtceu:z": 180,
-      "model": "voyagercore:block/machine/beam_of_teus"
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly"
     },
     "facing=north,upwards_facing=west": {
       "gtceu:z": 90,
-      "model": "voyagercore:block/machine/beam_of_teus"
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly"
     },
     "facing=south,upwards_facing=east": {
       "gtceu:z": 270,
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "y": 180
     },
     "facing=south,upwards_facing=north": {
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "y": 180
     },
     "facing=south,upwards_facing=south": {
       "gtceu:z": 180,
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "y": 180
     },
     "facing=south,upwards_facing=west": {
       "gtceu:z": 90,
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "y": 180
     },
     "facing=up,upwards_facing=east": {
       "gtceu:z": 90,
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "x": 270
     },
     "facing=up,upwards_facing=north": {
       "gtceu:z": 180,
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "x": 270
     },
     "facing=up,upwards_facing=south": {
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "x": 270
     },
     "facing=up,upwards_facing=west": {
       "gtceu:z": 270,
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "x": 270
     },
     "facing=west,upwards_facing=east": {
       "gtceu:z": 270,
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "y": 270
     },
     "facing=west,upwards_facing=north": {
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "y": 270
     },
     "facing=west,upwards_facing=south": {
       "gtceu:z": 180,
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "y": 270
     },
     "facing=west,upwards_facing=west": {
       "gtceu:z": 90,
-      "model": "voyagercore:block/machine/beam_of_teus",
+      "model": "voyagercore:block/machine/helper_coiltronics_assembly",
       "y": 270
     }
   }

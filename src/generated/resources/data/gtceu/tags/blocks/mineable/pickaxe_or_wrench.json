@@ -8,6 +8,10 @@
     "voyagercore:industrial_maceration_casing",
     "voyagercore:beam_control_casing",
     "voyagercore:titanite_casing",
+    "voyagercore:space_faring_casing",
+    "voyagercore:industrial_control_casing",
+    "voyagercore:industrial_assembly_casing",
+    "voyagercore:solid_industrial_casing",
     "voyagercore:cooling_lamp"
   ]
 }

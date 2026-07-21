@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
@@ -29,6 +30,7 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gregtechceu.gtceu.common.data.GCYMBlocks.*;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.BATCH_MODE;
+import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.PARALLEL_HATCH;
 import static com.gregtechceu.gtceu.common.data.machines.GTMachineUtils.registerTieredMultis;
 import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
 import static com.gregtechceu.gtceu.utils.FormattingUtil.toRomanNumeral;
@@ -330,7 +332,7 @@ public class ElectricMultiMachines {
     public static final MultiblockMachineDefinition BEAM_OF_TEUS = VOYAGERCORE_REGISTRATE
             .multiblock("beam_of_teus",
                     (holder) -> new BeamMachine(holder, .1f, .1f, 200))
-            .rotationState(RotationState.NON_Y_AXIS)
+            .rotationState(RotationState.ALL)
             .recipeTypes(VoyagerRecipeTypes.BEAM_HEATING)
             .recipeModifiers(BeamMachine::recipeModifier)
             .appearanceBlock(CASING_FOUNDRY)
@@ -375,50 +377,14 @@ public class ElectricMultiMachines {
                     VoyagerCore.id("block/multiblock/magmatic_foundry"))
             .register();
 
-    // .aisle("aaaabbbaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaacaaaaa", "aaaaacaaaaa", "aaaaacaaaaa",
-    // "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa")
-    // .aisle("aabbbbbbbaa", "aaaaacaaaaa", "aaaaacaaaaa", "aaaaacaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa",
-    // "aaaaacaaaaa", "aaaaacaaaaa", "aaaaacaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa")
-    // .aisle("abeebbbeeba", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa",
-    // "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaacaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa")
-    // .aisle("abefffffeba", "aaaghhhgaaa", "aaaghhhgaaa", "aaaghhhgaaa", "aaagggggaaa", "aaaaaaaaaaa", "aaaaaaaaaaa",
-    // "aaaaaaaaaaa", "aaaaaiaaaaa", "aaaaaiaaaaa", "aaaaaiaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa")
-    // .aisle("bbbfbbbfbbb", "aaahaaahaaa", "aaahaaahaaa", "aaahaaahaaa", "aaagiiigaaa", "aaaajjjaaaa", "aaaaiiiaaaa",
-    // "aaaaaeaaaaa", "aaaacicaaaa", "aaaafifaaaa", "aaaacicaaaa", "aaaaaiaaaaa", "aaaaiiiaaaa")
-    // .aisle("bbbfbbbfbbb", "acahakahaca", "acahaaahaca", "acahaaahaca", "caagiligaac", "caaajkjaaac", "caaaikiaaac",
-    // "acaaekeaaca", "acaiikiiaca", "acciikiicca", "aaaiikiiaaa", "aaaaikiaaaa", "aaaaikiaaaa")
-    // .aisle("bbbfbbbfbbb", "aaahaaahaaa", "aaahaaahaaa", "aaahaaahaaa", "aaagiiigaaa", "aaaajjjaaaa", "aaaaiiiaaaa",
-    // "aaaaaeaaaaa", "aaaacicaaaa", "aaaafifaaaa", "aaaacicaaaa", "aaaaaiaaaaa", "aaaaiiiaaaa")
-    // .aisle("abefffffeba", "aaaghhhgaaa", "aaaghhhgaaa", "aaaghhhgaaa", "aaagggggaaa", "aaaaaaaaaaa", "aaaaaaaaaaa",
-    // "aaaaaaaaaaa", "aaaaaiaaaaa", "aaaaaiaaaaa", "aaaaaiaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa")
-    // .aisle("abeebbbeeba", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa",
-    // "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaacaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa")
-    // .aisle("aabbbbbbbaa", "aaaaacaaaaa", "aaaaacaaaaa", "aaaaacaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa",
-    // "aaaaacaaaaa", "aaaaacaaaaa", "aaaaacaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa")
-    // .aisle("aaaab@baaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaacaaaaa", "aaaaacaaaaa", "aaaaacaaaaa",
-    // "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa")
-    //
-    // .where("a", Predicates.blocks("minecraft:air"))
-    // .where("b", Predicates.blocks("kubejs:titanite_casing"))
-    // .where("c", Predicates.blocks("gtceu:calorite_frame"))
-    // .where("d", Predicates.blocks("chisel_chipped_integration:factory_blue_framed_circuit"))
-    // .where("e", Predicates.blocks("gtceu:heat_vent"))
-    // .where("f", Predicates.blocks("gtceu:luv_machine_casing"))
-    // .where("g", Predicates.blocks("gtceu:black_steel_frame"))
-    // .where("h", Predicates.blocks("gtceu:laminated_glass"))
-    // .where("i", Predicates.blocks("kubejs:stout_titanium_carbide_casing"))
-    // .where("j", Predicates.blocks("gtceu:computer_heat_vent"))
-    // .where("k", Predicates.blocks("gtceu:nether_star_block"))
-    // .where("l", Predicates.blocks("kubejs:teus_beam_block"))
-    // .where("m", Predicates.blocks("gtceu:source_steel_frame"))
-
     public static final MultiblockMachineDefinition PULVERIZER = VOYAGERCORE_REGISTRATE
             .multiblock("pulverizer",
-                    TieredPulverizerMachine::new)
-            .rotationState(RotationState.NON_Y_AXIS)
+                    (holder) -> new TieredPulverizerMachine(holder,
+                            VoyagerMaterials.HIGH_STRESS_LUBRICANT.getFluid(250)))
+            .rotationState(RotationState.ALL)
             .recipeTypes(VoyagerRecipeTypes.PULVERIZING)
-            .recipeModifiers(TieredPulverizerMachine::recipeModifier, VoyagerCoreRecipeModifiers.ADVANCED_BOOSTING,
-                    GTRecipeModifiers.OC_NON_PERFECT, BATCH_MODE)
+            .recipeModifiers(TieredPulverizerMachine::recipeModifier, PARALLEL_HATCH,
+                    GTRecipeModifiers.OC_NON_PERFECT, BATCH_MODE, FluidBasicMulti::recipeModifier)
             .appearanceBlock(CASING_INDUSTRIAL_MACERATION)
             .pattern(def -> FactoryBlockPattern.start()
 
@@ -436,6 +402,7 @@ public class ElectricMultiMachines {
                             .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                             .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
                             .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                            .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2)))
                     .where("@", Predicates.controller(Predicates.blocks(def.get())))
                     .where("a",
@@ -472,6 +439,114 @@ public class ElectricMultiMachines {
                     .build())
             .workableCasingModel(VoyagerCore.id("block/casing/frost_conducting_casing"),
                     VoyagerCore.id("block/multiblock/magmatic_foundry"))
+            .register();
+
+    public static final MultiblockMachineDefinition MAGMAIC_MELTER = VOYAGERCORE_REGISTRATE
+            .multiblock("magmaic_melter",
+                    (holder) -> new FluidCoilMulti(holder, VoyagerMaterials.Pyrotheum.getFluid(100)))
+            .rotationState(RotationState.ALL)
+            .recipeTypes(VoyagerRecipeTypes.PULVERIZING)
+            .recipeModifiers(FluidCoilMulti::recipeModifier, VoyagerCoreRecipeModifiers.HEAT_BOOSTING,
+                    GTRecipeModifiers.OC_NON_PERFECT, BATCH_MODE)
+            .appearanceBlock(CASING_INDUSTRIAL_MACERATION)
+            .pattern(def -> FactoryBlockPattern.start()
+
+                    .aisle("aaabbbbbaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa",
+                            "aaacaaacaaa", "aaacaaacaaa", "aaabbbbbaaa")
+                    .aisle("abbbbbbbbba", "aaaeeeeeaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa",
+                            "aaaaaaaaaaa", "aaaeeeeeaaa", "abbbbbbbbba")
+                    .aisle("abbbbbbbbba", "aaefffffeaa", "aaagaaagaaa", "aaaeccceaaa", "aaagaaagaaa", "aaaeccceaaa",
+                            "aaagaaagaaa", "aaefffffeaa", "abbbbbbbbba")
+                    .aisle("bbbbbbbbbbb", "cefffffffec", "cagfgggfgac", "caefgggfeac", "cagfgggfgac", "caefgggfeac",
+                            "cagfgggfgac", "cefffffffec", "bbbbbbbbbbb")
+                    .aisle("bbbbbbbbbbb", "aefffffffea", "aaagaaagaaa", "aacgaaagcaa", "aaagaaagaaa", "aacgaaagcaa",
+                            "aaagaaagaaa", "aefffffffea", "bbbbbbbbbbb")
+                    .aisle("bbbbbbbbbbb", "aefffffffea", "aaagaaagaaa", "aacgaaagcaa", "aaagaaagaaa", "aacgaaagcaa",
+                            "aaagaaagaaa", "aefffffffea", "bbbbbbbbbbb")
+                    .aisle("bbbbbbbbbbb", "aefffffffea", "aaagaaagaaa", "aacgaaagcaa", "aaagaaagaaa", "aacgaaagcaa",
+                            "aaagaaagaaa", "aefffffffea", "bbbbbbbbbbb")
+                    .aisle("bbbbbbbbbbb", "cefffffffec", "cagfgggfgac", "caefgggfeac", "cagfgggfgac", "caefgggfeac",
+                            "cagfgggfgac", "cefffffffec", "bbbbbbbbbbb")
+                    .aisle("abbbbbbbbba", "aaefffffeaa", "aaagaaagaaa", "aaaeccceaaa", "aaagaaagaaa", "aaaeccceaaa",
+                            "aaagaaagaaa", "aaefffffeaa", "abbbbbbbbba")
+                    .aisle("abbbbbbbbba", "aaaeeeeeaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa",
+                            "aaaaaaaaaaa", "aaaeeeeeaaa", "abbbbbbbbba")
+                    .aisle("aaabb@bbaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa",
+                            "aaacaaacaaa", "aaacaaacaaa", "aaabbbbbaaa")
+                    .where("b", Predicates.blocks(CASING_HIGH_TEMPERATURE_SMELTING.get())
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(1)))
+                    .where("@", Predicates.controller(Predicates.blocks(def.get())))
+                    .where("c",
+                            Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
+                                    .get(TagPrefix.frameGt, GTMaterials.NaquadahAlloy)).get()))
+                    .where("d", Predicates.blocks(CASING_TUNGSTENSTEEL_PIPE.get()))
+                    .where("a", any())
+                    .where("e", Predicates.blocks(HEAT_VENT.get()))
+                    .where("f", Predicates.blocks(CASING_FOUNDRY.get()))
+                    .where("g", Predicates.heatingCoils())
+                    .build())
+            .workableCasingModel(GTCEu.id("block/casings/gcym/high_temperature_smelting_casing"),
+                    VoyagerCore.id("block/multiblock/magmatic_foundry"))
+            .register();
+
+    public static final MultiblockMachineDefinition PLANET_EXTRACTOR_LUV = VOYAGERCORE_REGISTRATE
+            .multiblock("luv_planet_extractor",
+                    (holder) -> new FluidBasicMulti(holder,
+                            VoyagerMaterials.HIGH_STRESS_LUBRICANT.getFluid(250)))
+            .rotationState(RotationState.ALL)
+            .recipeTypes(VoyagerRecipeTypes.PLANET_EXTRACTING)
+            .recipeModifiers(VoyagerCoreRecipeModifiers.BASIC_BOOSTING,
+                    GTRecipeModifiers.OC_NON_PERFECT, FluidBasicMulti::recipeModifier)
+            .appearanceBlock(CASING_SPACE_FARING)
+            .pattern(def -> FactoryBlockPattern.start()
+
+                    .aisle("bbb", "bbb", "bbb")
+                    .aisle("bbb", "bbb", "bbb")
+                    .aisle("bbb", "b@b", "bbb")
+                    .where("b", Predicates.blocks(CASING_SPACE_FARING.get())
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                            .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2)))
+                    .where("@", Predicates.controller(Predicates.blocks(def.get())))
+                    .build())
+            .workableCasingModel(VoyagerCore.id("block/casing/space_faring_casing"),
+                    VoyagerCore.id("block/multiblock/pulverizer"))
+            .register();
+
+    public static final MultiblockMachineDefinition HELPER_COILTRONICS_ASSEMBLY = VOYAGERCORE_REGISTRATE
+            .multiblock("helper_coiltronics_assembly",
+                    WorkableElectricMultiblockMachine::new)
+            .rotationState(RotationState.ALL)
+            .recipeTypes(VoyagerRecipeTypes.PLANET_EXTRACTING)
+            .recipeModifiers(
+                    GTRecipeModifiers.OC_NON_PERFECT)
+            .appearanceBlock(CASING_INDUSTRIAL_SOLID)
+            .pattern(def -> FactoryBlockPattern.start()
+
+                    .aisle("aaaaa", "bbbbb", "aaaaa")
+                    .aisle("cdddd", "eeeee", "bbbbb")
+                    .aisle("aaaaa", "bbbbb", "aa@aa")
+
+                    .where("a", Predicates.blocks(CASING_INDUSTRIAL_SOLID.get())
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2, 1)))
+                    .where("b", Predicates.blocks(CASING_INDUSTRIAL_ASSEMBLY.get()))
+                    .where("c", Predicates.abilities(PartAbility.EXPORT_ITEMS))
+                    .where("d",
+                            Predicates.blocks(PartAbility.IMPORT_ITEMS.getBlockRange(ULV, ULV).toArray(Block[]::new)))
+                    .where("e", Predicates.blocks(CASING_INDUSTRIAL_CONTROL.get()))
+                    .where("@", Predicates.controller(Predicates.blocks(def.get())))
+                    .build())
+            .workableCasingModel(VoyagerCore.id("block/casing/solid_industrial_casing"),
+                    VoyagerCore.id("block/multiblock/helper_coiltronics_assembly"))
             .register();
 
     public static void init() {}
