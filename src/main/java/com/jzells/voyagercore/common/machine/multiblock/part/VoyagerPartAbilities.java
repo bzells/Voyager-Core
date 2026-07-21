@@ -12,6 +12,7 @@ public final class VoyagerPartAbilities {
     public static final PartAbility CRUSHING_WHEEL = new PartAbility("crushing_wheel");
 
     public static final PartAbility BEAM_LENS = new PartAbility("beam_lens");
+    public static final PartAbility BEE_HOLDER = new PartAbility("bee_holder");
 
     private static final Map<Block, Integer> CRUSHING_WHEEL_TIERS = new HashMap<>();
 
