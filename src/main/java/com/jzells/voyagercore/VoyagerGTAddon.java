@@ -6,6 +6,10 @@ import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 
+import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
+import com.jzells.voyagercore.common.data.recipe.recipes.VoyagerRecipes;
+import com.jzells.voyagercore.common.machine.cover.HeatRedstoneCoverDefinition;
+
 import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
@@ -14,7 +18,7 @@ public class VoyagerGTAddon implements IGTAddon {
 
     @Override
     public GTRegistrate getRegistrate() {
-        return VoyagerCore.EXAMPLE_REGISTRATE;
+        return VoyagerCore.VOYAGERCORE_REGISTRATE;
     }
 
     @Override
@@ -32,12 +36,18 @@ public class VoyagerGTAddon implements IGTAddon {
 
     @Override
     public void addRecipes(Consumer<FinishedRecipe> provider) {
-        // CustomRecipes.init(provider);
+        VoyagerRecipeTypes.init();
+        VoyagerRecipes.init(provider);
     }
 
     @Override
     public void registerElements() {
         // CustomElements.init();
+    }
+
+    @Override
+    public void registerCovers() {
+        HeatRedstoneCoverDefinition.registerAll();
     }
 
     // If you have custom ingredient types, uncomment this & change to match your capability.

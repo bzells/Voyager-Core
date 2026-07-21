@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.api.sound.SoundEntry;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -19,6 +18,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import com.jzells.voyagercore.common.data.*;
+import com.jzells.voyagercore.common.machine.multiblock.VoyagerMultiRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,17 +27,19 @@ import org.apache.logging.log4j.Logger;
 @SuppressWarnings("removal")
 public class VoyagerCore {
 
-    public static final String MOD_ID = "examplemod";
+    public static final String MOD_ID = "voyagercore";
     public static final Logger LOGGER = LogManager.getLogger();
-    public static GTRegistrate EXAMPLE_REGISTRATE = GTRegistrate.create(VoyagerCore.MOD_ID);
+    public static GTRegistrate VOYAGERCORE_REGISTRATE = GTRegistrate.create(VoyagerCore.MOD_ID);
 
     public VoyagerCore() {
+        VoyagerCore.init();
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::clientSetup);
 
         modEventBus.addListener(this::addMaterialRegistries);
+
         modEventBus.addListener(this::addMaterials);
         modEventBus.addListener(this::modifyMaterials);
 
@@ -49,13 +52,18 @@ public class VoyagerCore {
         // we need to register our object like this!
         MinecraftForge.EVENT_BUS.register(this);
 
-        EXAMPLE_REGISTRATE.registerRegistrate();
+        VOYAGERCORE_REGISTRATE.registerRegistrate();
+    }
+
+    private static void init() {
+        VoyagerBlocks.init();
+        VoyagerItems.init();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             LOGGER.info("Hello from common setup! This is *after* registries are done, so we can do this:");
-            LOGGER.info("Look, I found a {}!", Items.DIAMOND);
+            // LOGGER.info("Look, I found a {}!", Items.DIAMOND);
         });
     }
 
@@ -77,7 +85,7 @@ public class VoyagerCore {
      * Create a material manager for your mod using GT's API.
      * You MUST have this if you have custom materials.
      * Remember to register them not to GT's namespace, but your own.
-     * 
+     *
      * @param event
      */
     private void addMaterialRegistries(MaterialRegistryEvent event) {
@@ -87,16 +95,17 @@ public class VoyagerCore {
     /**
      * You will also need this for registering custom materials
      * Call init() from your Material class(es) here
-     * 
+     *
      * @param event
      */
     private void addMaterials(MaterialEvent event) {
         // CustomMaterials.init();
+        VoyagerMaterials.init();
     }
 
     /**
      * (Optional) Used to modify pre-existing materials from GregTech
-     * 
+     *
      * @param event
      */
     private void modifyMaterials(PostMaterialEvent event) {
@@ -106,11 +115,12 @@ public class VoyagerCore {
     /**
      * Used to register your own new RecipeTypes.
      * Call init() from your RecipeType class(es) here
-     * 
+     *
      * @param event
      */
     private void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
         // CustomRecipeTypes.init();
+        VoyagerRecipeTypes.init();
     }
 
     /**
@@ -120,7 +130,9 @@ public class VoyagerCore {
      * @param event
      */
     private void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
-        // CustomMachines.init();
+        VoyagerMultiRegistry.init();
+        VoyagerMachines.init();
+        // VoyagerPartAbilityRegistry.register();
     }
 
     /**
