@@ -36,8 +36,6 @@ public class FluidCoilMulti extends CoilWorkableElectricMultiblockMachine {
     }
 
     public void setRequiredFluid(FluidStack fluid) {
-        // LOGGER.info("This is: {}", this.getHolder().getDefinition().getName());
-        // LOGGER.info("FluidStack given: {}", fluid.getDisplayName().getString());
         this.requiredFluid = fluid;
     }
 
