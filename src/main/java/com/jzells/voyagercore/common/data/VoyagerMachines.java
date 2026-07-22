@@ -83,6 +83,7 @@ public class VoyagerMachines {
                     .andThen((ctx, prov, model) -> {
                         model.addReplaceableTextures("bottom", "top", "side");
                     }))
+            .register();
     public static final MachineDefinition CRYSTAL_CALCULATED_BEAM = VoyagerCore.VOYAGERCORE_REGISTRATE.machine(
             "crystal_calculated_beam",
             holder -> new BeamPartMachine(holder, .2f))
