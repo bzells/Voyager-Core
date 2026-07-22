@@ -23,6 +23,7 @@ public class VoyagerCoreRecipeModifiers {
     public static RecipeModifier BASIC_BOOSTING = VoyagerCoreRecipeModifiers::basicBoostingModifier;
     public static RecipeModifier ADVANCED_BOOSTING = VoyagerCoreRecipeModifiers::advancedBoostingModifier;
     public static RecipeModifier ADVANCED_BOOSTING_FUSION = VoyagerCoreRecipeModifiers::advancedBoostingModifierFusion;
+    public static RecipeModifier MAGMATIC_MODIFIER = VoyagerCoreRecipeModifiers::magmaticFoundryModifier;
 
     public static ModifierFunction cubeModifier(MetaMachine machine, GTRecipe recipe) {
         if (!(machine instanceof MetaMachine)) {
@@ -249,6 +250,23 @@ public class VoyagerCoreRecipeModifiers {
         } else {
             return ModifierFunction.cancel(Component.literal("This isn't a fusion reactor!"));
         }
+    }
+
+    public static ModifierFunction magmaticFoundryModifier(MetaMachine machine, GTRecipe recipe) {
+        if (!(machine instanceof MetaMachine)) {
+            return ModifierFunction.NULL;
+        }
+        if (!(recipe instanceof GTRecipe)) {
+            return ModifierFunction.NULL;
+        }
+        int parallelMod = 4;
+        double durationMod = 0.75;
+
+        return ModifierFunction.builder()
+                .modifyAllContents(ContentModifier.multiplier(parallelMod))
+                .durationMultiplier(durationMod)
+                .parallels(parallelMod)
+                .build();
     }
 
     // protected GTRecipe getMilkRecipe()
