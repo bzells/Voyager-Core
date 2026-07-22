@@ -4,15 +4,12 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
-import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -28,8 +25,6 @@ import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.utils.SpeciesUtil;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.*;
 
@@ -103,7 +98,7 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
     }
 
     public void unlockHolders() {
-        if (!beeHolders.isEmpty()){
+        if (!beeHolders.isEmpty()) {
             beeHolders.forEach(p -> p.setLocked(false));
         }
     }
@@ -121,7 +116,7 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
         if (!super.beforeWorking(recipe)) return false;
         // Queen Check, don't run if no queen.
         // Should get OC tier here, to increase productivity.
-        var t = beeHolders.stream().filter(p ->p.getRoyal() != ItemStack.EMPTY).toList().isEmpty();
+        var t = beeHolders.stream().filter(p -> p.getRoyal() != ItemStack.EMPTY).toList().isEmpty();
         return !t;
     }
 
@@ -211,8 +206,8 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
              * }
              */
 
-            //Using the map to build a raw recipe output instead of creating a new recipe.
-            //Genius? probably not, but at least it saves a check in RecipeBuilder.
+            // Using the map to build a raw recipe output instead of creating a new recipe.
+            // Genius? probably not, but at least it saves a check in RecipeBuilder.
 
             Map<RecipeCapability<?>, List<Content>> outputMap = new IdentityHashMap<>();
             outputMap.computeIfAbsent(ItemRecipeCapability.CAP, c -> new ArrayList<>())
@@ -240,7 +235,7 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
             setupRecipe(powerRecipe);
         }
 
-        //Not Fully working as intended, probably need to reset uptime in this as well, maybe.
+        // Not Fully working as intended, probably need to reset uptime in this as well, maybe.
 
         @Override
         public void onRecipeFinish() {
@@ -251,7 +246,6 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
                 suspendAfterFinish = false;
                 if (getMachine() instanceof ApiaryMachine) unlockHolders();
             }
-
         }
     }
 }

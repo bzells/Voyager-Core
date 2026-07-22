@@ -9,6 +9,9 @@ dependencies {
     // Mixin
     annotationProcessor('org.spongepowered:mixin:0.8.5:processor')
 
+    modImplementation("curse.maven:curios-309927:6418456")
+    modImplementation("curse.maven:forestry-community-edition-1056828:7736161")
+
     // JEI, EMI, Jade
     modCompileOnly("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     modCompileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
@@ -29,8 +32,8 @@ dependencies {
 
     //Forestry
     modRuntimeOnly(forge.patchouli) //WHY. THE. HELL. IS. THIS. NEEDED.
-    modImplementation(forge.curios) // FORESTRY PLEASE
-    modImplementation(forge.forestry)
+//    modImplementation(forge.curios) // FORESTRY PLEASE
+//    modImplementation(forge.forestry)
 
     // lombok
     compileOnly 'org.projectlombok:lombok:1.18.24'
