@@ -1,8 +1,10 @@
 package com.jzells.voyagercore.common.data;
 
 import com.gregtechceu.gtceu.api.item.ComponentItem;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.item.CoverPlaceBehavior;
 
+import com.jzells.voyagercore.common.item.component.HelperItemComponent;
 import com.jzells.voyagercore.common.machine.cover.HeatRedstoneCoverDefinition;
 import com.tterrag.registrate.util.entry.ItemEntry;
 
@@ -15,6 +17,11 @@ public class VoyagerItems {
             .lang("Heat Detector")
             .onRegister(item -> item.attachComponents(
                     new CoverPlaceBehavior(HeatRedstoneCoverDefinition.HEAT_REDSTONE_COVER)))
+            .register();
+    public static ItemEntry<ComponentItem> TEST_HELPER = VOYAGERCORE_REGISTRATE
+            .item("test_helper", ComponentItem::create)
+            .lang("Test Helper")
+            .onRegister(i -> i.attachComponents(new HelperItemComponent(GTRecipeTypes.CHEMICAL_RECIPES, 1)))
             .register();
 
     public static void init() {}
