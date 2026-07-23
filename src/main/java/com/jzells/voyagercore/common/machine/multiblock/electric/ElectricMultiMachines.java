@@ -48,7 +48,7 @@ public class ElectricMultiMachines {
             .rotationState(RotationState.ALL)
             .recipeType(GTRecipeTypes.BLAST_RECIPES)
             .recipeModifiers(FluidCoilMulti::recipeModifier, VoyagerCoreRecipeModifiers.HEAT_BOOSTING,
-                    GTRecipeModifiers::ebfOverclock)
+                    GTRecipeModifiers::ebfOverclock, VoyagerCoreRecipeModifiers.MAGMATIC_MODIFIER)
             .appearanceBlock(CASING_FOUNDRY)
             .pattern(def -> FactoryBlockPattern.start()
                     .aisle("aaaaa", "cdddc", "cdddc", "efefe", "cdddc", "cdddc", "aaaaa")
@@ -191,113 +191,40 @@ public class ElectricMultiMachines {
                             BATCH_MODE)
                     .appearanceBlock(FUSION_CASING)
                     .pattern(def -> FactoryBlockPattern.start()
-
-                            .aisle("aaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaabbbaaaaaaaaaaa",
-                                    "aaaaaaaaabbbbbbbaaaaaaaaa", "aaaaaaaaaaabbbaaaaaaaaaaa",
-                                    "aaaaaaaaaaaaaaaaaaaaaaaaa")
-
-                            .aisle("aaaaaaaaaaaadaaaaaaaaaaaa", "aaaaaaaabbbbabbbbaaaaaaaa",
-                                    "aaaaaaabbaaaaaaabbaaaaaaa", "aaaaaaaabbbbabbbbaaaaaaaa",
-                                    "aaaaaaaaaaaadaaaaaaaaaaaa")
-
-                            .aisle("aaaaaaaaadddddddaaaaaaaaa", "aaaaaabbbaaaaaaabbbaaaaaa",
-                                    "aaaaabbeeaaaaaaaeebbaaaaa", "aaaaaabbbaaaaaaabbbaaaaaa",
-                                    "aaaaaaaaadddddddaaaaaaaaa")
-
-                            .aisle("aaaaaaadddddddddddaaaaaaa", "aaaaabbaaaaaaaaaaabbaaaaa",
-                                    "aaaabeeaaaaaaaaaaaeebaaaa", "aaaaabbaaaaaaaaaaabbaaaaa",
-                                    "aaaaaaadddddddddddaaaaaaa")
-
-                            .aisle("aaaaaadddaaadaaddddaaaaaa", "aaaabbaaaabbabbaaaabbaaaa",
-                                    "aaabeaaaaaaaaaaaaaaaebaaa", "aaaabbaaaabbabbaaaabbaaaa",
-                                    "aaaaaaddddaadaaddddaaaaaa")
-
-                            .aisle("aaaaadddaaaaaaaaadddaaaaa", "aaabbaaabbabfbabbaaabbaaa",
-                                    "aabeaaaaaabfgfbaaaaaaebaa", "aaabbaaabbabfbabbaaabbaaa",
-                                    "aaaaadddaaaaaaaaadddaaaaa")
-
-                            .aisle("aaaadddaaaaaaaaaaadddaaaa", "aabbaaabaaaaaaaaabaaabbaa",
-                                    "aabeaaaabbaaaaabbaaaaebaa", "aabbaaabaaaaaaaaabaaabbaa",
-                                    "aaaadddaaaaaaaaaaadddaaaa")
-
-                            .aisle("aaadddaaaaaaaaaaaaadddaaa", "aabaaabaaaaaaaaaaabaaabaa",
-                                    "abeaaaabaaaaaaaaabaaaaeba", "aabaaabaaaaaaaaaaabaaabaa",
-                                    "aaadddaaaaaaaaaaaaadddaaa")
-
-                            .aisle("aaaddaaaaaaaaaaaaaaaddaaa", "abbaabaaaaaaaaaaaaabaabba",
-                                    "abeaaabaaaaaaaaaaabaaaeba", "abbaabaaaaaaaaaaaaabaabba",
-                                    "aaaddaaaaaaaaaaaaaaaddaaa")
-
-                            .aisle("aadddaaaaaaaaaaaaaaaaddaa", "abaaabaaaaaaaaaaaaabaaaba",
-                                    "baaaaabaaaaaaaaaaabaaaaab", "abaaabaaaaaaaaaaaaabaaaba",
-                                    "aadddaaaaaaaaaaaaaaaaddaa")
-
-                            .aisle("aaddaaaaaaaaaaaaaaaaaddaa", "abaabaaaaaaaaaaaaaaabaaba",
-                                    "baaaabaaaaaaaaaaaaabaaaab", "abaabaaaaaaaaaaaaaaabaaba",
-                                    "aaddaaaaaaaaaaaaaaaaaddaa")
-
-                            .aisle("aaddaaaaaaaaaaaaaaaaaddaa", "bbaabbaaaaaaaaaaaaabbaabb",
-                                    "baaaafaaaaaaaaaaaaafaaaab", "bbaabbaaaaaaaaaaaaabbaabb",
-                                    "aaddaaaaaaaaaaaaaaaaaddaa")
-
-                            .aisle("addddaaaaaaaaaaaaaaadddda", "baaaafaaaaaaaaaaaaafaaaab",
-                                    "baaaahaaaaaaaaaaaaahaaaab", "baaaafaaaaaaaaaaaaafaaaab",
-                                    "addddaaaaaaaaaaaaaaadddda")
-
-                            .aisle("aaddaaaaaaaaaaaaaaaaaddaa", "bbaabbaaaaaaaaaaaaabbaabb",
-                                    "baaaafaaaaaaaaaaaaafaaaab", "bbaabbaaaaaaaaaaaaabbaabb",
-                                    "aaddaaaaaaaaaaaaaaaaaddaa")
-
-                            .aisle("aaddaaaaaaaaaaaaaaaaaddaa", "abaabaaaaaaaaaaaaaaabaaba",
-                                    "baaaabaaaaaaaaaaaaabaaaab", "abaabaaaaaaaaaaaaaaabaaba",
-                                    "aaddaaaaaaaaaaaaaaaaaddaa")
-
-                            .aisle("aaddaaaaaaaaaaaaaaaadddaa", "abaabaaaaaaaaaaaaaabaaaba",
-                                    "baaaabaaaaaaaaaaaabaaaaab", "abaabaaaaaaaaaaaaaabaaaba",
-                                    "aaddaaaaaaaaaaaaaaaadddaa")
-
-                            .aisle("aaaddaaaaaaaaaaaaaaaddaaa", "abbaabaaaaaaaaaaaaabaabba",
-                                    "abeaaabaaaaaaaaaaabaaaeba", "abbaabaaaaaaaaaaaaabaabba",
-                                    "aaaddaaaaaaaaaaaaaaaddaaa")
-
-                            .aisle("aaadddaaaaaaaaaaaaadddaaa", "aabaaabaaaaaaaaaaabaaabaa",
-                                    "abeaaaabaaaaaaaaabaaaaeba", "aabaaabaaaaaaaaaaabaaabaa",
-                                    "aaadddaaaaaaaaaaaaadddaaa")
-
-                            .aisle("aaaadddaaaaaaaaaaadddaaaa", "aabbaaabaaaaaaaaabaaabbaa",
-                                    "aabeaaaabbaaaaabbaaaaebaa", "aabbaaabaaaaaaaaabaaabbaa",
-                                    "aaaadddaaaaaaaaaaadddaaaa")
-
-                            .aisle("aaaaadddaaaaaaaaadddaaaaa", "aaabbaaabbabfbabbaaabbaaa",
-                                    "aabeaaaaaabfgfbaaaaaaebaa", "aaabbaaabbabfbabbaaabbaaa",
-                                    "aaaaadddaaaaaaaaadddaaaaa")
-
-                            .aisle("aaaaaaddddaadaaddddaaaaaa", "aaaabbaaaabbabbaaaabbaaaa",
-                                    "aaabeaaaaaaaaaaaaaaaebaaa", "aaaabbaaaabbabbaaaabbaaaa",
-                                    "aaaaaaddddaadaaddddaaaaaa")
-
-                            .aisle("aaaaaaadddddddddddaaaaaaa", "aaaaabbaaaaaaaaaaabbaaaaa",
-                                    "aaaabeeaaaaaaaaaaaeebaaaa", "aaaaabbaaaaaaaaaaabbaaaaa",
-                                    "aaaaaaadddddddddddaaaaaaa")
-
-                            .aisle("aaaaaaaaadddddddaaaaaaaaa", "aaaaaabbbaaaaaaabbbaaaaaa",
-                                    "aaaaabbeeaaaaaaaeebbaaaaa", "aaaaaabbbaaaaaaabbbaaaaaa",
-                                    "aaaaaaaaadddddddaaaaaaaaa")
-
-                            .aisle("aaaaaaaaaaaadaaaaaaaaaaaa", "aaaaaaaabbbbabbbbaaaaaaaa",
-                                    "aaaaaaabbaaaaaaabbaaaaaaa", "aaaaaaaabbbbabbbbaaaaaaaa",
-                                    "aaaaaaaaaaaadaaaaaaaaaaaa")
-
-                            .aisle("aaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaabbbaaaaaaaaaaa",
-                                    "aaaaaaaaabbb@bbbaaaaaaaaa", "aaaaaaaaaaabbbaaaaaaaaaaa",
-                                    "aaaaaaaaaaaaaaaaaaaaaaaaa")
+                            // spotless:off
+                            .aisle("aaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaabbbaaaaaaaaaaa", "aaaaaaaaabbbbbbbaaaaaaaaa", "aaaaaaaaaaabbbaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaa")
+                            .aisle("aaaaaaaaaaaaeaaaaaaaaaaaa", "aaaaaaaabbbbabbbbaaaaaaaa", "aaaaaaabbaaaaaaabbaaaaaaa", "aaaaaaaabbbbabbbbaaaaaaaa", "aaaaaaaaaaaaeaaaaaaaaaaaa")
+                            .aisle("aaaaaaaaaeeeeeeeaaaaaaaaa", "aaaaaabbbaaaaaaabbbaaaaaa", "aaaaabbffaaaaaaaffbbaaaaa", "aaaaaabbbaaaaaaabbbaaaaaa", "aaaaaaaaaeeeeeeeaaaaaaaaa")
+                            .aisle("aaaaaaaeeeeeeeeeeeaaaaaaa", "aaaaabbaaaaaaaaaaabbaaaaa", "aaaabffaaaaaaaaaaaffbaaaa", "aaaaabbaaaaaaaaaaabbaaaaa", "aaaaaaaeeeeeeeeeeeaaaaaaa")
+                            .aisle("aaaaaaeeeaaaeaaeeeeaaaaaa", "aaaabbaaaabbabbaaaabbaaaa", "aaabfaaaaaaaaaaaaaaafbaaa", "aaaabbaaaabbabbaaaabbaaaa", "aaaaaaeeeeaaeaaeeeeaaaaaa")
+                            .aisle("aaaaaeeeaaaaaaaaaeeeaaaaa", "aaabbaaabbabgbabbaaabbaaa", "aabfaaaaaabghgbaaaaaafbaa", "aaabbaaabbabgbabbaaabbaaa", "aaaaaeeeaaaaaaaaaeeeaaaaa")
+                            .aisle("aaaaeeeaaaaaaaaaaaeeeaaaa", "aabbaaabaaaaaaaaabaaabbaa", "aabfaaaabbaaaaabbaaaafbaa", "aabbaaabaaaaaaaaabaaabbaa", "aaaaeeeaaaaaaaaaaaeeeaaaa")
+                            .aisle("aaaeeeaaaaaaaaaaaaaeeeaaa", "aabaaabaaaaaaaaaaabaaabaa", "abfaaaabaaaaaaaaabaaaafba", "aabaaabaaaaaaaaaaabaaabaa", "aaaeeeaaaaaaaaaaaaaeeeaaa")
+                            .aisle("aaaeeaaaaaaaaaaaaaaaeeaaa", "abbaabaaaaaaaaaaaaabaabba", "abfaaabaaaaaaaaaaabaaafba", "abbaabaaaaaaaaaaaaabaabba", "aaaeeaaaaaaaaaaaaaaaeeaaa")
+                            .aisle("aaeeeaaaaaaaaaaaaaaaaeeaa", "abaaabaaaaaaaaaaaaabaaaba", "baaaaabaaaaaaaaaaabaaaaab", "abaaabaaaaaaaaaaaaabaaaba", "aaeeeaaaaaaaaaaaaaaaaeeaa")
+                            .aisle("aaeeaaaaaaaaaaaaaaaaaeeaa", "abaabaaaaaaaaaaaaaaabaaba", "baaaabaaaaaaaaaaaaabaaaab", "abaabaaaaaaaaaaaaaaabaaba", "aaeeaaaaaaaaaaaaaaaaaeeaa")
+                            .aisle("aaeeaaaaaaaaaaaaaaaaaeeaa", "bbaabbaaaaaaaaaaaaabbaabb", "baaaagaaaaaaaaaaaaagaaaab", "bbaabbaaaaaaaaaaaaabbaabb", "aaeeaaaaaaaaaaaaaaaaaeeaa")
+                            .aisle("aeeeeaaaaaaaaaaaaaaaeeeea", "baaaagaaaaaaaaaaaaagaaaab", "baaaaiaaaaaaaaaaaaaiaaaab", "baaaagaaaaaaaaaaaaagaaaab", "aeeeeaaaaaaaaaaaaaaaeeeea")
+                            .aisle("aaeeaaaaaaaaaaaaaaaaaeeaa", "bbaabbaaaaaaaaaaaaabbaabb", "baaaagaaaaaaaaaaaaagaaaab", "bbaabbaaaaaaaaaaaaabbaabb", "aaeeaaaaaaaaaaaaaaaaaeeaa")
+                            .aisle("aaeeaaaaaaaaaaaaaaaaaeeaa", "abaabaaaaaaaaaaaaaaabaaba", "baaaabaaaaaaaaaaaaabaaaab", "abaabaaaaaaaaaaaaaaabaaba", "aaeeaaaaaaaaaaaaaaaaaeeaa")
+                            .aisle("aaeeeaaaaaaaaaaaaaaaeeeaa", "abaaabaaaaaaaaaaaaabaaaba", "baaaaabaaaaaaaaaaabaaaaab", "abaaabaaaaaaaaaaaaabaaaba", "aaeeeaaaaaaaaaaaaaaaeeeaa")
+                            .aisle("aaaeeaaaaaaaaaaaaaaaeeaaa", "abbaabaaaaaaaaaaaaabaabba", "abfaaabaaaaaaaaaaabaaafba", "abbaabaaaaaaaaaaaaabaabba", "aaaeeaaaaaaaaaaaaaaaeeaaa")
+                            .aisle("aaaeeeaaaaaaaaaaaaaeeeaaa", "aabaaabaaaaaaaaaaabaaabaa", "abfaaaabaaaaaaaaabaaaafba", "aabaaabaaaaaaaaaaabaaabaa", "aaaeeeaaaaaaaaaaaaaeeeaaa")
+                            .aisle("aaaaeeeaaaaaaaaaaaeeeaaaa", "aabbaaabaaaaaaaaabaaabbaa", "aabfaaaabbaaaaabbaaaafbaa", "aabbaaabaaaaaaaaabaaabbaa", "aaaaeeeaaaaaaaaaaaeeeaaaa")
+                            .aisle("aaaaaeeeaaaaaaaaaeeeaaaaa", "aaabbaaabbabgbabbaaabbaaa", "aabfaaaaaabghgbaaaaaafbaa", "aaabbaaabbabgbabbaaabbaaa", "aaaaaeeeaaaaaaaaaeeeaaaaa")
+                            .aisle("aaaaaaeeeeaaeaaeeeeaaaaaa", "aaaabbaaaabbabbaaaabbaaaa", "aaabfaaaaaaaaaaaaaaafbaaa", "aaaabbaaaabbabbaaaabbaaaa", "aaaaaaeeeeaaeaaeeeeaaaaaa")
+                            .aisle("aaaaaaaeeeeeeeeeeeaaaaaaa", "aaaaabbaaaaaaaaaaabbaaaaa", "aaaabffaaaaaaaaaaaffbaaaa", "aaaaabbaaaaaaaaaaabbaaaaa", "aaaaaaaeeeeeeeeeeeaaaaaaa")
+                            .aisle("aaaaaaaaaeeeeeeeaaaaaaaaa", "aaaaaabbbaaaaaaabbbaaaaaa", "aaaaabbffaaaaaaaffbbaaaaa", "aaaaaabbbaaaaaaabbbaaaaaa", "aaaaaaaaaeeeeeeeaaaaaaaaa")
+                            .aisle("aaaaaaaaaaaaeaaaaaaaaaaaa", "aaaaaaaabbbbabbbbaaaaaaaa", "aaaaaaabbaaaaaaabbaaaaaaa", "aaaaaaaabbbbabbbbaaaaaaaa", "aaaaaaaaaaaaeaaaaaaaaaaaa")
+                            .aisle("aaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaabbbaaaaaaaaaaa", "aaaaaaaaabbb@bbbaaaaaaaaa", "aaaaaaaaaaabbbaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaa")
+                            //spotless:on
 
                             .where('a', Predicates.any())
                             .where('b', Predicates.blocks(FusionReactorMachine.getCasingState(tier)))
-                            .where('d', Predicates.blocks(FUSION_GLASS.get()))
-                            .where('e', Predicates.blocks(FusionReactorMachine.getCoilState(tier)))
+                            .where('e', Predicates.blocks(FUSION_GLASS.get()))
+                            .where('f', Predicates.blocks(FusionReactorMachine.getCoilState(tier)))
 
-                            .where('f',
+                            .where('g',
                                     Predicates.blocks(FusionReactorMachine.getCasingState(tier)).or(
                                             Predicates.blocks(
                                                     PartAbility.INPUT_ENERGY
@@ -306,12 +233,12 @@ public class ElectricMultiMachines {
                                                     .setMinGlobalLimited(1)
                                                     .setPreviewCount(16)))
 
-                            .where('g',
+                            .where('h',
                                     Predicates.blocks(FusionReactorMachine.getCasingState(tier)).or(
                                             Predicates.abilities(PartAbility.IMPORT_FLUIDS)
                                                     .setMinGlobalLimited(1)))
 
-                            .where('h',
+                            .where('i',
                                     Predicates.blocks(FusionReactorMachine.getCasingState(tier)).or(
                                             Predicates.abilities(PartAbility.EXPORT_FLUIDS)
                                                     .setMinGlobalLimited(1)))
@@ -534,10 +461,11 @@ public class ElectricMultiMachines {
 
                     .aisle("aaaaa", "bbbbb", "aaaaa")
                     .aisle("cdddd", "eeeee", "bbbbb")
-                    .aisle("aaaaa", "bbbbb", "aa@aa")
+                    .aisle("aaaaa", "bbbbb", "@aaaa")
 
                     .where("a", Predicates.blocks(CASING_INDUSTRIAL_SOLID.get())
-                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2, 1)))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2, 1))
+                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1)))
                     .where("b", Predicates.blocks(CASING_INDUSTRIAL_ASSEMBLY.get()))
                     .where("c", Predicates.abilities(PartAbility.EXPORT_ITEMS))
                     .where("d",

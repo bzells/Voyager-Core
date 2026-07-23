@@ -73,6 +73,8 @@ apply from: "$rootDir/dependencies.gradle"
 
 
 
+
+
 tasks.named('processResources', ProcessResources).configure {
     var properties = [
             "mod_license": mod_license,

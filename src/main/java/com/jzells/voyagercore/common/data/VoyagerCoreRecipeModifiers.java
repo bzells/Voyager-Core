@@ -27,6 +27,7 @@ public class VoyagerCoreRecipeModifiers {
     public static RecipeModifier ADVANCED_BOOSTING = VoyagerCoreRecipeModifiers::advancedBoostingModifier;
     public static RecipeModifier ADVANCED_BOOSTING_FUSION = VoyagerCoreRecipeModifiers::advancedBoostingModifierFusion;
     public static RecipeModifier HELPER_BOOSTING = VoyagerCoreRecipeModifiers::helperBoosting;
+    public static RecipeModifier MAGMATIC_MODIFIER = VoyagerCoreRecipeModifiers::magmaticFoundryModifier;
 
     public static ModifierFunction cubeModifier(MetaMachine machine, GTRecipe recipe) {
         if (!(machine instanceof MetaMachine)) {
@@ -276,6 +277,20 @@ public class VoyagerCoreRecipeModifiers {
                 .durationModifier(ContentModifier.multiplier(Math.max(1 - 0.025 * (tierBoost), 0.75)))
                 .inputModifier(ContentModifier.multiplier(Math.max(1 - 0.025 * (tierBoost), 0.75)))
                 .outputModifier(ContentModifier.multiplier(Math.min(1 + 0.025 * (tierBoost), 2.0)))
+    public static ModifierFunction magmaticFoundryModifier(MetaMachine machine, GTRecipe recipe) {
+        if (!(machine instanceof MetaMachine)) {
+            return ModifierFunction.NULL;
+        }
+        if (!(recipe instanceof GTRecipe)) {
+            return ModifierFunction.NULL;
+        }
+        int parallelMod = 4;
+        double durationMod = 0.75;
+
+        return ModifierFunction.builder()
+                .modifyAllContents(ContentModifier.multiplier(parallelMod))
+                .durationMultiplier(durationMod)
+                .parallels(parallelMod)
                 .build();
     }
 

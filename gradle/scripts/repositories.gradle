@@ -4,6 +4,16 @@ repositories {
     }
     mavenLocal()
     mavenCentral()
+
+    maven {
+        name = 'ModKit'
+        url 'https://jitpack.io'
+        content { includeGroup 'com.github.thedarkcolour' }
+    }
+
+    maven { // Curios
+        url = "https://maven.theillusivec4.top/"
+    }
     maven {
         name = 'ModKit'
         url 'https://jitpack.io'
@@ -75,6 +85,7 @@ repositories {
             includeGroup "com.github.rtyley"
         }
     }
+
     maven {
         url = "https://api.modrinth.com/maven"
     }
