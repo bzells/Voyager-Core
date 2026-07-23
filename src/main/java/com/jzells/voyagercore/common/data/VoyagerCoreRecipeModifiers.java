@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMac
 
 import net.minecraft.network.chat.Component;
 
+import com.jzells.voyagercore.common.item.component.HelperItemComponent;
 import com.jzells.voyagercore.common.machine.multiblock.electric.HelperMultiMachine;
 import com.jzells.voyagercore.util.VoyagerVoltageTierUtils;
 import org.jetbrains.annotations.NotNull;
@@ -259,6 +260,9 @@ public class VoyagerCoreRecipeModifiers {
             return RecipeModifier.nullWrongType(HelperMultiMachine.class, machine);
         }
         var data = helperMachine.helperHolder.getHelperData();
+        if (data == HelperItemComponent.NULL_HELPER) {
+            return ModifierFunction.cancel(Component.literal("Helper is Missing, or Something"));
+        }
         var recipeVoltageTier = VoyagerVoltageTierUtils.getExactVoltageTier(recipe.getInputEUt().voltage());
         if (data.getRecipeType() != recipe.recipeType) {
             return ModifierFunction.cancel(Component.literal("Wrong Recipe Type!"));

@@ -8,6 +8,7 @@ import lombok.Getter;
 @SuppressWarnings("ClassCanBeRecord")
 public class HelperItemComponent implements IItemComponent {
 
+    public static final HelperItemComponent NULL_HELPER = new HelperItemComponent(null, 0);
     @Getter
     private final GTRecipeType recipeType;
     @Getter
