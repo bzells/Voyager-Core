@@ -75,7 +75,7 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
         if (itemstack.getItem() instanceof IComponentItem metaItem) {
             // Should Work, since there's only one component attached
             return (HelperItemComponent) metaItem.getComponents().get(0);
-        }
+        } else return null;
     }
 
     @Override
