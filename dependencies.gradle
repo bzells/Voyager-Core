@@ -17,7 +17,7 @@ dependencies {
     modRuntimeOnly("curse.maven:jade-324717:5390389")
 
     // modImplementation("dev.latvian.mods:kubejs-forge:${project.kubejs_version}")
-    modImplementation(forge.bundles.kjs)
+    modCompileOnly(forge.bundles.kjs)
 
     // GregTech and dependencies
     modImplementation(forge.gtceu)
