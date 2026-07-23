@@ -20,9 +20,7 @@ import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.common.machine.multiblock.part.BeeHolderPartMachine;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.genetics.IBeeSpecies;
-import forestry.api.genetics.IGenome;
 import forestry.api.genetics.ILifeStage;
-import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.utils.SpeciesUtil;
 
@@ -42,6 +40,7 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
     private int uptime;
     private final GTRecipe emptyRecipe = GTRecipeBuilder.ofRaw().buildRawRecipe();
     private final GTRecipe powerRecipe = GTRecipeBuilder.ofRaw().EUt(VHA[HV]).duration(20).buildRawRecipe();
+    private int ocBoost = 1;
 
     public ApiaryMachine(IMachineBlockEntity holder) {
         super(holder);
@@ -108,6 +107,7 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
         // beeHolders.forEach(p ->p.setLocked(false));
         this.beeHolders = null;
         this.uptime = 0;
+        this.ocBoost = 1;
         // Other holders need to be set to null here;
     }
 
@@ -116,6 +116,7 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
         if (!super.beforeWorking(recipe)) return false;
         // Queen Check, don't run if no queen.
         // Should get OC tier here, to increase productivity.
+        this.ocBoost = recipe != null ? 1 + recipe.ocLevel : 1;
         var t = beeHolders.stream().filter(p -> p.getRoyal() != ItemStack.EMPTY).toList().isEmpty();
         return !t;
     }
@@ -131,28 +132,6 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
     public void queenTick(IBee queen, ItemStack queenStack) {}
 
     public void breed(BeeHolderPartMachine machine) {}
-
-    // private void beeInit(BeeHolderPartMachine machine){
-    // if (this.beeQueenList == null){
-    // this.beeQueenList = new ArrayList<>();
-    // }
-    // if (this.beePrincessList == null){
-    // this.beePrincessList = new ArrayList<>();
-    // }
-    //
-    // var royal = (IBee) IIndividualHandlerItem.getIndividual(machine.getRoyal());
-    // if (royal != null){
-    // ILifeStage beeAge = SpeciesUtil.BEE_TYPE.get().getLifeStage(machine.getRoyal());
-    // if (beeAge == QUEEN){
-    // this.beeQueenList.add(royal);
-    // this.beeQueenItemStackList.add(machine.getRoyal());
-    // }
-    // if (beeAge == PRINCESS){
-    // this.beePrincessList.add(royal);
-    // this.beePrincessItemStackList.add(machine.getRoyal());
-    // }
-    // }
-    // }
 
     private void beeLogic() {
         this.uptime++;
@@ -186,18 +165,18 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
             }
         }
         if (beeAge == QUEEN) {
-            IGenome genome = royal.getGenome();
+            // IGenome genome = royal.getGenome();
             IBeeSpecies primary = royal.getSpecies();
             IBeeSpecies secondary = royal.getInactiveSpecies();
-            float speed = genome.getActiveValue(BeeChromosomes.SPEED);
-            int lifespan = genome.getActiveValue(BeeChromosomes.LIFESPAN);
+            // float speed = genome.getActiveValue(BeeChromosomes.SPEED);
+            // int lifespan = genome.getActiveValue(BeeChromosomes.LIFESPAN);
             // Uptime check here
 
             List<Ingredient> outputs = new ArrayList<>();
             for (var product : primary.getProducts()) {
                 VoyagerCore.LOGGER.info("Attempting Product! {}", product.toString());
                 VoyagerCore.LOGGER.info("Creating Stack: {}", product.createStack().toString());
-                outputs.add(Ingredient.of(new ItemStack(product.item(), 1)));
+                outputs.add(Ingredient.of(new ItemStack(product.item(), this.ocBoost)));
             }
             /*
              * TODO Rework this into actually giving it on a random interval?
@@ -215,6 +194,7 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
                             .map(ItemRecipeCapability.CAP::of)
                             .map(o -> new Content(o, 1, 0, 0))
                             .toList());
+
             RecipeHelper.handleRecipe(this, emptyRecipe, IO.OUT, outputMap, this.recipeLogic.getChanceCaches(), false,
                     false);
             // outputBuses.get(0).getInventory().handleRecipe(IO.OUT,
@@ -232,10 +212,12 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
         @Override
         public void findAndHandleRecipe() {
             lastRecipe = null;
-            setupRecipe(powerRecipe);
+            GTRecipe modified = machine.doModifyRecipe(powerRecipe);
+            setupRecipe(modified);
         }
 
         // Not Fully working as intended, probably need to reset uptime in this as well, maybe.
+        // I don't even know
 
         @Override
         public void onRecipeFinish() {
@@ -244,6 +226,7 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
             if (suspendAfterFinish) {
                 setStatus(Status.SUSPEND);
                 suspendAfterFinish = false;
+                lastRecipe = null;
                 if (getMachine() instanceof ApiaryMachine) unlockHolders();
             }
         }

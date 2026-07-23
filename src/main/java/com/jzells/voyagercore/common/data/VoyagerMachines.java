@@ -10,10 +10,7 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import net.minecraft.network.chat.Component;
 
 import com.jzells.voyagercore.VoyagerCore;
-import com.jzells.voyagercore.common.machine.multiblock.part.BeamPartMachine;
-import com.jzells.voyagercore.common.machine.multiblock.part.BeeHolderPartMachine;
-import com.jzells.voyagercore.common.machine.multiblock.part.CrushingWheelPartMachine;
-import com.jzells.voyagercore.common.machine.multiblock.part.VoyagerPartAbilities;
+import com.jzells.voyagercore.common.machine.multiblock.part.*;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.capability.recipe.IO.*;
@@ -78,6 +75,21 @@ public class VoyagerMachines {
                         model.addReplaceableTextures("bottom", "top", "side");
                     }))
             .register();
+
+    public static final MachineDefinition HELPER_HATCH = VoyagerCore.VOYAGERCORE_REGISTRATE
+            .machine("helper_holder", HelperHolderPartMachine::new)
+            .langValue("Helper Holder")
+            .tier(HV)
+            .rotationState(RotationState.ALL)
+            .abilities(VoyagerPartAbilities.HELPER_HOLDER)
+            .modelProperty(GTMachineModelProperties.IS_FORMED, false)
+            .modelProperty(RecipeLogic.STATUS_PROPERTY, RecipeLogic.Status.IDLE)
+            .model(createWorkableTieredHullMachineModel(GTCEu.id("block/machines/object_holder"))
+                    .andThen((ctx, prov, model) -> {
+                        model.addReplaceableTextures("bottom", "top", "side");
+                    }))
+            .register();
+
     public static final MachineDefinition CRYSTAL_CALCULATED_BEAM = VoyagerCore.VOYAGERCORE_REGISTRATE.machine(
             "crystal_calculated_beam",
             holder -> new BeamPartMachine(holder, .2f))

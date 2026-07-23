@@ -1,7 +1,7 @@
 dependencies {
     compileOnly("org.jetbrains:annotations:26.0.1")
     //I have no idea why this has to be like this, Greg doesn't show in the libs otherwise
-    //Probably something to due with this guy's repos
+    //Probably something to do with this guy's repos
     //Needed to gen Data otherwise it shitsabrick
     modImplementation("com.github.thedarkcolour:ModKit:8bdec17d20")
     //modImplementation(forge.modkit)
@@ -20,7 +20,7 @@ dependencies {
     modRuntimeOnly("curse.maven:jade-324717:5390389")
 
     // modImplementation("dev.latvian.mods:kubejs-forge:${project.kubejs_version}")
-    modImplementation(forge.bundles.kjs)
+    modCompileOnly(forge.bundles.kjs) //Need to make a new client run that includes this.
 
     // GregTech and dependencies
     modImplementation(forge.gtceu)
