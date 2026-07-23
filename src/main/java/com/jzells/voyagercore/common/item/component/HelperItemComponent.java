@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
 import lombok.Getter;
 
+@SuppressWarnings("ClassCanBeRecord")
 public class HelperItemComponent implements IItemComponent {
 
     @Getter

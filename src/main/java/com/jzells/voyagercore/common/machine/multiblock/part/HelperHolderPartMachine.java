@@ -48,7 +48,6 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
                         .setBackground(GuiTextures.SLOT));
     }
 
-
     /**
      * Method to get the ItemStack inside the HelperHolder, can be used to remove helper, if wanted.
      * 
@@ -69,6 +68,14 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
             helperHandler.setStackInSlot(slot, ItemStack.EMPTY);
         }
         return stackInSlot;
+    }
+
+    public HelperItemComponent getHelperData() {
+        var itemstack = getHeldItem(false);
+        if (itemstack.getItem() instanceof IComponentItem metaItem) {
+            // Should Work, since there's only one component attached
+            return (HelperItemComponent) metaItem.getComponents().get(0);
+        }
     }
 
     @Override
