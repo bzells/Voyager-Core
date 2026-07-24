@@ -29,7 +29,7 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "voyagercore:block/casing/frost_conducting_casing",
-          "overlay_front": "voyagercore:block/multiblock/magmatic_foundry/overlay_front"
+          "overlay_front": "voyagercore:block/multiblock/magmatic_foundry/overlay_front_active"
         }
       }
     },
@@ -38,7 +38,7 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "voyagercore:block/casing/frost_conducting_casing",
-          "overlay_front": "voyagercore:block/multiblock/magmatic_foundry/overlay_front"
+          "overlay_front": "voyagercore:block/multiblock/magmatic_foundry/overlay_front_active"
         }
       }
     },
@@ -65,7 +65,7 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "voyagercore:block/casing/frost_conducting_casing",
-          "overlay_front": "voyagercore:block/multiblock/magmatic_foundry/overlay_front"
+          "overlay_front": "voyagercore:block/multiblock/magmatic_foundry/overlay_front_active"
         }
       }
     },
@@ -74,7 +74,7 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "voyagercore:block/casing/frost_conducting_casing",
-          "overlay_front": "voyagercore:block/multiblock/magmatic_foundry/overlay_front"
+          "overlay_front": "voyagercore:block/multiblock/magmatic_foundry/overlay_front_active"
         }
       }
     }

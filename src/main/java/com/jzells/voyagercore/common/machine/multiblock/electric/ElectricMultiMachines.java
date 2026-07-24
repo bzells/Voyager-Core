@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderHelper;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 
+import com.jzells.voyagercore.common.data.VoyagerBlocks;
 import net.minecraft.world.level.block.Block;
 
 import com.jzells.voyagercore.VoyagerCore;
@@ -476,6 +477,86 @@ public class ElectricMultiMachines {
             .workableCasingModel(VoyagerCore.id("block/casing/solid_industrial_casing"),
                     VoyagerCore.id("block/multiblock/helper_coiltronics_assembly"))
             .register();
+
+    public static final MultiblockMachineDefinition HELPER_ASSEMBLER = VOYAGERCORE_REGISTRATE
+            .multiblock("helper_assembler", WorkableElectricMultiblockMachine::new)
+            .rotationState(RotationState.ALL)
+            .appearanceBlock(CASING_FROST_CONDUCTING)
+            .recipeTypes(VoyagerRecipeTypes.HELPER_ASSEMBLY)
+            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
+            .pattern(def -> FactoryBlockPattern.start()
+                    .aisle("XXX", "XXX", "XXX")
+                    .aisle("XXX", "XAX", "XXX")
+                    .aisle("XXX", "XCX", "XXX")
+                    .where("X", Predicates.blocks(CASING_FROST_CONDUCTING.get())
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(4, 1))
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2, 1)))
+                    .where("A", Predicates.any())
+                    .where("C", Predicates.controller(Predicates.blocks(def.get())))
+                    .build())
+            .workableCasingModel(VoyagerCore.id("block/casing/frost_conducting_casing"),
+                    VoyagerCore.id("block/multiblock/magmatic_foundry"))
+            .register();
+
+
+    public static final MultiblockMachineDefinition HELPER_FACTORY = VOYAGERCORE_REGISTRATE
+            .multiblock("helper_factory", PreciseRobotArmMachine::new)
+            .rotationState(RotationState.ALL)
+            .appearanceBlock(CASING_PLATINUM)
+            .recipeTypes(VoyagerRecipeTypes.HELPER_ASSEMBLY)
+            .recipeModifiers(PreciseRobotArmMachine::recipeModifier, GTRecipeModifiers.OC_PERFECT)
+            .pattern(def -> FactoryBlockPattern.start()
+                    .aisle("aaaaaaa", "aaaaaaa", "aacccaa", "aacccaa", "aacccaa", "aaaaaaa", "aaaaaaa")
+                    .aisle("aadddaa", "addddda", "ddeeedd", "ddeeedd", "ddeeedd", "addddda", "aadddaa")
+                    .aisle("aafffaa", "afdgdfa", "fdhahdf", "fgaiagf", "fdhahdf", "afdgdfa", "aafffaa")
+                    .aisle("aaaaaaa", "aadgdaa", "adhahda", "agaiaga", "adhahda", "aadgdaa", "aaaaaaa")
+                    .aisle("aaaaaaa", "aadgdaa", "adhahda", "agaiaga", "adhahda", "aadgdaa", "aaaaaaa")
+                    .aisle("aaaaaaa", "addgdda", "adhahda", "adaiada", "adhahda", "addgdda", "aaaaaaa")
+                    .aisle("aaaaaaa", "addgdda", "adhahda", "a@aiaga", "adhahda", "addgdda", "aaaaaaa")
+                    .aisle("aaaaaaa", "addgdda", "adhahda", "adaiada", "adhahda", "addgdda", "aaaaaaa")
+                    .aisle("aaaaaaa", "aadgdaa", "adhahda", "agaiaga", "adhahda", "aadgdaa", "aaaaaaa")
+                    .aisle("aaaaaaa", "aadgdaa", "adhahda", "agaiaga", "adhahda", "aadgdaa", "aaaaaaa")
+                    .aisle("aafffaa", "afdgdfa", "fdhdhdf", "fgaiagf", "fdhahdf", "afdgdfa", "aafffaa")
+                    .aisle("aadddaa", "addddda", "ddeeedd", "ddeeedd", "ddeeedd", "addddda", "aadddaa")
+                    .aisle("aaaaaaa", "aaaaaaa", "aacccaa", "aacccaa", "aacccaa", "aaaaaaa", "aaaaaaa")
+                    .where("d", Predicates.blocks(CASING_PLATINUM.get()))
+                    .where("a", Predicates.any())
+                    .where("c", Predicates.blocks(CASING_CONDENSATION_RESISTANT_TUNGSTEN.get())
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY))
+                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS))
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS))
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS))
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE)))
+                    .where("e", Predicates.blocks(CASING_GRATE.get()))
+                    .where("f", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
+                            .get(TagPrefix.frameGt, GTMaterials.BlackSteel)).get()))
+                    .where("g", Predicates.blocks(CASING_LAMINATED_GLASS.get()))
+                    .where("h", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
+                            .get(TagPrefix.frameGt, GTMaterials.Tungsten)).get()))
+                    .where("i", Predicates.abilities(VoyagerPartAbilities.PRECISE_ROBOT_ARM))
+                    .where("@", Predicates.controller(Predicates.blocks(def.get())))
+                    .build())
+            .workableCasingModel(VoyagerCore.id("block/casing/platinum_casing"),
+                    VoyagerCore.id("block/multiblock/helper_factory"))
+            .register();
+
+
+
+//
+//.where("a", Predicates.blocks("minecraft:air"))
+//            .where("b", Predicates.blocks("gtceu:raw_chalcopyrite_block"))
+//            .where("c", Predicates.blocks("kubejs:condensation_resistant_tungsten_casing"))
+//            .where("d", Predicates.blocks("kubejs:platinum_casing"))
+//            .where("e", Predicates.blocks("gtceu:assembly_line_grating"))
+//            .where("f", Predicates.blocks("gtceu:black_steel_frame"))
+//            .where("g", Predicates.blocks("gtceu:laminated_glass"))
+//            .where("h", Predicates.blocks("gtceu:tungsten_frame"))
+//            .where("i", Predicates.blocks("gtceu:stainless_steel_gearbox"))
+//            .where("j", Predicates.blocks("gtceu:cube_assembler"))
+
+
 
     public static void init() {}
 }

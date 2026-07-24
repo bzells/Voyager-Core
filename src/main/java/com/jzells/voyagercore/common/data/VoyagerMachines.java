@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
+import com.gregtechceu.gtceu.utils.GTUtil;
 import net.minecraft.network.chat.Component;
 
 import com.jzells.voyagercore.VoyagerCore;
@@ -100,6 +101,18 @@ public class VoyagerMachines {
                     VoyagerCore.id("block/beam/crystal_calculated_beam"))
             .tooltips(Component.literal("Beam concentration: " + .2f * 100 + "%"))
             .register();
+
+    public static final MachineDefinition EV_PRECISE_ROBOT_ARM = VoyagerCore.VOYAGERCORE_REGISTRATE.machine(
+                    "ev_precise_robot_arm_box",
+                    holder -> new PreciseRobotArmPartMachine(holder, EV))
+
+            .rotationState(RotationState.ALL)
+            .abilities(VoyagerPartAbilities.PRECISE_ROBOT_ARM)
+            .workableCasingModel(VoyagerCore.id("block/beam/crystal_calculated_beam"),
+                    VoyagerCore.id("block/precise_robot_arm/ev"))
+            .tooltips(Component.literal("Tier: " + VOLTAGE_NAMES[EV]))
+            .register();
+
 
     public static void init() {};
 }

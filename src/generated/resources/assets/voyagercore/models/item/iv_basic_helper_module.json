@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "voyagercore:item/iv_basic_helper_module"
+  }
+}

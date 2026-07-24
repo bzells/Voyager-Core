@@ -12,6 +12,8 @@
     "voyagercore:industrial_control_casing",
     "voyagercore:industrial_assembly_casing",
     "voyagercore:solid_industrial_casing",
+    "voyagercore:platinum_casing",
+    "voyagercore:condensation_resistant_tungsten_casing",
     "voyagercore:cooling_lamp"
   ]
 }

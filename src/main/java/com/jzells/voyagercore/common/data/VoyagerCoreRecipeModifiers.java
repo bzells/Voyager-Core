@@ -26,7 +26,7 @@ public class VoyagerCoreRecipeModifiers {
     public static RecipeModifier BASIC_BOOSTING = VoyagerCoreRecipeModifiers::basicBoostingModifier;
     public static RecipeModifier ADVANCED_BOOSTING = VoyagerCoreRecipeModifiers::advancedBoostingModifier;
     public static RecipeModifier ADVANCED_BOOSTING_FUSION = VoyagerCoreRecipeModifiers::advancedBoostingModifierFusion;
-    public static RecipeModifier HELPER_BOOSTING = VoyagerCoreRecipeModifiers::helperBoosting;
+//    public static RecipeModifier HELPER_BOOSTING = VoyagerCoreRecipeModifiers::helperBoosting;
     public static RecipeModifier MAGMATIC_MODIFIER = VoyagerCoreRecipeModifiers::magmaticFoundryModifier;
 
     public static ModifierFunction cubeModifier(MetaMachine machine, GTRecipe recipe) {
@@ -256,27 +256,27 @@ public class VoyagerCoreRecipeModifiers {
         }
     }
 
-    public static ModifierFunction helperBoosting(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
-        if (!(machine instanceof HelperMultiMachine helperMachine)) {
-            return RecipeModifier.nullWrongType(HelperMultiMachine.class, machine);
-        }
-        var data = helperMachine.helperHolder.getHelperData();
-        if (data == HelperItemComponent.NULL_HELPER) {
-            return ModifierFunction.cancel(Component.literal("Helper is Missing, or Something"));
-        }
-        var recipeVoltageTier = VoyagerVoltageTierUtils.getExactVoltageTier(recipe.getInputEUt().voltage());
-        if (data.getRecipeType() != recipe.recipeType) {
-            return ModifierFunction.cancel(Component.literal("Wrong Recipe Type!"));
-        }
-        if (data.getTier() < recipeVoltageTier) {
-            return ModifierFunction.cancel(Component.literal("Helper Tier too low!"));
-        }
-        var tierBoost = data.getTier() - recipeVoltageTier;
-        return ModifierFunction.builder()
-                .eutMultiplier(Math.max(1 - 0.05 * (tierBoost), 0.25))
-                .durationModifier(ContentModifier.multiplier(Math.max(1 - 0.025 * (tierBoost), 0.75)))
-                .inputModifier(ContentModifier.multiplier(Math.max(1 - 0.025 * (tierBoost), 0.75)))
-                .outputModifier(ContentModifier.multiplier(Math.min(1 + 0.025 * (tierBoost), 2.0)))
+//    public static ModifierFunction helperBoosting(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+//        if (!(machine instanceof HelperMultiMachine helperMachine)) {
+//            return RecipeModifier.nullWrongType(HelperMultiMachine.class, machine);
+//        }
+//        var data = helperMachine.helperHolder.getHelperData();
+//        if (data == HelperItemComponent.NULL_HELPER) {
+//            return ModifierFunction.cancel(Component.literal("Helper is Missing, or Something"));
+//        }
+//        var recipeVoltageTier = VoyagerVoltageTierUtils.getExactVoltageTier(recipe.getInputEUt().voltage());
+//        if (data.getRecipeType() != recipe.recipeType) {
+//            return ModifierFunction.cancel(Component.literal("Wrong Recipe Type!"));
+//        }
+//        if (data.getTier() < recipeVoltageTier) {
+//            return ModifierFunction.cancel(Component.literal("Helper Tier too low!"));
+//        }
+//        var tierBoost = data.getTier() - recipeVoltageTier;
+//        return ModifierFunction.builder()
+//                .eutMultiplier(Math.max(1 - 0.05 * (tierBoost), 0.25))
+//                .durationModifier(ContentModifier.multiplier(Math.max(1 - 0.025 * (tierBoost), 0.75)))
+//                .inputModifier(ContentModifier.multiplier(Math.max(1 - 0.025 * (tierBoost), 0.75)))
+//                .outputModifier(ContentModifier.multiplier(Math.min(1 + 0.025 * (tierBoost), 2.0)))
     public static ModifierFunction magmaticFoundryModifier(MetaMachine machine, GTRecipe recipe) {
         if (!(machine instanceof MetaMachine)) {
             return ModifierFunction.NULL;
@@ -293,6 +293,8 @@ public class VoyagerCoreRecipeModifiers {
                 .parallels(parallelMod)
                 .build();
     }
+
+
 
     // protected GTRecipe getMilkRecipe()
     // {

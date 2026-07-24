@@ -61,6 +61,12 @@ public class VoyagerBlocks {
     public static final BlockEntry<Block> CASING_INDUSTRIAL_SOLID = createCasingBlock(
             "solid_industrial_casing", VoyagerCore.id("block/casing/solid_industrial_casing"));
 
+    public static final BlockEntry<Block> CASING_PLATINUM = createCasingBlock(
+            "platinum_casing", VoyagerCore.id("block/casing/platinum_casing"));
+
+    public static final BlockEntry<Block> CASING_CONDENSATION_RESISTANT_TUNGSTEN = createCasingBlock(
+            "condensation_resistant_tungsten_casing", VoyagerCore.id("block/casing/condensation_resistant_tungsten_casing"));
+
     public static final BlockEntry<Block> COOLING_LAMP = VOYAGERCORE_REGISTRATE.block("cooling_lamp", Block::new)
             .initialProperties(() -> Blocks.SEA_LANTERN)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false)
