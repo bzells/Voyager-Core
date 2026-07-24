@@ -18,11 +18,11 @@ public class VoyagerItems {
             .onRegister(item -> item.attachComponents(
                     new CoverPlaceBehavior(HeatRedstoneCoverDefinition.HEAT_REDSTONE_COVER)))
             .register();
-    public static ItemEntry<ComponentItem> TEST_HELPER = VOYAGERCORE_REGISTRATE
-            .item("test_helper", ComponentItem::create)
-            .lang("Test Helper")
-            .onRegister(i -> i.attachComponents(new HelperItemComponent(GTRecipeTypes.CHEMICAL_RECIPES, 1)))
-            .register();
+//    public static ItemEntry<ComponentItem> TEST_HELPER = VOYAGERCORE_REGISTRATE
+//            .item("test_helper", ComponentItem::create)
+//            .lang("Test Helper")
+//            .onRegister(i -> i.attachComponents(new HelperItemComponent(GTRecipeTypes.CHEMICAL_RECIPES, 1)))
+//            .register();
 
     public static void init() {}
 }
