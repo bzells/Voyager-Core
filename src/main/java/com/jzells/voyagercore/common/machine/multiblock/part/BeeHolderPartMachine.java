@@ -40,7 +40,7 @@ import static forestry.api.apiculture.genetics.BeeLifeStage.*;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class BeeHolderPartMachine extends MultiblockPartMachine
-        implements IControllable, IMachineLife, IInteractedMachine, IFancyUIMachine {
+                                  implements IControllable, IMachineLife, IInteractedMachine, IFancyUIMachine {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(BeeHolderPartMachine.class,
             MultiblockPartMachine.MANAGED_FIELD_HOLDER);

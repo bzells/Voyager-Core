@@ -65,7 +65,12 @@ public class VoyagerBlocks {
             "platinum_casing", VoyagerCore.id("block/casing/platinum_casing"));
 
     public static final BlockEntry<Block> CASING_CONDENSATION_RESISTANT_TUNGSTEN = createCasingBlock(
-            "condensation_resistant_tungsten_casing", VoyagerCore.id("block/casing/condensation_resistant_tungsten_casing"));
+            "condensation_resistant_tungsten_casing",
+            VoyagerCore.id("block/casing/condensation_resistant_tungsten_casing"));
+
+    public static final BlockEntry<Block> CASING_HEATPROOF_HELPER = createCasingBlock(
+            "heatproof_helper_casing",
+            VoyagerCore.id("block/casing/heatproof_helper_casing"));
 
     public static final BlockEntry<Block> COOLING_LAMP = VOYAGERCORE_REGISTRATE.block("cooling_lamp", Block::new)
             .initialProperties(() -> Blocks.SEA_LANTERN)

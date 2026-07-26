@@ -9,30 +9,28 @@ import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
+
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
 import com.jzells.voyagercore.common.item.component.HelperComponentItem;
 import com.jzells.voyagercore.common.item.component.HelperItemComponent;
 import com.jzells.voyagercore.common.item.component.HelperModuleItemComponent;
 import com.tterrag.registrate.util.entry.ItemEntry;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 import static com.jzells.voyagercore.common.data.VoyagerItems.HELPERS;
-import static com.jzells.voyagercore.common.data.VoyagerItems.HULL_TO_HELPER;
 
 public class HelperAssemblerRecipeLogic implements GTRecipeType.ICustomRecipeLogic {
 
-
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
+        List<IRecipeHandler<?>> handlers = holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP);
 
-        List<IRecipeHandler<?>> handlers =
-                holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP);
-
-        if(handlers.isEmpty()) return null;
+        if (handlers.isEmpty()) return null;
 
         IRecipeHandler<?> handler = handlers.get(0);
 
@@ -68,22 +66,21 @@ public class HelperAssemblerRecipeLogic implements GTRecipeType.ICustomRecipeLog
 
         }
 
-        if(helperItemComponent != null && helperModuleItemComponent != null && helperModuleItemComponent.canApply(helperItem, helperItemComponent))
-        {
+        if (helperItemComponent != null && helperModuleItemComponent != null &&
+                helperModuleItemComponent.canApply(helperItem, helperItemComponent)) {
             ItemStack outputHelper;
 
-
-            if(helperItemComponent.isHull())
-            {
-                ItemEntry<HelperComponentItem> helper =
-                        HELPERS.get(helperItemComponent.getTier());
+            if (helperItemComponent.isHull()) {
+                ItemEntry<HelperComponentItem> helper = HELPERS.get(helperItemComponent.getTier());
 
                 outputHelper = new ItemStack(helper.get());
+                outputHelper.getOrCreateTagElement("modifiers").putString("count", "0");
+
             } else {
                 outputHelper = helperItem.copy();
             }
 
-            if (helperItem.hasTag()) {
+            if (helperItem.hasTag() && !helperItemComponent.isHull()) {
                 assert helperItem.getTag() != null;
                 outputHelper.setTag(helperItem.getTag().copy());
             }
@@ -93,9 +90,17 @@ public class HelperAssemblerRecipeLogic implements GTRecipeType.ICustomRecipeLog
             helperItem.setCount(1);
             moduleItem.setCount(1);
 
+            CompoundTag modifiers = outputHelper.getOrCreateTagElement("modifiers");
 
+            int current = 0;
 
+            if (modifiers.contains("count")) {
+                current = Integer.parseInt(modifiers.getString("count"));
+            }
 
+            current++;
+
+            modifiers.putString("count", Integer.toString(current));
 
             return VoyagerRecipeTypes.HELPER_ASSEMBLY
                     .recipeBuilder("helper_module_apply")

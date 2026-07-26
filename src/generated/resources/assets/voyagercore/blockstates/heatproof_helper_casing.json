@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "voyagercore:block/heatproof_helper_casing"
+    }
+  }
+}

@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
+import com.jzells.voyagercore.common.item.component.HelperComponentItem;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -19,6 +20,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.lowdragmc.lowdraglib.utils.Position;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
 import com.jzells.voyagercore.common.item.component.HelperItemComponent;
@@ -78,6 +80,58 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
         } else return HelperItemComponent.NULL_HELPER;
     }
 
+    public int getHelperParallels()
+    {
+        ItemStack helper = this.getHeldItem(false);
+        int pars = 1;
+        if(helper.getItem() instanceof HelperComponentItem helperComponentItem)
+        {
+            if(helper.getOrCreateTagElement("modifiers").contains("parallels"))
+                pars = helper.getOrCreateTagElement("modifiers").getInt("parallels");
+            return pars;
+        }
+        return 0;
+    }
+
+    public float getHelperEUt()
+    {
+        ItemStack helper = this.getHeldItem(false);
+        float eut = 1;
+        if(helper.getItem() instanceof HelperComponentItem helperComponentItem)
+        {
+            if(helper.getOrCreateTagElement("modifiers").contains("eut"))
+                eut = helper.getOrCreateTagElement("modifiers").getFloat("eut");
+            return eut;
+        }
+        return 0;
+    }
+
+    public float getHelperSpeed()
+    {
+        ItemStack helper = this.getHeldItem(false);
+        float speed = 1;
+        if(helper.getItem() instanceof HelperComponentItem helperComponentItem)
+        {
+            if(helper.getOrCreateTagElement("modifiers").contains("speed"))
+                speed = helper.getOrCreateTagElement("modifiers").getFloat("speed");
+            return speed;
+        }
+        return 0;
+    }
+
+    public float getOutputModifier()
+    {
+        ItemStack helper = this.getHeldItem(false);
+        float output = 1;
+        if(helper.getItem() instanceof HelperComponentItem helperComponentItem)
+        {
+            if(helper.getOrCreateTagElement("modifiers").contains("output"))
+                output = helper.getOrCreateTagElement("modifiers").getFloat("output");
+            return output;
+        }
+        return 0;
+    }
+
     @Override
     public void onMachineRemoved() {
         clearInventory(this.helperHandler.storage);
@@ -116,5 +170,19 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
             }
             return isHelperItem;
         }
+
+
+//          TDL
+//        public float getRecipeList(ItemStack helper)
+//        {
+//            float output = 1;
+//            if(helper.getItem() instanceof HelperComponentItem helperComponentItem)
+//            {
+//                if(helper.getOrCreateTagElement("modifiers").contains("output"))
+//                    output = helper.getOrCreateTagElement("modifiers").getFloat("output");
+//                return output;
+//            }
+//            return 0;
+//        }
     }
 }

@@ -1,0 +1,9 @@
+{
+  "ldlib": {
+    "connection": "voyagercore:block/casing/heatproof_helper_casing_ctm"
+  },
+  "animation": {
+    "interpolate": true,
+    "frametime": 4
+  }
+}

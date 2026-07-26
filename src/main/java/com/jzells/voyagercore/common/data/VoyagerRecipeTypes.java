@@ -5,17 +5,16 @@ import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 
-import com.gregtechceu.gtceu.common.data.GTSoundTypes;
-import com.jzells.voyagercore.VoyagerCore;
-import com.jzells.voyagercore.common.data.recipe.helper.HelperAssemblerRecipeLogic;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 
 import net.minecraft.client.resources.language.I18n;
+
+import com.jzells.voyagercore.VoyagerCore;
+import com.jzells.voyagercore.common.data.recipe.helper.HelperAssemblerRecipeLogic;
 
 public class VoyagerRecipeTypes {
 
@@ -101,12 +100,10 @@ public class VoyagerRecipeTypes {
             VoyagerCore.id("helper_assembly"),
             "helper_assembly")
             .setEUIO(IO.IN)
-            .setMaxIOSize(3,1,0,0)
+            .setMaxIOSize(3, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ASSEMBLY_LINE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER)
             .addCustomRecipeLogic(new HelperAssemblerRecipeLogic());
-
-
 
     public static void init() {}
 }

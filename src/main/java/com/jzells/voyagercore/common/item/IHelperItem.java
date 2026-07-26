@@ -1,7 +1,8 @@
 package com.jzells.voyagercore.common.item;
 
-import com.jzells.voyagercore.common.item.component.HelperModuleItemComponent;
 import net.minecraft.world.item.ItemStack;
+
+import com.jzells.voyagercore.common.item.component.HelperModuleItemComponent;
 
 public interface IHelperItem {
 

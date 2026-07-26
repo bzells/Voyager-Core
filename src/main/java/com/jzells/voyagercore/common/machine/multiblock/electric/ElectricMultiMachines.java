@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderHelper;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 
-import com.jzells.voyagercore.common.data.VoyagerBlocks;
 import net.minecraft.world.level.block.Block;
 
 import com.jzells.voyagercore.VoyagerCore;
@@ -500,7 +499,6 @@ public class ElectricMultiMachines {
                     VoyagerCore.id("block/multiblock/magmatic_foundry"))
             .register();
 
-
     public static final MultiblockMachineDefinition HELPER_FACTORY = VOYAGERCORE_REGISTRATE
             .multiblock("helper_factory", PreciseRobotArmMachine::new)
             .rotationState(RotationState.ALL)
@@ -542,21 +540,17 @@ public class ElectricMultiMachines {
                     VoyagerCore.id("block/multiblock/helper_factory"))
             .register();
 
-
-
-//
-//.where("a", Predicates.blocks("minecraft:air"))
-//            .where("b", Predicates.blocks("gtceu:raw_chalcopyrite_block"))
-//            .where("c", Predicates.blocks("kubejs:condensation_resistant_tungsten_casing"))
-//            .where("d", Predicates.blocks("kubejs:platinum_casing"))
-//            .where("e", Predicates.blocks("gtceu:assembly_line_grating"))
-//            .where("f", Predicates.blocks("gtceu:black_steel_frame"))
-//            .where("g", Predicates.blocks("gtceu:laminated_glass"))
-//            .where("h", Predicates.blocks("gtceu:tungsten_frame"))
-//            .where("i", Predicates.blocks("gtceu:stainless_steel_gearbox"))
-//            .where("j", Predicates.blocks("gtceu:cube_assembler"))
-
-
+    //
+    // .where("a", Predicates.blocks("minecraft:air"))
+    // .where("b", Predicates.blocks("gtceu:raw_chalcopyrite_block"))
+    // .where("c", Predicates.blocks("kubejs:condensation_resistant_tungsten_casing"))
+    // .where("d", Predicates.blocks("kubejs:platinum_casing"))
+    // .where("e", Predicates.blocks("gtceu:assembly_line_grating"))
+    // .where("f", Predicates.blocks("gtceu:black_steel_frame"))
+    // .where("g", Predicates.blocks("gtceu:laminated_glass"))
+    // .where("h", Predicates.blocks("gtceu:tungsten_frame"))
+    // .where("i", Predicates.blocks("gtceu:stainless_steel_gearbox"))
+    // .where("j", Predicates.blocks("gtceu:cube_assembler"))
 
     public static void init() {}
 }

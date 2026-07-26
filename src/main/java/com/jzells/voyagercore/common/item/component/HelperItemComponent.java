@@ -1,6 +1,5 @@
 package com.jzells.voyagercore.common.item.component;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
@@ -41,15 +40,8 @@ public class HelperItemComponent implements IItemComponent {
         this.tier = tier;
         this.TYPE = type;
         this.isHull = isHull;
-
     }
 
     @Getter
     private final String TAG_ELEMENT = "modifiers";
-
-
-
-
-
-
 }

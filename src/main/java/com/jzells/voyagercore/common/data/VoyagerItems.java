@@ -8,9 +8,9 @@ import com.gregtechceu.gtceu.common.item.CoverPlaceBehavior;
 import com.jzells.voyagercore.common.item.component.HelperComponentItem;
 import com.jzells.voyagercore.common.item.component.HelperItemComponent;
 import com.jzells.voyagercore.common.item.component.HelperModuleItemComponent;
+import com.jzells.voyagercore.common.item.component.HelperModuleItemModifierComponent;
 import com.jzells.voyagercore.common.machine.cover.HeatRedstoneCoverDefinition;
 import com.tterrag.registrate.util.entry.ItemEntry;
-import net.minecraft.world.item.Item;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -31,7 +31,6 @@ public class VoyagerItems {
                     new CoverPlaceBehavior(HeatRedstoneCoverDefinition.HEAT_REDSTONE_COVER)))
             .register();
 
-
     private static final int[] SPECIALIZED_TIERS = {
 
             GTValues.EV,
@@ -44,24 +43,20 @@ public class VoyagerItems {
 
             ItemEntry<HelperComponentItem> helper = VOYAGERCORE_REGISTRATE
                     .item(tierName + "_specialized_helper", HelperComponentItem::new).properties(
-                            properties ->
-                                    properties.stacksTo(1)
-                    )
+                            properties -> properties.stacksTo(1))
                     .lang(GTValues.VN[tier] + " Specialized Helper")
                     .onRegister(i -> i.attachComponents(
                             new HelperItemComponent(
                                     GTRecipeTypes.CHEMICAL_RECIPES,
                                     "",
-                                    ((int)(tier / 2)) + 1,
+                                    ((int) (tier / 2)) + 1,
                                     tier,
                                     false)))
                     .register();
 
             ItemEntry<HelperComponentItem> hull = VOYAGERCORE_REGISTRATE
                     .item(tierName + "_specialized_helper_hull", HelperComponentItem::new).properties(
-                            properties ->
-                                    properties.stacksTo(1)
-                    )
+                            properties -> properties.stacksTo(1))
                     .lang(GTValues.VN[tier] + " Specialized Helper Hull")
                     .onRegister(i -> i.attachComponents(
                             new HelperItemComponent(
@@ -84,6 +79,13 @@ public class VoyagerItems {
             .lang("EV Basic Helper Module")
             .onRegister(item -> item.attachComponents(
                     new HelperModuleItemComponent(GTValues.EV, "basic")))
+            .register();
+
+    public static ItemEntry<ComponentItem> EV_SPEED_MODULE = VOYAGERCORE_REGISTRATE
+            .item("ev_speed_helper_module", ComponentItem::create)
+            .lang("EV Speed Helper Module")
+            .onRegister(item -> item.attachComponents(
+                    new HelperModuleItemModifierComponent(GTValues.EV, 0, 0.05f, .1f)))
             .register();
 
     public static ItemEntry<ComponentItem> IV_BASIC_HELPER_MODULE = VOYAGERCORE_REGISTRATE
