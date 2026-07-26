@@ -1,0 +1,5 @@
+{
+    "ldlib": {
+        "connection": "voyagercore:block/casing/beam_control_casing_ctm"
+    }
+}
