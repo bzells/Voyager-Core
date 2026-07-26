@@ -277,6 +277,9 @@ public class VoyagerCoreRecipeModifiers {
                 .durationModifier(ContentModifier.multiplier(Math.max(1 - 0.025 * (tierBoost), 0.75)))
                 .inputModifier(ContentModifier.multiplier(Math.max(1 - 0.025 * (tierBoost), 0.75)))
                 .outputModifier(ContentModifier.multiplier(Math.min(1 + 0.025 * (tierBoost), 2.0)))
+                .build();
+    }
+
     public static ModifierFunction magmaticFoundryModifier(MetaMachine machine, GTRecipe recipe) {
         if (!(machine instanceof MetaMachine)) {
             return ModifierFunction.NULL;
