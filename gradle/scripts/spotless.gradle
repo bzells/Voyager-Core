@@ -8,7 +8,7 @@ spotless {
         target '.gitignore'
 
         trimTrailingWhitespace()
-        indentWithSpaces(4)
+        leadingSpacesToTabs(4)
         endWithNewline()
     }
     java {

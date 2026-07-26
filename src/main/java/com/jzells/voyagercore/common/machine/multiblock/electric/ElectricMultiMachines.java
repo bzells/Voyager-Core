@@ -10,10 +10,14 @@ import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderHelper;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
+import com.gregtechceu.gtceu.utils.GTUtil;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 
 import com.jzells.voyagercore.VoyagerCore;
@@ -350,13 +354,13 @@ public class ElectricMultiMachines {
             .rotationState(RotationState.ALL)
             .appearanceBlock(CASING_FROST_CONDUCTING)
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
-            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
+            .recipeModifier(GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.create(1, 4, false)))
             .pattern(def -> FactoryBlockPattern.start()
                     .aisle("XXX", "XXX", "XXX")
                     .aisle("XXX", "XAX", "XXX")
                     .aisle("XXX", "XCX", "XXX")
                     .where("X", Predicates.blocks(CASING_FROST_CONDUCTING.get())
-                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(4, 1))
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
                             .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                             .or(Predicates.abilities(VoyagerPartAbilities.BEE_HOLDER).setPreviewCount(1))
@@ -366,6 +370,18 @@ public class ElectricMultiMachines {
                     .build())
             .workableCasingModel(VoyagerCore.id("block/casing/frost_conducting_casing"),
                     VoyagerCore.id("block/multiblock/magmatic_foundry"))
+            .tooltips(Component.literal("Uses EU to boost the innate production of Bees"))
+            .tooltipBuilder((stack, tooltip) -> {
+                if (GTUtil.isCtrlDown()) {
+                    tooltip.add(Component.empty());
+                    tooltip.add(Component.literal("Each Queen inside will produce at base 1 Comb per second."));
+                    tooltip.add(
+                            Component.literal("For each overclock above HV, they will produce an additional comb."));
+                    tooltip.add(Component.literal("Specialty products are not produced, nor effects")
+                            .withStyle(ChatFormatting.RED));
+                    tooltip.add(Component.empty());
+                } else tooltip.add(Component.literal("Hold CTRL for a wall of text"));
+            })
             .register();
 
     public static final MultiblockMachineDefinition MAGMAIC_MELTER = VOYAGERCORE_REGISTRATE
@@ -477,5 +493,9 @@ public class ElectricMultiMachines {
                     VoyagerCore.id("block/multiblock/helper_coiltronics_assembly"))
             .register();
 
+    // ====================//
+    // Spotless is disabled past this point
+    // spotless:off
+    // ====================//
     public static void init() {}
 }
