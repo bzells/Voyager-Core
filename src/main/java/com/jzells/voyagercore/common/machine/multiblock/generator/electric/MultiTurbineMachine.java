@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
+import com.jzells.voyagercore.VoyagerCore;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraft.ChatFormatting;
@@ -148,9 +149,10 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
 
         EnergyStack EUt = recipe.getOutputEUt();
         long turbineMaxVoltage = turbineMachine.getOverclockVoltage();
-        double holderEfficiency = rotorHolders.stream()
-                .map(h -> h.getTotalEfficiency() / 100.0)
-                .reduce(0.0, Double::sum) / Math.max(turbineMachine.getRotorCount(), 1);
+        double holderEfficiency = 1.5 * rotorHolders.stream()
+                .map(h -> (double) h.getTotalEfficiency())
+                .reduce(0.0, Double::sum) / (100 * Math.max(turbineMachine.getRotorCount(), 1));
+        VoyagerCore.LOGGER.info("Duration modifier: {}",holderEfficiency);
 
         if (EUt.isEmpty() || turbineMaxVoltage <= EUt.voltage() || holderEfficiency <= 0) return ModifierFunction.NULL;
 
@@ -167,7 +169,7 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
                 .outputModifier(ContentModifier.multiplier(actualParallel))
                 .eutMultiplier(eutMultiplier)
                 .parallels(actualParallel)
-                .durationMultiplier(holderEfficiency * 1.5)
+                .durationMultiplier(holderEfficiency)
                 .build();
 
         // return ModifierFunction.IDENTITY; //TODO work on this. too tired

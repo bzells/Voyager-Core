@@ -15,6 +15,7 @@ import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
 import com.jzells.voyagercore.common.machine.multiblock.generator.calorieconverters.AdvancedHelperCalorieConverterType;
 import com.jzells.voyagercore.common.machine.multiblock.generator.electric.MultiTurbineMachine;
 
+import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.jzells.voyagercore.VoyagerCore.VOYAGERCORE_REGISTRATE;
 import static com.jzells.voyagercore.common.data.VoyagerBlocks.*;
 
@@ -60,7 +61,7 @@ public class GeneratorMultis {
             .register();
 
     public static final MultiblockMachineDefinition XL_TURBIBNE = VOYAGERCORE_REGISTRATE
-            .multiblock("xl_turbine", holder -> new MultiTurbineMachine(holder, GTValues.LuV))
+            .multiblock("xl_turbine", holder -> new MultiTurbineMachine(holder, IV))
             .rotationState(RotationState.ALL)
             .recipeType(GTRecipeTypes.GAS_TURBINE_FUELS)
             .generator(true)
