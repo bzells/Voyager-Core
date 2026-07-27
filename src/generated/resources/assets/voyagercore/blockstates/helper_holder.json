@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "voyagercore:block/machine/helper_holder",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "voyagercore:block/machine/helper_holder",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "voyagercore:block/machine/helper_holder"
+    },
+    "facing=south": {
+      "model": "voyagercore:block/machine/helper_holder",
+      "y": 180
+    },
+    "facing=up": {
+      "gtceu:z": 180,
+      "model": "voyagercore:block/machine/helper_holder",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "voyagercore:block/machine/helper_holder",
+      "y": 270
+    }
+  }
+}

@@ -61,12 +61,6 @@ public class BeeHolderPartMachine extends MultiblockPartMachine
     @Persisted
     @DescSynced
     public boolean isLocked;
-    @Getter
-    @Setter
-    public boolean hasQueen;
-    @Getter
-    @Setter
-    public boolean hasPrincess;
 
     public BeeHolderPartMachine(IMachineBlockEntity holder, IO io) {
         super(holder);
@@ -167,6 +161,7 @@ public class BeeHolderPartMachine extends MultiblockPartMachine
     }
 
     // I'm lazy, and just want this thing to work lol
+    // TODO Remove the locked condition on this
     @Override
     public Widget createUIWidget() {
         var group = new WidgetGroup(0, 0, 18 * 2 + 16, 18 * 2 + 16);

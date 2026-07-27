@@ -10,10 +10,14 @@ import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderHelper;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
+import com.gregtechceu.gtceu.utils.GTUtil;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 
 import com.jzells.voyagercore.VoyagerCore;
@@ -48,7 +52,7 @@ public class ElectricMultiMachines {
             .rotationState(RotationState.ALL)
             .recipeType(GTRecipeTypes.BLAST_RECIPES)
             .recipeModifiers(FluidCoilMulti::recipeModifier, VoyagerCoreRecipeModifiers.HEAT_BOOSTING,
-                    GTRecipeModifiers::ebfOverclock)
+                    GTRecipeModifiers::ebfOverclock, VoyagerCoreRecipeModifiers.MAGMATIC_MODIFIER)
             .appearanceBlock(CASING_FOUNDRY)
             .pattern(def -> FactoryBlockPattern.start()
                     .aisle("aaaaa", "cdddc", "cdddc", "efefe", "cdddc", "cdddc", "aaaaa")
@@ -191,113 +195,40 @@ public class ElectricMultiMachines {
                             BATCH_MODE)
                     .appearanceBlock(FUSION_CASING)
                     .pattern(def -> FactoryBlockPattern.start()
-
-                            .aisle("aaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaabbbaaaaaaaaaaa",
-                                    "aaaaaaaaabbbbbbbaaaaaaaaa", "aaaaaaaaaaabbbaaaaaaaaaaa",
-                                    "aaaaaaaaaaaaaaaaaaaaaaaaa")
-
-                            .aisle("aaaaaaaaaaaadaaaaaaaaaaaa", "aaaaaaaabbbbabbbbaaaaaaaa",
-                                    "aaaaaaabbaaaaaaabbaaaaaaa", "aaaaaaaabbbbabbbbaaaaaaaa",
-                                    "aaaaaaaaaaaadaaaaaaaaaaaa")
-
-                            .aisle("aaaaaaaaadddddddaaaaaaaaa", "aaaaaabbbaaaaaaabbbaaaaaa",
-                                    "aaaaabbeeaaaaaaaeebbaaaaa", "aaaaaabbbaaaaaaabbbaaaaaa",
-                                    "aaaaaaaaadddddddaaaaaaaaa")
-
-                            .aisle("aaaaaaadddddddddddaaaaaaa", "aaaaabbaaaaaaaaaaabbaaaaa",
-                                    "aaaabeeaaaaaaaaaaaeebaaaa", "aaaaabbaaaaaaaaaaabbaaaaa",
-                                    "aaaaaaadddddddddddaaaaaaa")
-
-                            .aisle("aaaaaadddaaadaaddddaaaaaa", "aaaabbaaaabbabbaaaabbaaaa",
-                                    "aaabeaaaaaaaaaaaaaaaebaaa", "aaaabbaaaabbabbaaaabbaaaa",
-                                    "aaaaaaddddaadaaddddaaaaaa")
-
-                            .aisle("aaaaadddaaaaaaaaadddaaaaa", "aaabbaaabbabfbabbaaabbaaa",
-                                    "aabeaaaaaabfgfbaaaaaaebaa", "aaabbaaabbabfbabbaaabbaaa",
-                                    "aaaaadddaaaaaaaaadddaaaaa")
-
-                            .aisle("aaaadddaaaaaaaaaaadddaaaa", "aabbaaabaaaaaaaaabaaabbaa",
-                                    "aabeaaaabbaaaaabbaaaaebaa", "aabbaaabaaaaaaaaabaaabbaa",
-                                    "aaaadddaaaaaaaaaaadddaaaa")
-
-                            .aisle("aaadddaaaaaaaaaaaaadddaaa", "aabaaabaaaaaaaaaaabaaabaa",
-                                    "abeaaaabaaaaaaaaabaaaaeba", "aabaaabaaaaaaaaaaabaaabaa",
-                                    "aaadddaaaaaaaaaaaaadddaaa")
-
-                            .aisle("aaaddaaaaaaaaaaaaaaaddaaa", "abbaabaaaaaaaaaaaaabaabba",
-                                    "abeaaabaaaaaaaaaaabaaaeba", "abbaabaaaaaaaaaaaaabaabba",
-                                    "aaaddaaaaaaaaaaaaaaaddaaa")
-
-                            .aisle("aadddaaaaaaaaaaaaaaaaddaa", "abaaabaaaaaaaaaaaaabaaaba",
-                                    "baaaaabaaaaaaaaaaabaaaaab", "abaaabaaaaaaaaaaaaabaaaba",
-                                    "aadddaaaaaaaaaaaaaaaaddaa")
-
-                            .aisle("aaddaaaaaaaaaaaaaaaaaddaa", "abaabaaaaaaaaaaaaaaabaaba",
-                                    "baaaabaaaaaaaaaaaaabaaaab", "abaabaaaaaaaaaaaaaaabaaba",
-                                    "aaddaaaaaaaaaaaaaaaaaddaa")
-
-                            .aisle("aaddaaaaaaaaaaaaaaaaaddaa", "bbaabbaaaaaaaaaaaaabbaabb",
-                                    "baaaafaaaaaaaaaaaaafaaaab", "bbaabbaaaaaaaaaaaaabbaabb",
-                                    "aaddaaaaaaaaaaaaaaaaaddaa")
-
-                            .aisle("addddaaaaaaaaaaaaaaadddda", "baaaafaaaaaaaaaaaaafaaaab",
-                                    "baaaahaaaaaaaaaaaaahaaaab", "baaaafaaaaaaaaaaaaafaaaab",
-                                    "addddaaaaaaaaaaaaaaadddda")
-
-                            .aisle("aaddaaaaaaaaaaaaaaaaaddaa", "bbaabbaaaaaaaaaaaaabbaabb",
-                                    "baaaafaaaaaaaaaaaaafaaaab", "bbaabbaaaaaaaaaaaaabbaabb",
-                                    "aaddaaaaaaaaaaaaaaaaaddaa")
-
-                            .aisle("aaddaaaaaaaaaaaaaaaaaddaa", "abaabaaaaaaaaaaaaaaabaaba",
-                                    "baaaabaaaaaaaaaaaaabaaaab", "abaabaaaaaaaaaaaaaaabaaba",
-                                    "aaddaaaaaaaaaaaaaaaaaddaa")
-
-                            .aisle("aaddaaaaaaaaaaaaaaaadddaa", "abaabaaaaaaaaaaaaaabaaaba",
-                                    "baaaabaaaaaaaaaaaabaaaaab", "abaabaaaaaaaaaaaaaabaaaba",
-                                    "aaddaaaaaaaaaaaaaaaadddaa")
-
-                            .aisle("aaaddaaaaaaaaaaaaaaaddaaa", "abbaabaaaaaaaaaaaaabaabba",
-                                    "abeaaabaaaaaaaaaaabaaaeba", "abbaabaaaaaaaaaaaaabaabba",
-                                    "aaaddaaaaaaaaaaaaaaaddaaa")
-
-                            .aisle("aaadddaaaaaaaaaaaaadddaaa", "aabaaabaaaaaaaaaaabaaabaa",
-                                    "abeaaaabaaaaaaaaabaaaaeba", "aabaaabaaaaaaaaaaabaaabaa",
-                                    "aaadddaaaaaaaaaaaaadddaaa")
-
-                            .aisle("aaaadddaaaaaaaaaaadddaaaa", "aabbaaabaaaaaaaaabaaabbaa",
-                                    "aabeaaaabbaaaaabbaaaaebaa", "aabbaaabaaaaaaaaabaaabbaa",
-                                    "aaaadddaaaaaaaaaaadddaaaa")
-
-                            .aisle("aaaaadddaaaaaaaaadddaaaaa", "aaabbaaabbabfbabbaaabbaaa",
-                                    "aabeaaaaaabfgfbaaaaaaebaa", "aaabbaaabbabfbabbaaabbaaa",
-                                    "aaaaadddaaaaaaaaadddaaaaa")
-
-                            .aisle("aaaaaaddddaadaaddddaaaaaa", "aaaabbaaaabbabbaaaabbaaaa",
-                                    "aaabeaaaaaaaaaaaaaaaebaaa", "aaaabbaaaabbabbaaaabbaaaa",
-                                    "aaaaaaddddaadaaddddaaaaaa")
-
-                            .aisle("aaaaaaadddddddddddaaaaaaa", "aaaaabbaaaaaaaaaaabbaaaaa",
-                                    "aaaabeeaaaaaaaaaaaeebaaaa", "aaaaabbaaaaaaaaaaabbaaaaa",
-                                    "aaaaaaadddddddddddaaaaaaa")
-
-                            .aisle("aaaaaaaaadddddddaaaaaaaaa", "aaaaaabbbaaaaaaabbbaaaaaa",
-                                    "aaaaabbeeaaaaaaaeebbaaaaa", "aaaaaabbbaaaaaaabbbaaaaaa",
-                                    "aaaaaaaaadddddddaaaaaaaaa")
-
-                            .aisle("aaaaaaaaaaaadaaaaaaaaaaaa", "aaaaaaaabbbbabbbbaaaaaaaa",
-                                    "aaaaaaabbaaaaaaabbaaaaaaa", "aaaaaaaabbbbabbbbaaaaaaaa",
-                                    "aaaaaaaaaaaadaaaaaaaaaaaa")
-
-                            .aisle("aaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaabbbaaaaaaaaaaa",
-                                    "aaaaaaaaabbb@bbbaaaaaaaaa", "aaaaaaaaaaabbbaaaaaaaaaaa",
-                                    "aaaaaaaaaaaaaaaaaaaaaaaaa")
+                            // spotless:off
+                            .aisle("aaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaabbbaaaaaaaaaaa", "aaaaaaaaabbbbbbbaaaaaaaaa", "aaaaaaaaaaabbbaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaa")
+                            .aisle("aaaaaaaaaaaaeaaaaaaaaaaaa", "aaaaaaaabbbbabbbbaaaaaaaa", "aaaaaaabbaaaaaaabbaaaaaaa", "aaaaaaaabbbbabbbbaaaaaaaa", "aaaaaaaaaaaaeaaaaaaaaaaaa")
+                            .aisle("aaaaaaaaaeeeeeeeaaaaaaaaa", "aaaaaabbbaaaaaaabbbaaaaaa", "aaaaabbffaaaaaaaffbbaaaaa", "aaaaaabbbaaaaaaabbbaaaaaa", "aaaaaaaaaeeeeeeeaaaaaaaaa")
+                            .aisle("aaaaaaaeeeeeeeeeeeaaaaaaa", "aaaaabbaaaaaaaaaaabbaaaaa", "aaaabffaaaaaaaaaaaffbaaaa", "aaaaabbaaaaaaaaaaabbaaaaa", "aaaaaaaeeeeeeeeeeeaaaaaaa")
+                            .aisle("aaaaaaeeeaaaeaaeeeeaaaaaa", "aaaabbaaaabbabbaaaabbaaaa", "aaabfaaaaaaaaaaaaaaafbaaa", "aaaabbaaaabbabbaaaabbaaaa", "aaaaaaeeeeaaeaaeeeeaaaaaa")
+                            .aisle("aaaaaeeeaaaaaaaaaeeeaaaaa", "aaabbaaabbabgbabbaaabbaaa", "aabfaaaaaabghgbaaaaaafbaa", "aaabbaaabbabgbabbaaabbaaa", "aaaaaeeeaaaaaaaaaeeeaaaaa")
+                            .aisle("aaaaeeeaaaaaaaaaaaeeeaaaa", "aabbaaabaaaaaaaaabaaabbaa", "aabfaaaabbaaaaabbaaaafbaa", "aabbaaabaaaaaaaaabaaabbaa", "aaaaeeeaaaaaaaaaaaeeeaaaa")
+                            .aisle("aaaeeeaaaaaaaaaaaaaeeeaaa", "aabaaabaaaaaaaaaaabaaabaa", "abfaaaabaaaaaaaaabaaaafba", "aabaaabaaaaaaaaaaabaaabaa", "aaaeeeaaaaaaaaaaaaaeeeaaa")
+                            .aisle("aaaeeaaaaaaaaaaaaaaaeeaaa", "abbaabaaaaaaaaaaaaabaabba", "abfaaabaaaaaaaaaaabaaafba", "abbaabaaaaaaaaaaaaabaabba", "aaaeeaaaaaaaaaaaaaaaeeaaa")
+                            .aisle("aaeeeaaaaaaaaaaaaaaaaeeaa", "abaaabaaaaaaaaaaaaabaaaba", "baaaaabaaaaaaaaaaabaaaaab", "abaaabaaaaaaaaaaaaabaaaba", "aaeeeaaaaaaaaaaaaaaaaeeaa")
+                            .aisle("aaeeaaaaaaaaaaaaaaaaaeeaa", "abaabaaaaaaaaaaaaaaabaaba", "baaaabaaaaaaaaaaaaabaaaab", "abaabaaaaaaaaaaaaaaabaaba", "aaeeaaaaaaaaaaaaaaaaaeeaa")
+                            .aisle("aaeeaaaaaaaaaaaaaaaaaeeaa", "bbaabbaaaaaaaaaaaaabbaabb", "baaaagaaaaaaaaaaaaagaaaab", "bbaabbaaaaaaaaaaaaabbaabb", "aaeeaaaaaaaaaaaaaaaaaeeaa")
+                            .aisle("aeeeeaaaaaaaaaaaaaaaeeeea", "baaaagaaaaaaaaaaaaagaaaab", "baaaaiaaaaaaaaaaaaaiaaaab", "baaaagaaaaaaaaaaaaagaaaab", "aeeeeaaaaaaaaaaaaaaaeeeea")
+                            .aisle("aaeeaaaaaaaaaaaaaaaaaeeaa", "bbaabbaaaaaaaaaaaaabbaabb", "baaaagaaaaaaaaaaaaagaaaab", "bbaabbaaaaaaaaaaaaabbaabb", "aaeeaaaaaaaaaaaaaaaaaeeaa")
+                            .aisle("aaeeaaaaaaaaaaaaaaaaaeeaa", "abaabaaaaaaaaaaaaaaabaaba", "baaaabaaaaaaaaaaaaabaaaab", "abaabaaaaaaaaaaaaaaabaaba", "aaeeaaaaaaaaaaaaaaaaaeeaa")
+                            .aisle("aaeeeaaaaaaaaaaaaaaaeeeaa", "abaaabaaaaaaaaaaaaabaaaba", "baaaaabaaaaaaaaaaabaaaaab", "abaaabaaaaaaaaaaaaabaaaba", "aaeeeaaaaaaaaaaaaaaaeeeaa")
+                            .aisle("aaaeeaaaaaaaaaaaaaaaeeaaa", "abbaabaaaaaaaaaaaaabaabba", "abfaaabaaaaaaaaaaabaaafba", "abbaabaaaaaaaaaaaaabaabba", "aaaeeaaaaaaaaaaaaaaaeeaaa")
+                            .aisle("aaaeeeaaaaaaaaaaaaaeeeaaa", "aabaaabaaaaaaaaaaabaaabaa", "abfaaaabaaaaaaaaabaaaafba", "aabaaabaaaaaaaaaaabaaabaa", "aaaeeeaaaaaaaaaaaaaeeeaaa")
+                            .aisle("aaaaeeeaaaaaaaaaaaeeeaaaa", "aabbaaabaaaaaaaaabaaabbaa", "aabfaaaabbaaaaabbaaaafbaa", "aabbaaabaaaaaaaaabaaabbaa", "aaaaeeeaaaaaaaaaaaeeeaaaa")
+                            .aisle("aaaaaeeeaaaaaaaaaeeeaaaaa", "aaabbaaabbabgbabbaaabbaaa", "aabfaaaaaabghgbaaaaaafbaa", "aaabbaaabbabgbabbaaabbaaa", "aaaaaeeeaaaaaaaaaeeeaaaaa")
+                            .aisle("aaaaaaeeeeaaeaaeeeeaaaaaa", "aaaabbaaaabbabbaaaabbaaaa", "aaabfaaaaaaaaaaaaaaafbaaa", "aaaabbaaaabbabbaaaabbaaaa", "aaaaaaeeeeaaeaaeeeeaaaaaa")
+                            .aisle("aaaaaaaeeeeeeeeeeeaaaaaaa", "aaaaabbaaaaaaaaaaabbaaaaa", "aaaabffaaaaaaaaaaaffbaaaa", "aaaaabbaaaaaaaaaaabbaaaaa", "aaaaaaaeeeeeeeeeeeaaaaaaa")
+                            .aisle("aaaaaaaaaeeeeeeeaaaaaaaaa", "aaaaaabbbaaaaaaabbbaaaaaa", "aaaaabbffaaaaaaaffbbaaaaa", "aaaaaabbbaaaaaaabbbaaaaaa", "aaaaaaaaaeeeeeeeaaaaaaaaa")
+                            .aisle("aaaaaaaaaaaaeaaaaaaaaaaaa", "aaaaaaaabbbbabbbbaaaaaaaa", "aaaaaaabbaaaaaaabbaaaaaaa", "aaaaaaaabbbbabbbbaaaaaaaa", "aaaaaaaaaaaaeaaaaaaaaaaaa")
+                            .aisle("aaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaabbbaaaaaaaaaaa", "aaaaaaaaabbb@bbbaaaaaaaaa", "aaaaaaaaaaabbbaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaa")
+                            //spotless:on
 
                             .where('a', Predicates.any())
                             .where('b', Predicates.blocks(FusionReactorMachine.getCasingState(tier)))
-                            .where('d', Predicates.blocks(FUSION_GLASS.get()))
-                            .where('e', Predicates.blocks(FusionReactorMachine.getCoilState(tier)))
+                            .where('e', Predicates.blocks(FUSION_GLASS.get()))
+                            .where('f', Predicates.blocks(FusionReactorMachine.getCoilState(tier)))
 
-                            .where('f',
+                            .where('g',
                                     Predicates.blocks(FusionReactorMachine.getCasingState(tier)).or(
                                             Predicates.blocks(
                                                     PartAbility.INPUT_ENERGY
@@ -306,12 +237,12 @@ public class ElectricMultiMachines {
                                                     .setMinGlobalLimited(1)
                                                     .setPreviewCount(16)))
 
-                            .where('g',
+                            .where('h',
                                     Predicates.blocks(FusionReactorMachine.getCasingState(tier)).or(
                                             Predicates.abilities(PartAbility.IMPORT_FLUIDS)
                                                     .setMinGlobalLimited(1)))
 
-                            .where('h',
+                            .where('i',
                                     Predicates.blocks(FusionReactorMachine.getCasingState(tier)).or(
                                             Predicates.abilities(PartAbility.EXPORT_FLUIDS)
                                                     .setMinGlobalLimited(1)))
@@ -423,13 +354,13 @@ public class ElectricMultiMachines {
             .rotationState(RotationState.ALL)
             .appearanceBlock(CASING_FROST_CONDUCTING)
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
-            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
+            .recipeModifier(GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.create(1, 4, false)))
             .pattern(def -> FactoryBlockPattern.start()
                     .aisle("XXX", "XXX", "XXX")
                     .aisle("XXX", "XAX", "XXX")
                     .aisle("XXX", "XCX", "XXX")
                     .where("X", Predicates.blocks(CASING_FROST_CONDUCTING.get())
-                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(4, 1))
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
                             .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                             .or(Predicates.abilities(VoyagerPartAbilities.BEE_HOLDER).setPreviewCount(1))
@@ -439,6 +370,18 @@ public class ElectricMultiMachines {
                     .build())
             .workableCasingModel(VoyagerCore.id("block/casing/frost_conducting_casing"),
                     VoyagerCore.id("block/multiblock/magmatic_foundry"))
+            .tooltips(Component.literal("Uses EU to boost the innate production of Bees"))
+            .tooltipBuilder((stack, tooltip) -> {
+                if (GTUtil.isCtrlDown()) {
+                    tooltip.add(Component.empty());
+                    tooltip.add(Component.literal("Each Queen inside will produce at base 1 Comb per second."));
+                    tooltip.add(
+                            Component.literal("For each overclock above HV, they will produce an additional comb."));
+                    tooltip.add(Component.literal("Specialty products are not produced, nor effects")
+                            .withStyle(ChatFormatting.RED));
+                    tooltip.add(Component.empty());
+                } else tooltip.add(Component.literal("Hold CTRL for a wall of text"));
+            })
             .register();
 
     public static final MultiblockMachineDefinition MAGMAIC_MELTER = VOYAGERCORE_REGISTRATE
@@ -534,10 +477,11 @@ public class ElectricMultiMachines {
 
                     .aisle("aaaaa", "bbbbb", "aaaaa")
                     .aisle("cdddd", "eeeee", "bbbbb")
-                    .aisle("aaaaa", "bbbbb", "aa@aa")
+                    .aisle("aaaaa", "bbbbb", "@aaaa")
 
                     .where("a", Predicates.blocks(CASING_INDUSTRIAL_SOLID.get())
-                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2, 1)))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2, 1))
+                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1)))
                     .where("b", Predicates.blocks(CASING_INDUSTRIAL_ASSEMBLY.get()))
                     .where("c", Predicates.abilities(PartAbility.EXPORT_ITEMS))
                     .where("d",
@@ -549,5 +493,9 @@ public class ElectricMultiMachines {
                     VoyagerCore.id("block/multiblock/helper_coiltronics_assembly"))
             .register();
 
+    // ====================//
+    // Spotless is disabled past this point
+    // spotless:off
+    // ====================//
     public static void init() {}
 }

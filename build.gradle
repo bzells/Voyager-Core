@@ -23,6 +23,10 @@ sourceSets {
     main.resources {
         srcDir 'src/generated/resources'
     }
+    client {
+        compileClasspath += main.output
+        runtimeClasspath += main.output + main.runtimeClasspath
+    }
 }
 
 
@@ -39,6 +43,17 @@ configurations.all{
     }
 }
 
+configurations {
+    clientRunTimeOnly.canBeResolved = false
+    clientRunTimeOnly.extendsFrom clientLocalRuntime
+}
+
+afterEvaluate {
+    configurations {
+        modClientRuntimeOnly.canBeResolved = false
+    }
+}
+
 
 
 
@@ -51,6 +66,8 @@ apply from: "$rootDir/gradle/scripts/moddevgradle.gradle"
 apply from: "$rootDir/gradle/scripts/repositories.gradle"
 apply from: "$rootDir/gradle/scripts/spotless.gradle"
 apply from: "$rootDir/dependencies.gradle"
+
+
 
 
 
