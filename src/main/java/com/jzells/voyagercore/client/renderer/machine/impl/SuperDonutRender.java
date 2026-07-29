@@ -104,7 +104,7 @@ public class SuperDonutRender extends DynamicRender<FusionReactorMachine,SuperDo
                 back.getStepX() * 12 + 0.5F,
                 back.getStepY() * 12 + 0.5F,
                 back.getStepZ() * 12 + 0.5F,
-                10, 0.4F, 10, 20,
+                9.5F, 0.8F, 10, 20,
                 r, g, b, alpha, axis);
     }
 }
