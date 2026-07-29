@@ -9,10 +9,16 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
 
+import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderHelper;
+import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderManager;
+import com.jzells.voyagercore.client.renderer.machine.VoyagerRenderHelper;
+import com.jzells.voyagercore.client.renderer.machine.impl.SuperDonutRender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -53,6 +59,7 @@ public class VoyagerCore {
         MinecraftForge.EVENT_BUS.register(this);
 
         VOYAGERCORE_REGISTRATE.registerRegistrate();
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> VoyagerCore::initializeDynamicRenders);
     }
 
     private static void init() {
@@ -143,5 +150,9 @@ public class VoyagerCore {
      */
     public void registerSounds(GTCEuAPI.RegisterEvent<ResourceLocation, SoundEntry> event) {
         // CustomSounds.init();
+    }
+    // TODO Move this to another file
+    public static void initializeDynamicRenders(){
+        DynamicRenderManager.register(VoyagerCore.id("super_donut"), SuperDonutRender.TYPE);
     }
 }
