@@ -9,6 +9,7 @@ import com.jzells.voyagercore.common.item.component.*;
 import com.jzells.voyagercore.common.machine.cover.HeatRedstoneCoverDefinition;
 import com.jzells.voyagercore.util.VoyagerVoltageTierUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
+import net.minecraft.world.item.Item;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -32,12 +33,22 @@ public class VoyagerItems {
     private static final int[] SPECIALIZED_TIERS = {
 
             GTValues.EV,
+            GTValues.IV,
+            GTValues.LuV,
+            GTValues.ZPM,
+            GTValues.UV
 
     };
 
     private static final int[] GENERIC_TIERS = {
 
+            GTValues.MV,
             GTValues.HV,
+            GTValues.EV,
+            GTValues.IV,
+            GTValues.LuV,
+            GTValues.ZPM,
+            GTValues.UV
 
     };
 
@@ -75,15 +86,17 @@ public class VoyagerItems {
             createHelperModifierModule("output_helper_module", "Output Modifier Helper Module", tier, 0, 0.05f * ((float)tier) / 4, -.2f + (.4f * ((float)tier / 8)), .5f, true, 2);
             createHelperModifierModule("parallel_helper_module", "Parallel Modifier Helper Module", tier, tier, 0.05f * ((float)tier) / 4, -.5f + (.1f * ((float)tier / 8)), 0f, false, 2);
 
+
+            ItemEntry<Item> HELPER_MODULE_BASE = VOYAGERCORE_REGISTRATE
+                    .item(GTValues.VN[tier].toLowerCase() + "_helper_module", Item::new).properties(
+                            properties -> properties.stacksTo(4))
+                    .lang(VoyagerVoltageTierUtils.getVoltageTierColorStringShortForm(GTValues.VN[tier]) + " Helper Module Base")
+                    .register();
         }
         final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_EBF = createHelperRecipeModule(GTValues.MV, "ebf_helper_recipe_module", "Recipe Helper Module", "gtceu:electric_blast_furnace", false, 1);
         final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_PLAT_LINE = createHelperRecipeModule(GTValues.EV, "plat_line_helper_recipe_module", "Recipe Helper Module", "plat_line", true, 1);
         final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_DESH_LINE = createHelperRecipeModule(GTValues.EV, "desh_line_helper_recipe_module", "Recipe Helper Module", "desh_line", true, 1);
 
-//        for(int tier = 5; tier < GTValues.UV; tier++)
-//        {
-////            createHelperModifierBeamModule("beam_helper_module", "Beam Helper Module", tier, tier/4, 0.02f*tier, 0.02f*tier, 0, false, 3, 0.075f * ((float) tier /4));
-//        }
     }
 
 
