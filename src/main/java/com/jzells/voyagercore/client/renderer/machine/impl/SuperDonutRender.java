@@ -4,12 +4,9 @@ import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.client.renderer.GTRenderTypes;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
-
 import com.gregtechceu.gtceu.client.util.RenderBufferHelper;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.serialization.Codec;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.util.Mth;
@@ -18,22 +15,27 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.serialization.Codec;
+
 import static net.minecraft.util.FastColor.ARGB32.*;
 import static net.minecraft.util.FastColor.ARGB32.blue;
 import static net.minecraft.util.FastColor.ARGB32.green;
 import static net.minecraft.util.FastColor.ARGB32.red;
 
-public class SuperDonutRender extends DynamicRender<FusionReactorMachine,SuperDonutRender> {
+public class SuperDonutRender extends DynamicRender<FusionReactorMachine, SuperDonutRender> {
 
     public static final Codec<SuperDonutRender> CODEC = Codec.unit(SuperDonutRender::new);
-    public static final DynamicRenderType<FusionReactorMachine, SuperDonutRender> TYPE = new DynamicRenderType<>(SuperDonutRender.CODEC);
+    public static final DynamicRenderType<FusionReactorMachine, SuperDonutRender> TYPE = new DynamicRenderType<>(
+            SuperDonutRender.CODEC);
 
     public static final float FADEOUT = 60;
     protected float delta = 0;
 
     protected int lastColor = -1;
-    public SuperDonutRender() {}
 
+    public SuperDonutRender() {}
 
     @Override
     public DynamicRenderType<FusionReactorMachine, SuperDonutRender> getType() {
@@ -52,15 +54,14 @@ public class SuperDonutRender extends DynamicRender<FusionReactorMachine,SuperDo
         if (!machine.recipeLogic.isWorking() && delta <= 0) {
             return;
         }
-//        if (GTCEu.Mods.isShimmerLoaded()) {
-//            PoseStack finalStack = RenderUtils.copyPoseStack(poseStack);
-//            BloomUtils.entityBloom(source -> renderLightRing(machine, partialTick, finalStack,
-//                    source.getBuffer(GTRenderTypes.getLightRing())));
-//        } else {
-            renderLightRing(machine, partialTick, poseStack, buffer.getBuffer(GTRenderTypes.getLightRing()));
-//        }
+        // if (GTCEu.Mods.isShimmerLoaded()) {
+        // PoseStack finalStack = RenderUtils.copyPoseStack(poseStack);
+        // BloomUtils.entityBloom(source -> renderLightRing(machine, partialTick, finalStack,
+        // source.getBuffer(GTRenderTypes.getLightRing())));
+        // } else {
+        renderLightRing(machine, partialTick, poseStack, buffer.getBuffer(GTRenderTypes.getLightRing()));
+        // }
     }
-
 
     @Override
     public boolean shouldRenderOffScreen(FusionReactorMachine machine) {

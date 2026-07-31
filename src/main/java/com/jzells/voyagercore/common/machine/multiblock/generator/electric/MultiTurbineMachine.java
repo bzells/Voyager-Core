@@ -17,8 +17,6 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -42,8 +40,8 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
     @Getter
     private final int tier;
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            MultiTurbineMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+    // protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+    // MultiTurbineMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     public MultiTurbineMachine(IMachineBlockEntity holder, int tier) {
         super(holder);

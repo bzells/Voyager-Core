@@ -11,20 +11,19 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
-import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderHelper;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
-import com.jzells.voyagercore.client.renderer.machine.VoyagerRenderHelper;
-import com.jzells.voyagercore.client.renderer.machine.impl.SuperDonutRender;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 
 import com.jzells.voyagercore.VoyagerCore;
+import com.jzells.voyagercore.client.renderer.machine.VoyagerRenderHelper;
 import com.jzells.voyagercore.common.data.VoyagerCoreRecipeModifiers;
 import com.jzells.voyagercore.common.data.VoyagerMaterials;
+import com.jzells.voyagercore.common.data.VoyagerPredicates;
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
 import com.jzells.voyagercore.common.machine.multiblock.part.VoyagerPartAbilities;
 
@@ -395,7 +394,7 @@ public class ElectricMultiMachines {
                     GTRecipeModifiers.OC_NON_PERFECT, BATCH_MODE)
             .appearanceBlock(CASING_INDUSTRIAL_MACERATION)
             .pattern(def -> FactoryBlockPattern.start()
-                    //spotless:off
+                    // spotless:off
                     .aisle("aaabbbbbaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaabbbbbaaa")
                     .aisle("abbbbbbbbba", "aaaeeeeeaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaeeeeeaaa", "abbbbbbbbba")
                     .aisle("abbbbbbbbba", "aaefffffeaa", "aaagaaagaaa", "aaaeccceaaa", "aaagaaagaaa", "aaaeccceaaa", "aaagaaagaaa", "aaefffffeaa", "abbbbbbbbba")
@@ -466,7 +465,6 @@ public class ElectricMultiMachines {
                     GTRecipeModifiers.OC_NON_PERFECT)
             .appearanceBlock(CASING_INDUSTRIAL_SOLID)
             .pattern(def -> FactoryBlockPattern.start()
-
                     .aisle("aaaaa", "bbbbb", "aaaaa")
                     .aisle("cdddd", "eeeee", "bbbbb")
                     .aisle("aaaaa", "bbbbb", "@aaaa")
@@ -480,6 +478,38 @@ public class ElectricMultiMachines {
                             Predicates.blocks(PartAbility.IMPORT_ITEMS.getBlockRange(ULV, ULV).toArray(Block[]::new)))
                     .where("e", Predicates.blocks(CASING_INDUSTRIAL_CONTROL.get()))
                     .where("@", Predicates.controller(Predicates.blocks(def.get())))
+                    .build())
+            .workableCasingModel(VoyagerCore.id("block/casing/solid_industrial_casing"),
+                    VoyagerCore.id("block/multiblock/helper_coiltronics_assembly"))
+            .register();
+
+    public static final MultiblockMachineDefinition TEST_MODULAR = VOYAGERCORE_REGISTRATE
+            .multiblock("test_modular_multi", ModularMachine::new)
+            .rotationState(RotationState.ALL)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+            .appearanceBlock(CASING_INDUSTRIAL_SOLID)
+            .pattern(def -> FactoryBlockPattern.start()
+                    .aisle("   ", " M ", "   ")
+                    .aisle("XXX", "XXX", "XXX")
+                    .aisle("XXX", "XCX", "XXX")
+                    .where('X', Predicates.blocks(CASING_INDUSTRIAL_SOLID.get()))
+                    .where(' ', Predicates.any())
+                    .where('M', VoyagerPredicates.module())
+                    .where('C', Predicates.controller(Predicates.blocks(def.get())))
+                    .build())
+            .workableCasingModel(VoyagerCore.id("block/casing/solid_industrial_casing"),
+                    VoyagerCore.id("block/multiblock/helper_coiltronics_assembly"))
+            .register();
+
+    public static final MultiblockMachineDefinition TEST_MODULE = VOYAGERCORE_REGISTRATE
+            .multiblock("test_module", ModuleInstanceMachine::new)
+            .rotationState(RotationState.ALL)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+            .appearanceBlock(CASING_INDUSTRIAL_SOLID)
+            .pattern(def -> FactoryBlockPattern.start()
+                    .aisle("XCX")
+                    .where('X', Predicates.blocks(CASING_INDUSTRIAL_SOLID.get()))
+                    .where('C', Predicates.controller(Predicates.blocks(def.get())))
                     .build())
             .workableCasingModel(VoyagerCore.id("block/casing/solid_industrial_casing"),
                     VoyagerCore.id("block/multiblock/helper_coiltronics_assembly"))
