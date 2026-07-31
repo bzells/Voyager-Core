@@ -64,17 +64,18 @@ public class VoyagerBlocks {
     public static final BlockEntry<Block> CASING_OSTRUM = createCasingBlock(
             "ostrum_casing", VoyagerCore.id("block/casing/ostrum_casing"));
 
-    public static final BlockEntry<Block> CASING_UNK1 = createCasingBlock("unk1_casing",
-            VoyagerCore.id("block/casing/industrial_assembly_casing"));
-    public static final BlockEntry<Block> CASING_UNK2 = createCasingBlock("unk2_casing",
-            VoyagerCore.id("block/casing/industrial_assembly_casing"));
-    public static final BlockEntry<Block> CASING_UNK3 = createCasingBlock("unk3_casing",
-            VoyagerCore.id("block/casing/industrial_assembly_casing"));
-    public static final BlockEntry<Block> CASING_UNK4 = createCasingBlock("unk4_casing",
-            VoyagerCore.id("block/casing/industrial_assembly_casing"));
 
-    public static final BlockEntry<Block> CASING_UNK5 = fastCreateCasingBlock("unk5");
-    public static final BlockEntry<Block>[] CASING_UNK6 = fastBulkBlock("unk6");
+    /// 0: Casing, 1: Gearbox, 2: Pipe Casing
+    public static final BlockEntry<Block>[] STRUCTURE_ARRAY_RHODIUM_PLATED_PALLADIUM = fastBulkBlock("rhodium_plated_palladium");
+
+    /// 0: Casing, 1: Gearbox, 2: Pipe Casing
+    public static final BlockEntry<Block>[] STRUCTURE_ARRAY_NAQUADAH_ALLOY = fastBulkBlock("naquadah_alloy");
+
+    /// 0: Casing, 1: Gearbox, 2: Pipe Casing
+    public static final BlockEntry<Block>[] STRUCTURE_ARRAY_DARMSTADTIUM = fastBulkBlock("darmstadtium");
+
+    /// 0: Casing, 1: Gearbox, 2: Pipe Casing
+    public static final BlockEntry<Block>[] STRUCTURE_ARRAY_NEUTRONIUM = fastBulkBlock("neutronium");
 
     public static BlockEntry<Block>[] fastBulkBlock(String name) {
         @SuppressWarnings("unchecked") // I have no idea if this is safe or not.
@@ -87,22 +88,22 @@ public class VoyagerBlocks {
 
     public static BlockEntry<Block> fastCreateCasingBlock(String name) {
         String blockName = "%s_casing".formatted(name);
-        ResourceLocation resourceLocation = VoyagerCore.id("block/casing/industrial_assembly_casing");
-        // ResourceLocation resourceLocation = VoyagerCore.id("block/casing/%s_casing".formatted(name));
+//        ResourceLocation resourceLocation = VoyagerCore.id("block/casing/industrial_assembly_casing");
+        ResourceLocation resourceLocation = VoyagerCore.id("block/casing/solid/casing_%s".formatted(name));
         return createCasingBlock(blockName, resourceLocation);
     }
 
     public static BlockEntry<Block> fastCreatePipeCasingBlock(String name) {
         String blockName = "%s_pipe_casing".formatted(name);
-        ResourceLocation resourceLocation = VoyagerCore.id("block/casing/industrial_assembly_casing");
-        // ResourceLocation resourceLocation = VoyagerCore.id("block/casing/pipe/casing_pipe_%s".formatted(name));
+//        ResourceLocation resourceLocation = VoyagerCore.id("block/casing/industrial_assembly_casing");
+        ResourceLocation resourceLocation = VoyagerCore.id("block/casing/pipe/casing_pipe_%s".formatted(name));
         return createCasingBlock(blockName, resourceLocation);
     }
 
     public static BlockEntry<Block> fastCreateGearboxBlock(String name) {
         String blockName = "%s_gearbox".formatted(name);
-        ResourceLocation resourceLocation = VoyagerCore.id("block/casing/industrial_assembly_casing");
-        // ResourceLocation resourceLocation = VoyagerCore.id("block/casing/pipe/casing_gearbox_%s".formatted(name));
+//        ResourceLocation resourceLocation = VoyagerCore.id("block/casing/industrial_assembly_casing");
+        ResourceLocation resourceLocation = VoyagerCore.id("block/casing/gearbox/casing_gearbox_%s".formatted(name));
         return createCasingBlock(blockName, resourceLocation);
     }
 
