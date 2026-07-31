@@ -72,6 +72,12 @@ public class VoyagerBlocks {
             "heatproof_helper_casing",
             VoyagerCore.id("block/casing/heatproof_helper_casing"));
 
+    public static final BlockEntry<Block> CASING_INERT_PTFE_HELPER = createCasingBlock(
+            "inert_ptfe_helper_casing",
+            VoyagerCore.id("block/casing/inert_ptfe_helper_casing"));
+
+    // inert_ptfe_helper_casing
+
     public static final BlockEntry<Block> COOLING_LAMP = VOYAGERCORE_REGISTRATE.block("cooling_lamp", Block::new)
             .initialProperties(() -> Blocks.SEA_LANTERN)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false)

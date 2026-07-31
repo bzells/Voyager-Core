@@ -10,13 +10,11 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
+import com.jzells.voyagercore.common.item.component.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
-import com.jzells.voyagercore.common.item.component.HelperComponentItem;
-import com.jzells.voyagercore.common.item.component.HelperItemComponent;
-import com.jzells.voyagercore.common.item.component.HelperModuleItemComponent;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import org.jetbrains.annotations.Nullable;
 
@@ -98,7 +96,18 @@ public class HelperAssemblerRecipeLogic implements GTRecipeType.ICustomRecipeLog
                 current = Integer.parseInt(modifiers.getString("count"));
             }
 
-            current++;
+            if (!(helperModuleItemComponent instanceof HelperRecipeModuleItemComponent helperRecipeModuleItemComponent))
+            {
+                if(helperModuleItemComponent instanceof HelperModuleItemModifierComponent modifierComponent)
+                {
+                    current += modifierComponent.getMODULE_SPACE();
+                }
+                else
+                {
+                    current++;
+                }
+            }
+
 
             modifiers.putString("count", Integer.toString(current));
 

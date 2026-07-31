@@ -5,11 +5,9 @@ import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.item.CoverPlaceBehavior;
 
-import com.jzells.voyagercore.common.item.component.HelperComponentItem;
-import com.jzells.voyagercore.common.item.component.HelperItemComponent;
-import com.jzells.voyagercore.common.item.component.HelperModuleItemComponent;
-import com.jzells.voyagercore.common.item.component.HelperModuleItemModifierComponent;
+import com.jzells.voyagercore.common.item.component.*;
 import com.jzells.voyagercore.common.machine.cover.HeatRedstoneCoverDefinition;
+import com.jzells.voyagercore.util.VoyagerVoltageTierUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
 
 import java.util.HashMap;
@@ -37,63 +35,138 @@ public class VoyagerItems {
 
     };
 
+    private static final int[] GENERIC_TIERS = {
+
+            GTValues.HV,
+
+    };
+
     static {
         for (int tier : SPECIALIZED_TIERS) {
-            String tierName = GTValues.VN[tier].toLowerCase(Locale.ROOT);
-
-            ItemEntry<HelperComponentItem> helper = VOYAGERCORE_REGISTRATE
-                    .item(tierName + "_specialized_helper", HelperComponentItem::new).properties(
-                            properties -> properties.stacksTo(1))
-                    .lang(GTValues.VN[tier] + " Specialized Helper")
-                    .onRegister(i -> i.attachComponents(
-                            new HelperItemComponent(
-                                    GTRecipeTypes.CHEMICAL_RECIPES,
-                                    "",
-                                    ((int) (tier / 2)) + 1,
-                                    tier,
-                                    false)))
-                    .register();
-
-            ItemEntry<HelperComponentItem> hull = VOYAGERCORE_REGISTRATE
-                    .item(tierName + "_specialized_helper_hull", HelperComponentItem::new).properties(
-                            properties -> properties.stacksTo(1))
-                    .lang(GTValues.VN[tier] + " Specialized Helper Hull")
-                    .onRegister(i -> i.attachComponents(
-                            new HelperItemComponent(
-                                    GTRecipeTypes.CHEMICAL_RECIPES,
-                                    "specialized",
-                                    3,
-                                    tier,
-                                    true)))
-                    .register();
-
-            HELPERS.put(tier, helper);
-            HELPER_HULLS.put(tier, hull);
-
-            HULL_TO_HELPER.put(hull, helper);
+            createHelper(tier, "specialized", "Specialized Helper");
         }
     }
 
-    public static ItemEntry<ComponentItem> EV_BASIC_HELPER_MODULE = VOYAGERCORE_REGISTRATE
-            .item("ev_basic_helper_module", ComponentItem::create)
-            .lang("EV Basic Helper Module")
-            .onRegister(item -> item.attachComponents(
-                    new HelperModuleItemComponent(GTValues.EV, "basic")))
-            .register();
+    static {
+        for (int tier : GENERIC_TIERS) {
+            createHelper(tier, "generic", "Generic Helper");
+        }
+    }
 
-    public static ItemEntry<ComponentItem> EV_SPEED_MODULE = VOYAGERCORE_REGISTRATE
-            .item("ev_speed_helper_module", ComponentItem::create)
-            .lang("EV Speed Helper Module")
-            .onRegister(item -> item.attachComponents(
-                    new HelperModuleItemModifierComponent(GTValues.EV, 0, 0.05f, .1f)))
-            .register();
 
-    public static ItemEntry<ComponentItem> IV_BASIC_HELPER_MODULE = VOYAGERCORE_REGISTRATE
-            .item("iv_basic_helper_module", ComponentItem::create)
-            .lang("IV Basic Helper Module")
-            .onRegister(item -> item.attachComponents(
-                    new HelperModuleItemComponent(GTValues.IV, "basic")))
-            .register();
+    private static final int[] MODULE_TIERS = {
+
+            GTValues.MV,
+            GTValues.HV,
+            GTValues.EV,
+            GTValues.IV,
+            GTValues.LuV,
+            GTValues.ZPM,
+            GTValues.UV
+
+    };
+
+    static {
+        for(int tier : MODULE_TIERS)
+        {
+            createHelperModifierModule("basic_helper_module", "Basic Helper Module", tier, 0, .15f/((float)tier * .5f), .05f + (((float)tier / 8) * .3f), 0, false, 1);
+            createHelperModifierModule("efficiency_helper_module", "Efficiency Helper Module", tier, 0, 1.2f /(float)tier, -.25f + (.5f * ((float)tier / 8)), 0, false, 1);
+            createHelperModifierModule("speed_helper_module", "Speed Helper Module", tier, 0, -0.25f * ((float)tier) / 4, .2f + (.4f * ((float)tier / 6)), 0, false, 1);
+            createHelperModifierModule("output_helper_module", "Output Modifier Helper Module", tier, 0, 0.05f * ((float)tier) / 4, -.2f + (.4f * ((float)tier / 8)), .5f, true, 2);
+            createHelperModifierModule("parallel_helper_module", "Parallel Modifier Helper Module", tier, tier, 0.05f * ((float)tier) / 4, -.5f + (.1f * ((float)tier / 8)), 0f, false, 2);
+
+        }
+        final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_EBF = createHelperRecipeModule(GTValues.MV, "ebf_helper_recipe_module", "Recipe Helper Module", "gtceu:electric_blast_furnace", false, 1);
+        final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_PLAT_LINE = createHelperRecipeModule(GTValues.EV, "plat_line_helper_recipe_module", "Recipe Helper Module", "plat_line", true, 1);
+        final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_DESH_LINE = createHelperRecipeModule(GTValues.EV, "desh_line_helper_recipe_module", "Recipe Helper Module", "desh_line", true, 1);
+
+//        for(int tier = 5; tier < GTValues.UV; tier++)
+//        {
+////            createHelperModifierBeamModule("beam_helper_module", "Beam Helper Module", tier, tier/4, 0.02f*tier, 0.02f*tier, 0, false, 3, 0.075f * ((float) tier /4));
+//        }
+    }
+
+
+    private static ItemEntry<HelperModuleComponentTooltipItem> createHelperModifierModule(String id,String lang, int tier, int pars, float eutReduce, float speed, float outputMod, boolean specialized, int moduleSpace)
+    {
+        String tierName = GTValues.VN[tier].toLowerCase(Locale.ROOT);
+        return VOYAGERCORE_REGISTRATE
+                .item(tierName + "_" + id, HelperModuleComponentTooltipItem::new).properties(
+                        properties -> properties.stacksTo(1))
+                .lang(VoyagerVoltageTierUtils.getVoltageTierColorStringShortForm(GTValues.VN[tier]) + " " + lang)
+                .onRegister(item -> item.attachComponents(
+                        new HelperModuleItemModifierComponent(tier, pars, eutReduce, speed, outputMod, specialized, moduleSpace)))
+                .model((ctx, prov) -> prov.withExistingParent(ctx.getName(), prov.mcLoc("item/generated"))
+                        .texture("layer0", prov.modLoc("item/" + tierName + "_helper_module"))
+                        .texture("layer1", prov.modLoc("item/" + id)))
+                .register();
+    }
+
+    private static ItemEntry<HelperModuleComponentTooltipItem> createHelperModifierBeamModule(String id,String lang, int tier, int pars, float eutReduce, float speed, float outputMod, boolean specialized, int moduleSpace, float beamP)
+    {
+        String tierName = GTValues.VN[tier].toLowerCase(Locale.ROOT);
+        return VOYAGERCORE_REGISTRATE
+                .item(tierName + "_" + id, HelperModuleComponentTooltipItem::new).properties(
+                        properties -> properties.stacksTo(1))
+                .lang(VoyagerVoltageTierUtils.getVoltageTierColorStringShortForm(GTValues.VN[tier]) + " " + lang)
+                .onRegister(item -> item.attachComponents(
+                        new HelperModuleItemBeamComponent(tier, pars, eutReduce, speed, outputMod, specialized, moduleSpace, beamP)))
+                .model((ctx, prov) -> prov.withExistingParent(ctx.getName(), prov.mcLoc("item/generated"))
+                        .texture("layer0", prov.modLoc("item/" + tierName + "_beam_helper_module"))
+                        .texture("layer1", prov.modLoc("item/" + id)))
+                .register();
+    }
+
+    private static ItemEntry<HelperModuleComponentTooltipItem> createHelperRecipeModule(int tier, String id, String lang, String recipe, boolean specialized, int recipeCount)
+    {
+        String tierName = GTValues.VN[tier].toLowerCase(Locale.ROOT);
+        return VOYAGERCORE_REGISTRATE
+                .item(tierName + "_" + id, HelperModuleComponentTooltipItem::new).properties(
+                        properties -> properties.stacksTo(1))
+                .lang(VoyagerVoltageTierUtils.getVoltageTierColorStringShortForm(GTValues.VN[tier]) + " " + lang)
+                .onRegister(item -> item.attachComponents(
+                        new HelperRecipeModuleItemComponent(tier, recipe, recipeCount, specialized)))
+                .model((ctx, prov) -> prov.withExistingParent(ctx.getName(), prov.mcLoc("item/generated"))
+                        .texture("layer0", prov.modLoc("item/" + tierName + "_helper_module"))
+                        .texture("layer1", prov.modLoc("item/" + id)))
+                .register();
+    }
+
+    private static void createHelper(int tier, String type, String lang)
+    {
+        String tierName = GTValues.VN[tier].toLowerCase(Locale.ROOT);
+
+        ItemEntry<HelperComponentItem> helper = VOYAGERCORE_REGISTRATE
+                .item(tierName + "_" + type + "_helper", HelperComponentItem::new).properties(
+                        properties -> properties.stacksTo(1))
+                .lang(VoyagerVoltageTierUtils.getVoltageTierColorStringShortForm(GTValues.VN[tier]) + " " + lang)
+                .onRegister(i -> i.attachComponents(
+                        new HelperItemComponent(
+                                GTRecipeTypes.DUMMY_RECIPES,
+                                type,
+                                ((int) (tier / 2)) + 1,
+                                tier,
+                                false, ((int) (tier / 4)) + 1, false)))
+                .register();
+
+        ItemEntry<HelperComponentItem> hull = VOYAGERCORE_REGISTRATE
+                .item(tierName + "_" + type + "_helper_hull", HelperComponentItem::new).properties(
+                        properties -> properties.stacksTo(1))
+                .lang(VoyagerVoltageTierUtils.getVoltageTierColorStringShortForm(GTValues.VN[tier]) + " " + lang + " Hull")
+                .onRegister(i -> i.attachComponents(
+                        new HelperItemComponent(
+                                GTRecipeTypes.DUMMY_RECIPES,
+                                type,
+                                ((int) (tier / 2)) + 1,
+                                tier,
+                                true, ((int) (tier / 4)) + 1, false)))
+                .register();
+
+        HELPERS.put(tier, helper);
+        HELPER_HULLS.put(tier, hull);
+
+        HULL_TO_HELPER.put(hull, helper);
+    }
 
     public static void init() {}
 }

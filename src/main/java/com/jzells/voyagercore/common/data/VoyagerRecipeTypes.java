@@ -15,6 +15,7 @@ import net.minecraft.client.resources.language.I18n;
 
 import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.common.data.recipe.helper.HelperAssemblerRecipeLogic;
+import com.jzells.voyagercore.util.VoyagerVoltageTierUtils;
 
 public class VoyagerRecipeTypes {
 
@@ -47,6 +48,11 @@ public class VoyagerRecipeTypes {
                             I18n.get(requiredCoil.getMaterial().getUnlocalizedName()));
                 }
                 return "";
+            })
+            .addDataInfo(data -> {
+                String specialized = (data.contains("specialized")) ? data.getString("specialized") : "none";
+                return (specialized.equals("none")) ? "" :
+                        "Helper Specialization: §6" + VoyagerVoltageTierUtils.helperSpecializationFromData(specialized);
             })
             .setSound(GTSoundEntries.CHEMICAL);
 

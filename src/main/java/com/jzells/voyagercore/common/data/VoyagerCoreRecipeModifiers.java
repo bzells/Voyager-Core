@@ -1,6 +1,7 @@
 package com.jzells.voyagercore.common.data;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -9,10 +10,14 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
+import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.network.chat.Component;
 
+import com.jzells.voyagercore.common.machine.multiblock.part.HelperHolderPartMachine;
 import com.jzells.voyagercore.util.VoyagerVoltageTierUtils;
+
+import java.util.ArrayList;
 
 public class VoyagerCoreRecipeModifiers {
 
@@ -25,11 +30,13 @@ public class VoyagerCoreRecipeModifiers {
     public static RecipeModifier ADVANCED_BOOSTING_FUSION = VoyagerCoreRecipeModifiers::advancedBoostingModifierFusion;
     // public static RecipeModifier HELPER_BOOSTING = VoyagerCoreRecipeModifiers::helperBoosting;
     public static RecipeModifier MAGMATIC_MODIFIER = VoyagerCoreRecipeModifiers::magmaticFoundryModifier;
+    public static RecipeModifier HELPER_COMPATABILITY = VoyagerCoreRecipeModifiers::helperCompatabilityModifier;
 
     public static ModifierFunction cubeModifier(MetaMachine machine, GTRecipe recipe) {
         if (!(machine instanceof MetaMachine)) {
             return ModifierFunction.NULL;
         }
+
         if (!(recipe instanceof GTRecipe)) {
             return ModifierFunction.NULL;
         }
@@ -288,6 +295,63 @@ public class VoyagerCoreRecipeModifiers {
                 .modifyAllContents(ContentModifier.multiplier(parallelMod))
                 .durationMultiplier(durationMod)
                 .parallels(parallelMod)
+                .build();
+    }
+
+    public static ModifierFunction helperCompatabilityModifier(MetaMachine machine, GTRecipe recipe) {
+        if (!(machine instanceof WorkableElectricMultiblockMachine machine1)) {
+            return ModifierFunction.NULL;
+        }
+        if (!(recipe instanceof GTRecipe)) {
+            return ModifierFunction.NULL;
+        }
+
+        HelperHolderPartMachine helperHolder = null;
+
+        for (IMultiPart part : machine1.getParts()) {
+            if (part instanceof HelperHolderPartMachine h) {
+                helperHolder = h;
+                break;
+            }
+        }
+
+        if (helperHolder == null)
+            return ModifierFunction.IDENTITY;
+
+        ArrayList<String> helperRecipes = helperHolder.getRecipes();
+
+        if (helperRecipes == null) {
+            return ModifierFunction.cancel(Component.literal("Helper has no recipes installed"));
+        }
+
+        boolean specialRecipe = (recipe.data.contains("specialized"));
+
+        String rspecialization = recipe.data.getString("specialized");
+        String hspecialization = helperHolder.getHelperSpecialization();
+
+        if (!helperRecipes.contains(recipe.recipeType.toString()) && !specialRecipe)
+            return ModifierFunction.cancel(Component.literal("Helper is not compatible with this recipe"));
+        if (helperHolder.getHelperIsSpecialized() && specialRecipe) {
+            System.out.println(helperHolder.getHelperSpecialization().equals(recipe.data.getString("specialized")));
+            if (!hspecialization.equals(rspecialization)) {
+                return ModifierFunction.cancel(Component.literal("Helper is not compatible with this specialization"));
+            }
+        }
+
+        if (helperHolder.getHelperTier() < GTUtil.getTierByVoltage(recipe.getInputEUt().voltage()))
+            return ModifierFunction.cancel(Component.literal("Helper tier is too low for this recipe"));
+
+        int pars = helperHolder.getHelperParallels();
+        float eutMod = 1 / helperHolder.getHelperEUt();
+        float speed = 1 / helperHolder.getHelperSpeed();
+        float outputMod = helperHolder.getOutputModifier();
+
+        return ModifierFunction.builder()
+                .modifyAllContents(ContentModifier.multiplier(pars))
+                .outputModifier(ContentModifier.multiplier(outputMod))
+                .eutMultiplier(eutMod)
+                .durationMultiplier(speed)
+                .parallels(pars)
                 .build();
     }
 

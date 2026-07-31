@@ -8,9 +8,14 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
+
+import net.minecraft.network.chat.Component;
+
 import com.jzells.voyagercore.common.machine.multiblock.part.HelperHolderPartMachine;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class HelperCoilMultiMachine extends CoilWorkableElectricMultiblockMachine {
 
@@ -22,6 +27,7 @@ public class HelperCoilMultiMachine extends CoilWorkableElectricMultiblockMachin
         super(holder);
         isSpecialized = specialized;
     }
+
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
@@ -44,10 +50,18 @@ public class HelperCoilMultiMachine extends CoilWorkableElectricMultiblockMachin
             return RecipeModifier.nullWrongType(HelperCoilMultiMachine.class, machine);
         }
 
+        ArrayList<String> helperRecipes = helperHolder.getRecipes();
+
+        if (helperRecipes == null) {
+            return ModifierFunction.cancel(Component.literal("Helper has no recipes installed"));
+        }
+
+        if (!helperRecipes.contains(recipe.recipeType.toString()))
+            return ModifierFunction.cancel(Component.literal("Helper is not compatible with this recipe"));
+
         int pars = helperHolder.getHelperParallels();
         float eutMod = 1 / helperHolder.getHelperEUt();
         float speed = 1 / helperHolder.getHelperSpeed();
-
 
         if (isSpecialized()) {
             // get recipe, match it to GTRecipe in params

@@ -13,9 +13,10 @@ import javax.annotation.Nullable;
 @Getter
 public class HelperModuleItemComponent implements IItemComponent, IHelperModuleModifier {
 
-    public HelperModuleItemComponent(int gt_tier, @Nullable String moduleData) {
+    public HelperModuleItemComponent(int gt_tier, @Nullable String moduleData, boolean specialized) {
         this.ModuleData = moduleData;
         this.GT_TIER = gt_tier;
+        this.specialized = specialized;
     }
 
     @Getter
@@ -27,6 +28,7 @@ public class HelperModuleItemComponent implements IItemComponent, IHelperModuleM
 
     private final int GT_TIER;
     private final String ModuleData;
+    private final boolean specialized;
 
     @Override
     public void apply(ItemStack stack) {
@@ -40,6 +42,10 @@ public class HelperModuleItemComponent implements IItemComponent, IHelperModuleM
     public boolean canApply(ItemStack stack, HelperItemComponent helperItemComponent) {
         int helperTier = helperItemComponent.getTier();
         int currentModuleCount = 0;
+
+        if (specialized && !helperItemComponent.isSpecialized()) {
+            return false;
+        }
 
         assert stack.getTag() != null;
         if (stack.getOrCreateTag().contains("modifiers"))

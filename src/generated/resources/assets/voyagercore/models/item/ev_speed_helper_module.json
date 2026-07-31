@@ -1,6 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "voyagercore:item/ev_speed_helper_module"
+    "layer0": "voyagercore:item/ev_helper_module",
+    "layer1": "voyagercore:item/speed_helper_module"
   }
 }
