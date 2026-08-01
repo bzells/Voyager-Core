@@ -17,7 +17,6 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
-import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.common.machine.multiblock.part.BeeHolderPartMachine;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.genetics.IBeeSpecies;
@@ -142,12 +141,12 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
     private void beeLogic() {
         this.uptime++;
         this.uptime %= 1200;
-        VoyagerCore.LOGGER.info("Running!");
+        // VoyagerCore.LOGGER.info("Running!");
 
-        if (!this.isWorkingEnabled()) {
-            beeHolders.forEach(part -> part.setLocked(false));
-            return;
-        }
+        // if (!this.isWorkingEnabled()) {
+        // beeHolders.forEach(part -> part.setLocked(false));
+        // return;
+        // }
         var slot = getOffsetTimer() % 20;
 
         if (slot >= beeHolders.size()) {
@@ -155,7 +154,8 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
         }
 
         var part = beeHolders.get((int) slot);
-        var royal = (IBee) IIndividualHandlerItem.getIndividual(part.getRoyal());
+        var stack = part.getRoyal();
+        var royal = (IBee) IIndividualHandlerItem.getIndividual(stack);
 
         if (royal == null) {
             part.setLocked(false);
@@ -163,7 +163,7 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
         }
 
         part.setLocked(true);
-        ILifeStage beeAge = SpeciesUtil.BEE_TYPE.get().getLifeStage(part.getRoyal());
+        ILifeStage beeAge = SpeciesUtil.BEE_TYPE.get().getLifeStage(stack);
         if (beeAge == PRINCESS) {
             if (!part.getDrones().isEmpty()) {
                 breed(part);
@@ -180,8 +180,8 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
 
             List<Ingredient> outputs = new ArrayList<>();
             for (var product : primary.getProducts()) {
-                VoyagerCore.LOGGER.info("Attempting Product! {}", product.toString());
-                VoyagerCore.LOGGER.info("Creating Stack: {}", product.createStack().toString());
+                // VoyagerCore.LOGGER.info("Attempting Product! {}", product.toString());
+                // VoyagerCore.LOGGER.info("Creating Stack: {}", product.createStack().toString());
                 outputs.add(Ingredient.of(new ItemStack(product.item(), this.ocBoost)));
             }
             /*
@@ -229,7 +229,7 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
         public void onRecipeFinish() {
             machine.afterWorking();
             if (!suspendAfterFinish) {
-                //In case modifiers get updated between versions, or some B.S. happens
+                // In case modifiers get updated between versions, or some B.S. happens
                 GTRecipe modified = machine.doModifyRecipe(POWER_RECIPE);
                 setupRecipe(modified);
                 return;
