@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "voyagercore:item/ev_specialized_helper_hull"
+  }
+}
