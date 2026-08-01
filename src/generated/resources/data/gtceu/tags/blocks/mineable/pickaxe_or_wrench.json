@@ -13,6 +13,18 @@
     "voyagercore:industrial_assembly_casing",
     "voyagercore:solid_industrial_casing",
     "voyagercore:ostrum_casing",
+    "voyagercore:rhodium_plated_palladium_casing",
+    "voyagercore:rhodium_plated_palladium_gearbox",
+    "voyagercore:rhodium_plated_palladium_pipe_casing",
+    "voyagercore:naquadah_alloy_casing",
+    "voyagercore:naquadah_alloy_gearbox",
+    "voyagercore:naquadah_alloy_pipe_casing",
+    "voyagercore:darmstadtium_casing",
+    "voyagercore:darmstadtium_gearbox",
+    "voyagercore:darmstadtium_pipe_casing",
+    "voyagercore:neutronium_casing",
+    "voyagercore:neutronium_gearbox",
+    "voyagercore:neutronium_pipe_casing",
     "voyagercore:cooling_lamp"
   ]
 }
