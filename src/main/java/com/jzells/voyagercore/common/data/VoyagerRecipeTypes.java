@@ -13,7 +13,6 @@ import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 
 import net.minecraft.client.resources.language.I18n;
 
-import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.common.data.recipe.helper.HelperAssemblerRecipeLogic;
 import com.jzells.voyagercore.util.VoyagerVoltageTierUtils;
 
@@ -102,14 +101,31 @@ public class VoyagerRecipeTypes {
 
             .setSound(GTSoundEntries.ASSEMBLER);
 
-    public static final GTRecipeType HELPER_ASSEMBLY = new GTRecipeType(
-            VoyagerCore.id("helper_assembly"),
-            "helper_assembly")
+    public static final GTRecipeType HELPER_FACTORY = GTRecipeTypes
+            .register("helper_factory", GTRecipeTypes.ELECTRIC)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(9, 1, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ASSEMBLY_LINE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSlotOverlay(true, false, GuiTextures.BOX_OVERLAY)
+
+            .setSound(GTSoundEntries.ASSEMBLER);
+
+    public static final GTRecipeType HELPER_ASSEMBLY = GTRecipeTypes
+            .register("helper_assembly", GTRecipeTypes.ELECTRIC)
             .setEUIO(IO.IN)
             .setMaxIOSize(3, 1, 0, 0)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ASSEMBLY_LINE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BENDING, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER)
             .addCustomRecipeLogic(new HelperAssemblerRecipeLogic());
+
+    public static final GTRecipeType SMD_ASSEMBLY = GTRecipeTypes
+            .register("smd_assembly", GTRecipeTypes.MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(6, 1, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BENDING, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSlotOverlay(true, false, GuiTextures.BOX_OVERLAY)
+
+            .setSound(GTSoundEntries.ASSEMBLER);
 
     public static void init() {}
 }

@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "voyagercore:inert_ptfe_helper_casing"
+          "name": "voyagercore:clean_assembly_casing"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "voyagercore:blocks/inert_ptfe_helper_casing"
+  "random_sequence": "voyagercore:blocks/clean_assembly_casing"
 }

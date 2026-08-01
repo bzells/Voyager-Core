@@ -5,7 +5,6 @@ import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
-import com.jzells.voyagercore.common.item.component.HelperItemComponent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -13,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
+import com.jzells.voyagercore.common.item.component.HelperItemComponent;
 import com.jzells.voyagercore.util.VoyagerVoltageTierUtils;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,6 +30,32 @@ public class HelperTooltipComponent implements IAddInformation {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents,
                                 TooltipFlag isAdvanced) {
+        int maxModules = 0;
+        int maxRecipes = 0;
+        int tier = 0;
+        boolean specialized = false;
+        boolean isHull = false;
+
+        if (stack.getItem() instanceof ComponentItem componentItem) {
+            for (IItemComponent component : componentItem.getComponents()) {
+                if (component instanceof HelperItemComponent helperComponent) {
+                    maxModules = helperComponent.getMAX_MODULE_COUNT();
+                    maxRecipes = helperComponent.getRecipeCount();
+                    tier = helperComponent.getTier();
+                    specialized = helperComponent.isSpecialized();
+                    isHull = helperComponent.isHull();
+                    break;
+                }
+            }
+        }
+
+        if (isHull) {
+            tooltipComponents.add(Component.literal("§7Modifier Slots: §a" + maxModules));
+            tooltipComponents.add(Component.literal(
+                    specialized ? "§7Specialization Slots: §b" + maxRecipes : "§7Recipe Slots: §b" + maxRecipes));
+            return;
+        }
+
         CompoundTag tag = stack.getTag();
 
         if (tag == null || !tag.contains("modifiers")) {
@@ -43,23 +69,6 @@ public class HelperTooltipComponent implements IAddInformation {
             return;
         }
 
-        int maxModules = 0;
-        int maxRecipes = 0;
-        int tier = 0;
-        boolean specialized = false;
-
-        if (stack.getItem() instanceof ComponentItem componentItem) {
-            for (IItemComponent component : componentItem.getComponents()) {
-                if (component instanceof HelperItemComponent helperComponent) {
-                    maxModules = helperComponent.getMAX_MODULE_COUNT();
-                    maxRecipes = helperComponent.getRecipeCount();
-                    tier = helperComponent.getTier();
-                    specialized = helperComponent.isSpecialized();
-                    break;
-                }
-            }
-        }
-
         int installed = 0;
         int insalledRecipes = 0;
         float beam = 0;
@@ -71,8 +80,7 @@ public class HelperTooltipComponent implements IAddInformation {
         if (modifiers.contains("count")) {
             installed = Integer.parseInt(modifiers.getString("count"));
         }
-        if(modifiers.contains("beam"))
-        {
+        if (modifiers.contains("beam")) {
             beam = modifiers.getFloat("beam");
         }
 
@@ -166,7 +174,7 @@ public class HelperTooltipComponent implements IAddInformation {
             String recipe = specialized ? String.valueOf(key) : String.valueOf(GTRecipeTypes.get(key));
             // System.out.println(recipe);
             tooltipComponents.add(Component.literal(
-                    "§7" + (specialized ? VoyagerVoltageTierUtils.helperSpecializationFromData(recipe) : recipe)));
+                    "§6" + (specialized ? VoyagerVoltageTierUtils.helperSpecializationFromData(recipe) : recipe)));
         }
         tooltipComponents.add(Component.literal(""));
         tooltipComponents.add(Component

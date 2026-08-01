@@ -1,13 +1,17 @@
 package com.jzells.voyagercore.common.item.component;
 
-import lombok.Getter;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+
+import lombok.Getter;
+
 @Getter
 public class HelperModuleItemBeamComponent extends HelperModuleItemModifierComponent {
 
     private final float BEAM_PERCENT;
-    public HelperModuleItemBeamComponent(int gt_tier, int parallels, float eutReductionPercent, float speed, float outputMod, boolean specialized, int moduleSpace, float beamPercent) {
+
+    public HelperModuleItemBeamComponent(int gt_tier, int parallels, float eutReductionPercent, float speed,
+                                         float outputMod, boolean specialized, int moduleSpace, float beamPercent) {
         super(gt_tier, parallels, eutReductionPercent, speed, outputMod, specialized, moduleSpace);
         this.BEAM_PERCENT = beamPercent;
     }
@@ -22,9 +26,6 @@ public class HelperModuleItemBeamComponent extends HelperModuleItemModifierCompo
 
         float beamP = tag.getFloat("beam");
 
-
-
         tag.putFloat("beam", beamP + BEAM_PERCENT);
-
     }
 }

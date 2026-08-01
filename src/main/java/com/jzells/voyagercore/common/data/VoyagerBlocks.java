@@ -72,9 +72,9 @@ public class VoyagerBlocks {
             "heatproof_helper_casing",
             VoyagerCore.id("block/casing/heatproof_helper_casing"));
 
-    public static final BlockEntry<Block> CASING_INERT_PTFE_HELPER = createCasingBlock(
-            "inert_ptfe_helper_casing",
-            VoyagerCore.id("block/casing/inert_ptfe_helper_casing"));
+    public static final BlockEntry<Block> CASING_CLEAN_ASSEMBLY = createCasingBlock(
+            "clean_assembly_casing",
+            VoyagerCore.id("block/casing/clean_assembly_casing"));
 
     // inert_ptfe_helper_casing
 

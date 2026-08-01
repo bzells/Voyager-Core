@@ -12,16 +12,14 @@ public class HelperModuleItemModifierComponent extends HelperModuleItemComponent
     private final float EUT_REDUCTION_PERCENT;
     private final float SPEED;
     private final float OUTPUT_MOD;
-    private final int MODULE_SPACE;
 
     public HelperModuleItemModifierComponent(int gt_tier, int parallels, float eutReductionPercent, float speed,
                                              float outputMod, boolean specialized, int moduleSpace) {
-        super(gt_tier, null, specialized);
+        super(gt_tier, null, specialized, moduleSpace);
         PARALLELS = parallels;
         EUT_REDUCTION_PERCENT = eutReductionPercent;
         SPEED = speed;
         OUTPUT_MOD = outputMod;
-        MODULE_SPACE = moduleSpace;
     }
 
     @Override

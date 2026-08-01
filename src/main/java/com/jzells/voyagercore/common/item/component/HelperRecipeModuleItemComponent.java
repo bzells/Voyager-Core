@@ -9,7 +9,7 @@ import lombok.Getter;
 public class HelperRecipeModuleItemComponent extends HelperModuleItemComponent {
 
     public HelperRecipeModuleItemComponent(int gt_tier, String recipeType, int recipeCount, boolean specialized) {
-        super(gt_tier, null, specialized);
+        super(gt_tier, null, specialized, 0);
         this.recipeType = recipeType;
         RECIPE_COUNT = recipeCount;
     }

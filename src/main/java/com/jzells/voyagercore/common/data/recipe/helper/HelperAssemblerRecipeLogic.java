@@ -10,23 +10,26 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
-import com.jzells.voyagercore.common.item.component.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
+import com.jzells.voyagercore.common.item.component.*;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 import static com.jzells.voyagercore.common.data.VoyagerItems.HELPERS;
+import static com.jzells.voyagercore.common.data.VoyagerItems.SPECIALIZED_HELPERS;
 
 public class HelperAssemblerRecipeLogic implements GTRecipeType.ICustomRecipeLogic {
 
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
         List<IRecipeHandler<?>> handlers = holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP);
+
+        System.out.println("Test1");
 
         if (handlers.isEmpty()) return null;
 
@@ -69,7 +72,9 @@ public class HelperAssemblerRecipeLogic implements GTRecipeType.ICustomRecipeLog
             ItemStack outputHelper;
 
             if (helperItemComponent.isHull()) {
-                ItemEntry<HelperComponentItem> helper = HELPERS.get(helperItemComponent.getTier());
+                ItemEntry<HelperComponentItem> helper = helperItemComponent.isSpecialized() ?
+                        SPECIALIZED_HELPERS.get(helperItemComponent.getTier()) :
+                        HELPERS.get(helperItemComponent.getTier());
 
                 outputHelper = new ItemStack(helper.get());
                 outputHelper.getOrCreateTagElement("modifiers").putString("count", "0");
@@ -96,18 +101,13 @@ public class HelperAssemblerRecipeLogic implements GTRecipeType.ICustomRecipeLog
                 current = Integer.parseInt(modifiers.getString("count"));
             }
 
-            if (!(helperModuleItemComponent instanceof HelperRecipeModuleItemComponent helperRecipeModuleItemComponent))
-            {
-                if(helperModuleItemComponent instanceof HelperModuleItemModifierComponent modifierComponent)
-                {
+            if (!(helperModuleItemComponent instanceof HelperRecipeModuleItemComponent helperRecipeModuleItemComponent)) {
+                if (helperModuleItemComponent instanceof HelperModuleItemModifierComponent modifierComponent) {
                     current += modifierComponent.getMODULE_SPACE();
-                }
-                else
-                {
+                } else {
                     current++;
                 }
             }
-
 
             modifiers.putString("count", Integer.toString(current));
 

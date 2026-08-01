@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "voyagercore:block/casing/inert_ptfe_helper_casing"
+    "all": "voyagercore:block/casing/clean_assembly_casing"
   }
 }

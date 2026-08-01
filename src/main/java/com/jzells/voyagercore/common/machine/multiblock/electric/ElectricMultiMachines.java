@@ -491,30 +491,33 @@ public class ElectricMultiMachines {
     public static final MultiblockMachineDefinition HELPER_ASSEMBLER = VOYAGERCORE_REGISTRATE
             .multiblock("helper_assembler", WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.ALL)
-            .appearanceBlock(CASING_FROST_CONDUCTING)
+            .appearanceBlock(CASING_PLATINUM)
             .recipeTypes(VoyagerRecipeTypes.HELPER_ASSEMBLY)
             .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
             .pattern(def -> FactoryBlockPattern.start()
-                    .aisle("XXX", "XXX", "XXX")
-                    .aisle("XXX", "XAX", "XXX")
-                    .aisle("XXX", "XCX", "XXX")
-                    .where("X", Predicates.blocks(CASING_FROST_CONDUCTING.get())
-                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(4, 1))
-                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
-                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
-                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2, 1)))
-                    .where("A", Predicates.any())
-                    .where("C", Predicates.controller(Predicates.blocks(def.get())))
+                    .aisle("PXXXP", "PAAAP", "PXXXP")
+                    .aisle("PAAAP", "IGGGO", "PAAAP")
+                    .aisle("PXXXP", "PA@AP", "PXXXP")
+                    .where("P", Predicates.blocks(CASING_PLATINUM.get())
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setExactLimit(1).setPreviewCount(1)))
+                    .where("A", Predicates.blocks(CASING_GRATE.get()))
+                    .where("G", Predicates.blocks(CASING_TITANIUM_GEARBOX.get()))
+                    .where("X", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
+                            .get(TagPrefix.frameGt, GTMaterials.Steel)).get()))
+                    .where("@", Predicates.controller(Predicates.blocks(def.get())))
+                    .where("I", Predicates.abilities(PartAbility.IMPORT_ITEMS))
+                    .where("O", Predicates.abilities(PartAbility.EXPORT_ITEMS))
                     .build())
-            .workableCasingModel(VoyagerCore.id("block/casing/frost_conducting_casing"),
-                    VoyagerCore.id("block/multiblock/magmatic_foundry"))
+            .workableCasingModel(VoyagerCore.id("block/casing/platinum_casing"),
+                    GTCEu.id("block/machines/assembler"))
             .register();
 
     public static final MultiblockMachineDefinition HELPER_FACTORY = VOYAGERCORE_REGISTRATE
             .multiblock("helper_factory", PreciseRobotArmMachine::new)
             .rotationState(RotationState.ALL)
             .appearanceBlock(CASING_CONDENSATION_RESISTANT_TUNGSTEN)
-            .recipeTypes(VoyagerRecipeTypes.HELPER_ASSEMBLY)
+            .recipeTypes(VoyagerRecipeTypes.HELPER_FACTORY)
             .recipeModifiers(PreciseRobotArmMachine::recipeModifier, GTRecipeModifiers.OC_PERFECT)
             .pattern(def -> FactoryBlockPattern.start()
                     .aisle("aaaaaaa", "aaaaaaa", "aacccaa", "aacccaa", "aacccaa", "aaaaaaa", "aaaaaaa")
@@ -530,8 +533,6 @@ public class ElectricMultiMachines {
                     .aisle("aaeeeaa", "aebfbea", "ebgagbe", "efahafe", "ebgagbe", "aebfbea", "aaeeeaa")
                     .aisle("aabbbaa", "abbbbba", "bbdddbb", "bbdddbb", "bbdddbb", "abbbbba", "aabbbaa")
                     .aisle("aaaaaaa", "aaaaaaa", "aacccaa", "aac@caa", "aacccaa", "aaaaaaa", "aaaaaaa")
-
-
 
                     .where("b", Predicates.blocks(CASING_PLATINUM.get()))
                     .where("a", Predicates.any())
