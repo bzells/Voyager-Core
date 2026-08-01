@@ -10,15 +10,20 @@ import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
-import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderHelper;
+import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
+import com.gregtechceu.gtceu.utils.GTUtil;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 
 import com.jzells.voyagercore.VoyagerCore;
+import com.jzells.voyagercore.client.renderer.machine.VoyagerRenderHelper;
 import com.jzells.voyagercore.common.data.VoyagerCoreRecipeModifiers;
 import com.jzells.voyagercore.common.data.VoyagerMaterials;
+import com.jzells.voyagercore.common.data.VoyagerPredicates;
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
 import com.jzells.voyagercore.common.machine.multiblock.part.VoyagerPartAbilities;
 
@@ -256,7 +261,7 @@ public class ElectricMultiMachines {
                     .model(createWorkableCasingMachineModel(
                             GTCEu.id(FusionReactorMachine.getCasingType(tier).getTexture().getPath()),
                             GTCEu.id("block/multiblock/fusion_reactor/fusion"))
-                            .andThen(b -> b.addDynamicRenderer(DynamicRenderHelper::createFusionRingRender)))
+                            .andThen(b -> b.addDynamicRenderer(VoyagerRenderHelper::createSuperDonutRender)))
 
                     .hasBER(true)
                     .register(),
@@ -360,13 +365,13 @@ public class ElectricMultiMachines {
             .rotationState(RotationState.ALL)
             .appearanceBlock(CASING_FROST_CONDUCTING)
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
-            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
+            .recipeModifier(GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.create(1, 4, false)))
             .pattern(def -> FactoryBlockPattern.start()
                     .aisle("XXX", "XXX", "XXX")
                     .aisle("XXX", "XAX", "XXX")
                     .aisle("XXX", "XCX", "XXX")
                     .where("X", Predicates.blocks(CASING_FROST_CONDUCTING.get())
-                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(4, 1))
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
                             .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                             .or(Predicates.abilities(VoyagerPartAbilities.BEE_HOLDER).setPreviewCount(1))
@@ -376,6 +381,18 @@ public class ElectricMultiMachines {
                     .build())
             .workableCasingModel(VoyagerCore.id("block/casing/frost_conducting_casing"),
                     VoyagerCore.id("block/multiblock/magmatic_foundry"))
+            .tooltips(Component.literal("Uses EU to boost the innate production of Bees"))
+            .tooltipBuilder((stack, tooltip) -> {
+                if (GTUtil.isCtrlDown()) {
+                    tooltip.add(Component.empty());
+                    tooltip.add(Component.literal("Each Queen inside will produce at base 1 Comb per second."));
+                    tooltip.add(
+                            Component.literal("For each overclock above HV, they will produce an additional comb."));
+                    tooltip.add(Component.literal("Specialty products are not produced, nor effects")
+                            .withStyle(ChatFormatting.RED));
+                    tooltip.add(Component.empty());
+                } else tooltip.add(Component.literal("Hold CTRL for a wall of text"));
+            })
             .register();
 
     public static final MultiblockMachineDefinition MAGMAIC_MELTER = VOYAGERCORE_REGISTRATE
@@ -387,29 +404,19 @@ public class ElectricMultiMachines {
                     GTRecipeModifiers.OC_NON_PERFECT, BATCH_MODE, VoyagerCoreRecipeModifiers.HELPER_COMPATABILITY)
             .appearanceBlock(CASING_INDUSTRIAL_MACERATION)
             .pattern(def -> FactoryBlockPattern.start()
-
-                    .aisle("aaabbbbbaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa",
-                            "aaacaaacaaa", "aaacaaacaaa", "aaabbbbbaaa")
-                    .aisle("abbbbbbbbba", "aaaeeeeeaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa",
-                            "aaaaaaaaaaa", "aaaeeeeeaaa", "abbbbbbbbba")
-                    .aisle("abbbbbbbbba", "aaefffffeaa", "aaagaaagaaa", "aaaeccceaaa", "aaagaaagaaa", "aaaeccceaaa",
-                            "aaagaaagaaa", "aaefffffeaa", "abbbbbbbbba")
-                    .aisle("bbbbbbbbbbb", "cefffffffec", "cagfgggfgac", "caefgggfeac", "cagfgggfgac", "caefgggfeac",
-                            "cagfgggfgac", "cefffffffec", "bbbbbbbbbbb")
-                    .aisle("bbbbbbbbbbb", "aefffffffea", "aaagaaagaaa", "aacgaaagcaa", "aaagaaagaaa", "aacgaaagcaa",
-                            "aaagaaagaaa", "aefffffffea", "bbbbbbbbbbb")
-                    .aisle("bbbbbbbbbbb", "aefffffffea", "aaagaaagaaa", "aacgaaagcaa", "aaagaaagaaa", "aacgaaagcaa",
-                            "aaagaaagaaa", "aefffffffea", "bbbbbbbbbbb")
-                    .aisle("bbbbbbbbbbb", "aefffffffea", "aaagaaagaaa", "aacgaaagcaa", "aaagaaagaaa", "aacgaaagcaa",
-                            "aaagaaagaaa", "aefffffffea", "bbbbbbbbbbb")
-                    .aisle("bbbbbbbbbbb", "cefffffffec", "cagfgggfgac", "caefgggfeac", "cagfgggfgac", "caefgggfeac",
-                            "cagfgggfgac", "cefffffffec", "bbbbbbbbbbb")
-                    .aisle("abbbbbbbbba", "aaefffffeaa", "aaagaaagaaa", "aaaeccceaaa", "aaagaaagaaa", "aaaeccceaaa",
-                            "aaagaaagaaa", "aaefffffeaa", "abbbbbbbbba")
-                    .aisle("abbbbbbbbba", "aaaeeeeeaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa",
-                            "aaaaaaaaaaa", "aaaeeeeeaaa", "abbbbbbbbba")
-                    .aisle("aaabb@bbaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa",
-                            "aaacaaacaaa", "aaacaaacaaa", "aaabbbbbaaa")
+                    // spotless:off
+                    .aisle("aaabbbbbaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaabbbbbaaa")
+                    .aisle("abbbbbbbbba", "aaaeeeeeaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaeeeeeaaa", "abbbbbbbbba")
+                    .aisle("abbbbbbbbba", "aaefffffeaa", "aaagaaagaaa", "aaaeccceaaa", "aaagaaagaaa", "aaaeccceaaa", "aaagaaagaaa", "aaefffffeaa", "abbbbbbbbba")
+                    .aisle("bbbbbbbbbbb", "cefffffffec", "cagfgggfgac", "caefgggfeac", "cagfgggfgac", "caefgggfeac", "cagfgggfgac", "cefffffffec", "bbbbbbbbbbb")
+                    .aisle("bbbbbbbbbbb", "aefffffffea", "aaagaaagaaa", "aacgaaagcaa", "aaagaaagaaa", "aacgaaagcaa", "aaagaaagaaa", "aefffffffea", "bbbbbbbbbbb")
+                    .aisle("bbbbbbbbbbb", "aefffffffea", "aaagaaagaaa", "aacgaaagcaa", "aaagaaagaaa", "aacgaaagcaa", "aaagaaagaaa", "aefffffffea", "bbbbbbbbbbb")
+                    .aisle("bbbbbbbbbbb", "aefffffffea", "aaagaaagaaa", "aacgaaagcaa", "aaagaaagaaa", "aacgaaagcaa", "aaagaaagaaa", "aefffffffea", "bbbbbbbbbbb")
+                    .aisle("bbbbbbbbbbb", "cefffffffec", "cagfgggfgac", "caefgggfeac", "cagfgggfgac", "caefgggfeac", "cagfgggfgac", "cefffffffec", "bbbbbbbbbbb")
+                    .aisle("abbbbbbbbba", "aaefffffeaa", "aaagaaagaaa", "aaaeccceaaa", "aaagaaagaaa", "aaaeccceaaa", "aaagaaagaaa", "aaefffffeaa", "abbbbbbbbba")
+                    .aisle("abbbbbbbbba", "aaaeeeeeaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaa", "aaaeeeeeaaa", "abbbbbbbbba")
+                    .aisle("aaabb@bbaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaacaaacaaa", "aaabbbbbaaa")
+                    //spotless:on
                     .where("b", Predicates.blocks(CASING_HIGH_TEMPERATURE_SMELTING.get())
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
                             .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
@@ -469,7 +476,6 @@ public class ElectricMultiMachines {
                     GTRecipeModifiers.OC_NON_PERFECT)
             .appearanceBlock(CASING_INDUSTRIAL_SOLID)
             .pattern(def -> FactoryBlockPattern.start()
-
                     .aisle("aaaaa", "bbbbb", "aaaaa")
                     .aisle("cdddd", "eeeee", "bbbbb")
                     .aisle("aaaaa", "bbbbb", "@aaaa")
@@ -487,6 +493,10 @@ public class ElectricMultiMachines {
             .workableCasingModel(VoyagerCore.id("block/casing/solid_industrial_casing"),
                     VoyagerCore.id("block/multiblock/helper_coiltronics_assembly"))
             .register();
+    // ====================//
+    // Spotless is disabled past this point
+    // spotless:off
+    // ====================//
 
     public static final MultiblockMachineDefinition HELPER_ASSEMBLER = VOYAGERCORE_REGISTRATE
             .multiblock("helper_assembler", WorkableElectricMultiblockMachine::new)

@@ -18,4 +18,6 @@ public class VoyagerMaterials {
 
     public static Material Calorite;
     public static Material Desh;
+    public static Material Ostrum;
+    public static Material Aluminex202a;
 }

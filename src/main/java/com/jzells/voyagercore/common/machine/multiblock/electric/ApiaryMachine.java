@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
@@ -16,11 +17,12 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
-import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.common.machine.multiblock.part.BeeHolderPartMachine;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.genetics.IBeeSpecies;
+import forestry.api.genetics.IGenome;
 import forestry.api.genetics.ILifeStage;
+import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.utils.SpeciesUtil;
 
@@ -38,8 +40,8 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
 
     private ArrayList<BeeHolderPartMachine> beeHolders;
     private int uptime;
-    private final GTRecipe emptyRecipe = GTRecipeBuilder.ofRaw().buildRawRecipe();
-    private final GTRecipe powerRecipe = GTRecipeBuilder.ofRaw().EUt(VHA[HV]).duration(20).buildRawRecipe();
+    private static final GTRecipe EMPTY_RECIPE = GTRecipeBuilder.ofRaw().buildRawRecipe();
+    private static final GTRecipe POWER_RECIPE = GTRecipeBuilder.ofRaw().EUt(VHA[HV]).duration(20).buildRawRecipe();
     private int ocBoost = 1;
 
     public ApiaryMachine(IMachineBlockEntity holder) {
@@ -104,7 +106,10 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
 
     private void resetState() {
         // unsubscribe(beeLogicSubscription);
-        // beeHolders.forEach(p ->p.setLocked(false));
+        beeHolders.forEach(p -> p.setLocked(false));
+        beeHolders.forEach(p -> p.self().setRenderState(p.self()
+                .getRenderState()
+                .setValue(GTMachineModelProperties.RECIPE_LOGIC_STATUS, RecipeLogic.Status.IDLE)));
         this.beeHolders = null;
         this.uptime = 0;
         this.ocBoost = 1;
@@ -136,12 +141,12 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
     private void beeLogic() {
         this.uptime++;
         this.uptime %= 1200;
-        VoyagerCore.LOGGER.info("Running!");
+        // VoyagerCore.LOGGER.info("Running!");
 
-        if (!this.isWorkingEnabled()) {
-            beeHolders.forEach(part -> part.setLocked(false));
-            return;
-        }
+        // if (!this.isWorkingEnabled()) {
+        // beeHolders.forEach(part -> part.setLocked(false));
+        // return;
+        // }
         var slot = getOffsetTimer() % 20;
 
         if (slot >= beeHolders.size()) {
@@ -149,7 +154,8 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
         }
 
         var part = beeHolders.get((int) slot);
-        var royal = (IBee) IIndividualHandlerItem.getIndividual(part.getRoyal());
+        var stack = part.getRoyal();
+        var royal = (IBee) IIndividualHandlerItem.getIndividual(stack);
 
         if (royal == null) {
             part.setLocked(false);
@@ -157,7 +163,7 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
         }
 
         part.setLocked(true);
-        ILifeStage beeAge = SpeciesUtil.BEE_TYPE.get().getLifeStage(part.getRoyal());
+        ILifeStage beeAge = SpeciesUtil.BEE_TYPE.get().getLifeStage(stack);
         if (beeAge == PRINCESS) {
             if (!part.getDrones().isEmpty()) {
                 breed(part);
@@ -165,17 +171,17 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
             }
         }
         if (beeAge == QUEEN) {
-            // IGenome genome = royal.getGenome();
+            IGenome genome = royal.getGenome();
             IBeeSpecies primary = royal.getSpecies();
             IBeeSpecies secondary = royal.getInactiveSpecies();
-            // float speed = genome.getActiveValue(BeeChromosomes.SPEED);
+            float speed = genome.getActiveValue(BeeChromosomes.SPEED);
             // int lifespan = genome.getActiveValue(BeeChromosomes.LIFESPAN);
             // Uptime check here
 
             List<Ingredient> outputs = new ArrayList<>();
             for (var product : primary.getProducts()) {
-                VoyagerCore.LOGGER.info("Attempting Product! {}", product.toString());
-                VoyagerCore.LOGGER.info("Creating Stack: {}", product.createStack().toString());
+                // VoyagerCore.LOGGER.info("Attempting Product! {}", product.toString());
+                // VoyagerCore.LOGGER.info("Creating Stack: {}", product.createStack().toString());
                 outputs.add(Ingredient.of(new ItemStack(product.item(), this.ocBoost)));
             }
             /*
@@ -195,7 +201,7 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
                             .map(o -> new Content(o, 1, 0, 0))
                             .toList());
 
-            RecipeHelper.handleRecipe(this, emptyRecipe, IO.OUT, outputMap, this.recipeLogic.getChanceCaches(), false,
+            RecipeHelper.handleRecipe(this, EMPTY_RECIPE, IO.OUT, outputMap, this.recipeLogic.getChanceCaches(), false,
                     false);
             // outputBuses.get(0).getInventory().handleRecipe(IO.OUT,
             // emptyRecipe,
@@ -212,7 +218,7 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
         @Override
         public void findAndHandleRecipe() {
             lastRecipe = null;
-            GTRecipe modified = machine.doModifyRecipe(powerRecipe);
+            GTRecipe modified = machine.doModifyRecipe(POWER_RECIPE);
             setupRecipe(modified);
         }
 
@@ -222,13 +228,17 @@ public class ApiaryMachine extends WorkableElectricMultiblockMachine {
         @Override
         public void onRecipeFinish() {
             machine.afterWorking();
-            setupRecipe(lastRecipe);
-            if (suspendAfterFinish) {
-                setStatus(Status.SUSPEND);
-                suspendAfterFinish = false;
-                lastRecipe = null;
-                if (getMachine() instanceof ApiaryMachine) unlockHolders();
+            if (!suspendAfterFinish) {
+                // In case modifiers get updated between versions, or some B.S. happens
+                GTRecipe modified = machine.doModifyRecipe(POWER_RECIPE);
+                setupRecipe(modified);
+                return;
             }
+            setStatus(Status.SUSPEND);
+            suspendAfterFinish = false;
+            lastRecipe = null;
+            isActive = false;
+            if (getMachine() instanceof ApiaryMachine) unlockHolders();
         }
     }
 }

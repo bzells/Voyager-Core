@@ -2,7 +2,7 @@
   "parent": "minecraft:block/block",
   "dynamic_renders": [
     {
-      "type": "gtceu:fusion_ring"
+      "type": "voyagercore:super_donut"
     }
   ],
   "loader": "gtceu:machine",
