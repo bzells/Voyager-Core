@@ -28,9 +28,9 @@ public class VoyagerCoreRecipeModifiers {
     public static RecipeModifier BASIC_BOOSTING = VoyagerCoreRecipeModifiers::basicBoostingModifier;
     public static RecipeModifier ADVANCED_BOOSTING = VoyagerCoreRecipeModifiers::advancedBoostingModifier;
     public static RecipeModifier ADVANCED_BOOSTING_FUSION = VoyagerCoreRecipeModifiers::advancedBoostingModifierFusion;
-    // public static RecipeModifier HELPER_BOOSTING = VoyagerCoreRecipeModifiers::helperBoosting;
     public static RecipeModifier MAGMATIC_MODIFIER = VoyagerCoreRecipeModifiers::magmaticFoundryModifier;
     public static RecipeModifier HELPER_COMPATABILITY = VoyagerCoreRecipeModifiers::helperCompatabilityModifier;
+    public static RecipeModifier PARAMOUNT_HELPER_REQUIRE = VoyagerCoreRecipeModifiers::paramountHelperModifier;
 
     public static ModifierFunction cubeModifier(MetaMachine machine, GTRecipe recipe) {
         if (!(machine instanceof MetaMachine)) {
@@ -326,19 +326,29 @@ public class VoyagerCoreRecipeModifiers {
 
         boolean specialRecipe = (recipe.data.contains("specialized"));
 
+        boolean paramountRecipe = (recipe.data.contains("paramount"));
+
         String rspecialization = recipe.data.getString("specialized");
         String hspecialization = helperHolder.getHelperSpecialization();
 
-        if (!helperRecipes.contains(recipe.recipeType.toString()) && !specialRecipe)
+        if (!helperRecipes.contains(recipe.recipeType.toString()) && !specialRecipe && !paramountRecipe)
             return ModifierFunction.cancel(Component.literal("Helper is not compatible with this recipe"));
         if (helperHolder.getHelperIsSpecialized() && specialRecipe) {
-            System.out.println(helperHolder.getHelperSpecialization().equals(recipe.data.getString("specialized")));
             if (!hspecialization.equals(rspecialization)) {
                 return ModifierFunction.cancel(Component.literal("Helper is not compatible with this specialization"));
             }
         }
+        // if(paramountRecipe)
+        // {
+        // if(!(recipe.data.getString("paramount").equals(helperHolder.getParamountHelperData()))) return
+        // ModifierFunction.cancel(Component.literal("Incorrect Paramount helper"));
+        // }
+        if (helperHolder.getHelperIsParamount()) {
+            if (helperHolder.getParamountHelperLevel() < GTUtil.getTierByVoltage(recipe.getInputEUt().voltage()))
+                return ModifierFunction.cancel(Component.literal("Helper level is too low for this recipe"));
+        }
 
-        if (helperHolder.getHelperTier() < GTUtil.getTierByVoltage(recipe.getInputEUt().voltage()))
+        else if (helperHolder.getHelperTier() < GTUtil.getTierByVoltage(recipe.getInputEUt().voltage()))
             return ModifierFunction.cancel(Component.literal("Helper tier is too low for this recipe"));
 
         int pars = helperHolder.getHelperParallels();
@@ -347,14 +357,46 @@ public class VoyagerCoreRecipeModifiers {
         float outputMod = helperHolder.getOutputModifier();
 
         return ModifierFunction.builder()
-                .modifyAllContents(ContentModifier.multiplier(pars))
-                .outputModifier(ContentModifier.multiplier(outputMod))
+                .outputModifier(ContentModifier.multiplier(outputMod * pars))
+                .inputModifier(ContentModifier.multiplier(pars))
                 .eutMultiplier(eutMod)
                 .durationMultiplier(speed)
                 .parallels(pars)
                 .build();
     }
 
+    public static ModifierFunction paramountHelperModifier(MetaMachine machine, GTRecipe recipe) {
+        if (!(machine instanceof WorkableElectricMultiblockMachine workableElectricMultiblockMachine))
+            return ModifierFunction.cancel(Component.literal("Not a compatible machine"));
+
+        HelperHolderPartMachine helperHolderPartMachine = null;
+
+        for (IMultiPart part : workableElectricMultiblockMachine.getParts()) {
+            if (part instanceof HelperHolderPartMachine h)
+                helperHolderPartMachine = h;
+        }
+
+        if (helperHolderPartMachine == null)
+            return ModifierFunction.cancel(Component.literal("No Helper Holder Installed"));
+
+        if (!(helperHolderPartMachine.getHelperIsParamount()))
+            return ModifierFunction.cancel(Component.literal("No Paramount Helper Found"));
+
+        String recipeParamount = recipe.data.getString("paramount");
+        String itemParamount = helperHolderPartMachine.getParamountHelperData();
+
+        int recipeParamountLevel = recipe.data.getInt("paramount_level");
+        int paramountLevel = helperHolderPartMachine.getParamountHelperLevel();
+
+        boolean recipeMatch = recipeParamount.equals(itemParamount);
+        boolean levelMatch = recipeParamountLevel <= paramountLevel;
+
+        if (recipeMatch && levelMatch) {
+            return ModifierFunction.IDENTITY;
+        }
+
+        return ModifierFunction.cancel(Component.literal("Paramount Helper level, or type do not match this recipe"));
+    }
     // protected GTRecipe getMilkRecipe()
     // {
     // return GTRecipeBuilder.ofRaw().inputFluids(MILK_STACK).buildRawRecipe();

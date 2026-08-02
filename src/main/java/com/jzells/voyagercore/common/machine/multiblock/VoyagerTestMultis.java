@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+
 import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.common.data.VoyagerPredicates;
 import com.jzells.voyagercore.common.machine.multiblock.electric.ModularMachine;
@@ -14,6 +15,7 @@ import static com.jzells.voyagercore.VoyagerCore.VOYAGERCORE_REGISTRATE;
 import static com.jzells.voyagercore.common.data.VoyagerBlocks.CASING_INDUSTRIAL_SOLID;
 
 public class VoyagerTestMultis {
+
     public static final MultiblockMachineDefinition TEST_MODULE = VOYAGERCORE_REGISTRATE
             .multiblock("test_module", ModuleInstanceMachine::new)
             .rotationState(RotationState.ALL)

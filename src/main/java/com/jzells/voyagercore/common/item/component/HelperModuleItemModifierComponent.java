@@ -5,6 +5,8 @@ import net.minecraft.world.item.ItemStack;
 
 import lombok.Getter;
 
+import javax.annotation.Nullable;
+
 @Getter
 public class HelperModuleItemModifierComponent extends HelperModuleItemComponent {
 
@@ -14,8 +16,9 @@ public class HelperModuleItemModifierComponent extends HelperModuleItemComponent
     private final float OUTPUT_MOD;
 
     public HelperModuleItemModifierComponent(int gt_tier, int parallels, float eutReductionPercent, float speed,
-                                             float outputMod, boolean specialized, int moduleSpace) {
-        super(gt_tier, null, specialized, moduleSpace);
+                                             float outputMod, boolean specialized, int moduleSpace,
+                                             @Nullable Boolean paramount, @Nullable String paramountData) {
+        super(gt_tier, paramountData, specialized, moduleSpace, Boolean.TRUE.equals(paramount));
         PARALLELS = parallels;
         EUT_REDUCTION_PERCENT = eutReductionPercent;
         SPEED = speed;
@@ -49,9 +52,12 @@ public class HelperModuleItemModifierComponent extends HelperModuleItemComponent
         float helperSpeed = tag.getFloat("speed");
         float outputMod = tag.getFloat("output");
 
+        float eut = Math.max(0.05f, helperEUt + EUT_REDUCTION_PERCENT);
+        float speed = Math.max(0.05f, helperSpeed + SPEED);
+
         tag.putInt("parallels", helperParallel + PARALLELS);
-        tag.putFloat("eut", helperEUt + EUT_REDUCTION_PERCENT);
-        tag.putFloat("speed", helperSpeed + SPEED);
+        tag.putFloat("eut", eut);
+        tag.putFloat("speed", speed);
         tag.putFloat("output", outputMod + OUTPUT_MOD);
     }
 }

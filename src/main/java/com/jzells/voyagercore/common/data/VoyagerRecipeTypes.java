@@ -53,6 +53,14 @@ public class VoyagerRecipeTypes {
                 return (specialized.equals("none")) ? "" :
                         "Helper Specialization: §6" + VoyagerVoltageTierUtils.helperSpecializationFromData(specialized);
             })
+            .addDataInfo(tag -> {
+                if (tag.contains("paramount")) {
+                    return "Paramount Application Required: " +
+                            VoyagerVoltageTierUtils.paramountApplicationFromData(tag.getString("paramount")) +
+                            "\nParamount Level Required: " + tag.getInt("paramount_level");
+                }
+                return "";
+            })
             .setSound(GTSoundEntries.CHEMICAL);
 
     public static final GTRecipeType BEAM_HEATING = GTRecipeTypes
@@ -125,6 +133,23 @@ public class VoyagerRecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_BENDING, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSlotOverlay(true, false, GuiTextures.BOX_OVERLAY)
 
+            .setSound(GTSoundEntries.ASSEMBLER);
+
+    public static final GTRecipeType OVEN = GTRecipeTypes
+            .register("oven", GTRecipeTypes.MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(9, 9, 0, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARC_FURNACE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSlotOverlay(true, false, GuiTextures.BOX_OVERLAY)
+            .setMaxTooltips(5)
+            .addDataInfo(tag -> {
+                if (tag.contains("paramount")) {
+                    return "Paramount Application Required: \n" +
+                            VoyagerVoltageTierUtils.paramountApplicationFromData(tag.getString("paramount")) +
+                            "\nParamount Level Required: " + tag.getInt("paramount_level");
+                }
+                return "";
+            })
             .setSound(GTSoundEntries.ASSEMBLER);
 
     public static void init() {}

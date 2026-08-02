@@ -23,7 +23,6 @@ import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.client.renderer.machine.VoyagerRenderHelper;
 import com.jzells.voyagercore.common.data.VoyagerCoreRecipeModifiers;
 import com.jzells.voyagercore.common.data.VoyagerMaterials;
-import com.jzells.voyagercore.common.data.VoyagerPredicates;
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
 import com.jzells.voyagercore.common.machine.multiblock.part.VoyagerPartAbilities;
 
@@ -563,6 +562,31 @@ public class ElectricMultiMachines {
                     .build())
             .workableCasingModel(VoyagerCore.id("block/casing/condensation_resistant_tungsten_casing"),
                     VoyagerCore.id("block/multiblock/helper_factory"))
+            .register();
+
+    public static final MultiblockMachineDefinition MULTIBLOCK_OVEN = VOYAGERCORE_REGISTRATE
+            .multiblock("large_industrial_oven", WorkableElectricMultiblockMachine::new)
+            .rotationState(RotationState.ALL)
+            .appearanceBlock(CASING_HEATPROOF_HELPER)
+            .recipeTypes(VoyagerRecipeTypes.OVEN)
+            .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, VoyagerCoreRecipeModifiers.HELPER_COMPATABILITY,
+                    VoyagerCoreRecipeModifiers.PARAMOUNT_HELPER_REQUIRE)
+            .pattern(def -> FactoryBlockPattern.start()
+                    .aisle("PPPPP", "PPPPP", "PPPPP")
+                    .aisle("PPPPP", "PXXXP", "PPPPP")
+                    .aisle("PPPPP", "PP@PP", "PPPPP")
+                    .where("P", Predicates.blocks(CASING_HEATPROOF_HELPER.get())
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setExactLimit(1).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS))
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS))
+                            .or(Predicates.abilities(VoyagerPartAbilities.HELPER_HOLDER).setExactLimit(1)))
+                    .where("X", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
+                            .get(TagPrefix.frameGt, GTMaterials.Steel)).get()))
+                    .where("@", Predicates.controller(Predicates.blocks(def.get())))
+                    .build())
+            .workableCasingModel(VoyagerCore.id("block/casing/heatproof_helper_casing"),
+                    GTCEu.id("block/machines/arc_furnace"))
             .register();
 
     //

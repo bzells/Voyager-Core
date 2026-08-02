@@ -14,6 +14,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+import static com.gregtechceu.gtceu.api.GTValues.VN;
+
 public class HelperModuleTooltipComponent implements IAddInformation {
 
     @Override
@@ -22,9 +24,12 @@ public class HelperModuleTooltipComponent implements IAddInformation {
         if (stack.getItem() instanceof HelperModuleComponentTooltipItem hmcpti) {
             for (IItemComponent comp : hmcpti.getComponents()) {
                 if (comp instanceof HelperModuleItemComponent helperModuleItemComponent) {
-                    tooltipComponents.add(Component.literal(helperModuleItemComponent.isSpecialized() ?
-                            "§7Can only be installed on §r§6specialized §r§7helpers" :
-                            "§7Can be installed on all helpers"));
+                    if (!helperModuleItemComponent.isPARAMOUNT())
+                        tooltipComponents.add(Component.literal(helperModuleItemComponent.isSpecialized() ?
+                                "§7Can only be installed on §r§6specialized §r§7helpers" :
+                                "§7Can only be installed on §r§6generic§r§7 helpers"));
+                    else tooltipComponents.add(Component.literal(VoyagerVoltageTierUtils.paramountApplicationFromData(
+                            helperModuleItemComponent.getModuleData()) + " §7helper exclusive"));
                     if (helperModuleItemComponent instanceof HelperRecipeModuleItemComponent recipeModule) {
                         // good lord i love Java
                         addTooltip((helperModuleItemComponent.isSpecialized() ? "§7Specialization§r" : "§7Recipe§r"),
@@ -55,6 +60,10 @@ public class HelperModuleTooltipComponent implements IAddInformation {
                         addTooltip("§7Beam Concentration:§r ", beamComponent.getBEAM_PERCENT(), tooltipComponents,
                                 true);
                     }
+                    tooltipComponents.add(Component.literal(helperModuleItemComponent.isPARAMOUNT() ?
+                            "§7Module Level: §6" + helperModuleItemComponent.getGT_TIER() :
+                            "§7Module Tier: " + VoyagerVoltageTierUtils
+                                    .getVoltageTierColorStringShortForm(VN[helperModuleItemComponent.getGT_TIER()])));
 
                 }
             }

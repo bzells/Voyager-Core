@@ -13,6 +13,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
 import com.jzells.voyagercore.common.item.component.HelperItemComponent;
+import com.jzells.voyagercore.common.item.component.ParamountHelperItemComponent;
 import com.jzells.voyagercore.util.VoyagerVoltageTierUtils;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,15 +36,24 @@ public class HelperTooltipComponent implements IAddInformation {
         int tier = 0;
         boolean specialized = false;
         boolean isHull = false;
+        boolean isParamount = false;
+        ParamountHelperItemComponent paramountHelperItemComponent = null;
 
         if (stack.getItem() instanceof ComponentItem componentItem) {
             for (IItemComponent component : componentItem.getComponents()) {
                 if (component instanceof HelperItemComponent helperComponent) {
+
+                    if (helperComponent instanceof ParamountHelperItemComponent p) {
+                        isParamount = true;
+                        paramountHelperItemComponent = p;
+                        paramountHelperItemComponent.setOwner(stack);
+                    }
                     maxModules = helperComponent.getMAX_MODULE_COUNT();
                     maxRecipes = helperComponent.getRecipeCount();
                     tier = helperComponent.getTier();
                     specialized = helperComponent.isSpecialized();
                     isHull = helperComponent.isHull();
+
                     break;
                 }
             }
@@ -148,7 +158,7 @@ public class HelperTooltipComponent implements IAddInformation {
                         "§7Beam Concentration: " + color +
                                 String.format("%.1f%%", modifiers.getFloat(key) * 100)));
             }
-            if (key.equals("output") && specialized) {
+            if (key.equals("output") && (specialized || isParamount)) {
                 float output = modifiers.getFloat(key);
                 String color;
                 if (output > 1.0f) {
@@ -164,23 +174,40 @@ public class HelperTooltipComponent implements IAddInformation {
             }
         }
         tooltipComponents.add(Component.literal(""));
-        if (remainingRecipes != 0) {
+        if (!isParamount) {
+            if (remainingRecipes != 0) {
 
-            tooltipComponents.add(Component.literal("§7Remaining Recipe Slots: §a" + remainingRecipes));
+                tooltipComponents.add(Component.literal("§7Remaining Recipe Slots: §a" + remainingRecipes));
+            }
+
+            tooltipComponents.add(Component.literal(specialized ? "§3Specialized In:" : "§6Compatible Recipes:"));
+            tooltipComponents.add(Component.literal(""));
+            for (String key : recipes.getAllKeys()) {
+                String recipe = specialized ? String.valueOf(key) : String.valueOf(GTRecipeTypes.get(key));
+                // System.out.println(recipe);
+                tooltipComponents.add(Component.literal(
+                        (specialized ? VoyagerVoltageTierUtils.helperSpecializationFromData(recipe) : recipe)));
+            }
+            tooltipComponents.add(Component.literal(""));
+            tooltipComponents.add(Component
+                    .literal("§6Helper Tier: " + VoyagerVoltageTierUtils.getVoltageTierColorStringShortForm(VN[tier])));
+            if (specialized) {
+                tooltipComponents.add(Component.literal("§eSpecialized"));
+            }
         }
 
-        tooltipComponents.add(Component.literal(specialized ? "§3Specialized In:" : "§7Compatible Recipes:"));
-        for (String key : recipes.getAllKeys()) {
-            String recipe = specialized ? String.valueOf(key) : String.valueOf(GTRecipeTypes.get(key));
-            // System.out.println(recipe);
-            tooltipComponents.add(Component.literal(
-                    "§6" + (specialized ? VoyagerVoltageTierUtils.helperSpecializationFromData(recipe) : recipe)));
-        }
-        tooltipComponents.add(Component.literal(""));
-        tooltipComponents.add(Component
-                .literal("§6Helper Tier: " + VoyagerVoltageTierUtils.getVoltageTierColorStringShortForm(VN[tier])));
-        if (specialized) {
-            tooltipComponents.add(Component.literal("§eSpecialized"));
+        if (isParamount) {
+            tooltipComponents.add(Component.literal("§7Max Recipe Tier: §r" + VoyagerVoltageTierUtils
+                    .getVoltageTierColorStringShortForm(VN[paramountHelperItemComponent.getLevel()])));
+            tooltipComponents.add(Component.literal("§7Helper Level: §b" + paramountHelperItemComponent.getLevel()));
+            tooltipComponents.add(Component.literal("§7XP: " + paramountHelperItemComponent.getCurrentXP() + "/" +
+                    paramountHelperItemComponent.getLevelUpXP()));
+            tooltipComponents.add(Component.literal(""));
+            tooltipComponents.add(Component.literal("§7Paramount Application: " + VoyagerVoltageTierUtils
+                    .paramountApplicationFromData(paramountHelperItemComponent.getPARAMOUNT_DATA())));
+            tooltipComponents.add(Component.literal(""));
+            tooltipComponents.add(Component.literal("§6P§ea§ara§dmo§5unt §1He§9lp§ber"));
+
         }
     }
 }

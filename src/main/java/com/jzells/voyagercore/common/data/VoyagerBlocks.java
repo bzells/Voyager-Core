@@ -80,9 +80,9 @@ public class VoyagerBlocks {
     public static final BlockEntry<Block> CASING_OSTRUM = createCasingBlock(
             "ostrum_casing", VoyagerCore.id("block/casing/ostrum_casing"));
 
-
     /// 0: Casing, 1: Gearbox, 2: Pipe Casing
-    public static final BlockEntry<Block>[] STRUCTURE_ARRAY_RHODIUM_PLATED_PALLADIUM = fastBulkBlock("rhodium_plated_palladium");
+    public static final BlockEntry<Block>[] STRUCTURE_ARRAY_RHODIUM_PLATED_PALLADIUM = fastBulkBlock(
+            "rhodium_plated_palladium");
 
     /// 0: Casing, 1: Gearbox, 2: Pipe Casing
     public static final BlockEntry<Block>[] STRUCTURE_ARRAY_NAQUADAH_ALLOY = fastBulkBlock("naquadah_alloy");
@@ -104,21 +104,21 @@ public class VoyagerBlocks {
 
     public static BlockEntry<Block> fastCreateCasingBlock(String name) {
         String blockName = "%s_casing".formatted(name);
-//        ResourceLocation resourceLocation = VoyagerCore.id("block/casing/industrial_assembly_casing");
+        // ResourceLocation resourceLocation = VoyagerCore.id("block/casing/industrial_assembly_casing");
         ResourceLocation resourceLocation = VoyagerCore.id("block/casing/solid/casing_%s".formatted(name));
         return createCasingBlock(blockName, resourceLocation);
     }
 
     public static BlockEntry<Block> fastCreatePipeCasingBlock(String name) {
         String blockName = "%s_pipe_casing".formatted(name);
-//        ResourceLocation resourceLocation = VoyagerCore.id("block/casing/industrial_assembly_casing");
+        // ResourceLocation resourceLocation = VoyagerCore.id("block/casing/industrial_assembly_casing");
         ResourceLocation resourceLocation = VoyagerCore.id("block/casing/pipe/casing_pipe_%s".formatted(name));
         return createCasingBlock(blockName, resourceLocation);
     }
 
     public static BlockEntry<Block> fastCreateGearboxBlock(String name) {
         String blockName = "%s_gearbox".formatted(name);
-//        ResourceLocation resourceLocation = VoyagerCore.id("block/casing/industrial_assembly_casing");
+        // ResourceLocation resourceLocation = VoyagerCore.id("block/casing/industrial_assembly_casing");
         ResourceLocation resourceLocation = VoyagerCore.id("block/casing/gearbox/casing_gearbox_%s".formatted(name));
         return createCasingBlock(blockName, resourceLocation);
     }

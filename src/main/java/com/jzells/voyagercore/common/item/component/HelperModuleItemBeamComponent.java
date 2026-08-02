@@ -12,7 +12,7 @@ public class HelperModuleItemBeamComponent extends HelperModuleItemModifierCompo
 
     public HelperModuleItemBeamComponent(int gt_tier, int parallels, float eutReductionPercent, float speed,
                                          float outputMod, boolean specialized, int moduleSpace, float beamPercent) {
-        super(gt_tier, parallels, eutReductionPercent, speed, outputMod, specialized, moduleSpace);
+        super(gt_tier, parallels, eutReductionPercent, speed, outputMod, specialized, moduleSpace, false, null);
         this.BEAM_PERCENT = beamPercent;
     }
 

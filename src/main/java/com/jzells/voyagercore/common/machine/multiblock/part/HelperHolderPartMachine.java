@@ -8,9 +8,12 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
+import com.gregtechceu.gtceu.utils.GTUtil;
 
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -23,6 +26,7 @@ import net.minecraft.world.item.ItemStack;
 
 import com.jzells.voyagercore.common.item.component.HelperComponentItem;
 import com.jzells.voyagercore.common.item.component.HelperItemComponent;
+import com.jzells.voyagercore.common.item.component.ParamountHelperItemComponent;
 
 import java.util.ArrayList;
 
@@ -39,6 +43,8 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
 
     @Persisted
     private final HelperHandler helperHandler;
+
+    private int runTime = 0;
 
     public HelperHolderPartMachine(IMachineBlockEntity holder) {
         super(holder);
@@ -174,6 +180,69 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
             }
         }
         return "none";
+    }
+
+    public boolean getHelperIsParamount() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof ParamountHelperItemComponent) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public String getParamountHelperData() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof ParamountHelperItemComponent p) {
+                    p.setOwner(helper);
+                    return p.getPARAMOUNT_DATA();
+                }
+            }
+        }
+        return "not_paramount";
+    }
+
+    public int getParamountHelperLevel() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof ParamountHelperItemComponent p) {
+                    p.setOwner(helper);
+                    return p.getLevel();
+                }
+            }
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean onWorking(IWorkableMultiController controller) {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.isEmpty()) controller.getRecipeLogic().interruptRecipe();
+        return super.onWorking(controller);
+    }
+
+    @Override
+    public boolean afterWorking(IWorkableMultiController controller) {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof ParamountHelperItemComponent p) {
+                    GTRecipe lastRecipe = controller.getRecipeLogic().getLastRecipe();
+                    if (lastRecipe != null) {
+                        p.setOwner(helper);
+                        p.levelHelper(lastRecipe.duration, GTUtil.getTierByVoltage(lastRecipe.getInputEUt().voltage()));
+                    }
+
+                }
+            }
+        }
+        return super.afterWorking(controller);
     }
 
     @Override
