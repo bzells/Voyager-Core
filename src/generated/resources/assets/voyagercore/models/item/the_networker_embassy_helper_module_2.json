@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "voyagercore:item/paramount_helper_module_4",
+    "layer0": "voyagercore:item/paramount_helper_module_2",
     "layer1": "voyagercore:item/the_networker_embassy_helper_module"
   }
 }

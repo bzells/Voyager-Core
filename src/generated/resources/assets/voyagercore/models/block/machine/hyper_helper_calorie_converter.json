@@ -3,14 +3,14 @@
   "loader": "gtceu:machine",
   "machine": "voyagercore:hyper_helper_calorie_converter",
   "texture_overrides": {
-    "all": "voyagercore:block/casing/radiant_titanex_casing"
+    "all": "voyagercore:block/casing/radiant_titanex_vent_casing"
   },
   "variants": {
     "is_formed=false,recipe_logic_status=idle": {
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "voyagercore:block/casing/radiant_titanex_casing",
+          "all": "voyagercore:block/casing/radiant_titanex_vent_casing",
           "overlay_front": "voyagercore:block/multiblock/hyper_helper_calorie_converter/overlay_front"
         }
       }
@@ -19,7 +19,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "voyagercore:block/casing/radiant_titanex_casing",
+          "all": "voyagercore:block/casing/radiant_titanex_vent_casing",
           "overlay_front": "voyagercore:block/multiblock/hyper_helper_calorie_converter/overlay_front"
         }
       }
@@ -28,7 +28,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "voyagercore:block/casing/radiant_titanex_casing",
+          "all": "voyagercore:block/casing/radiant_titanex_vent_casing",
           "overlay_front": "voyagercore:block/multiblock/hyper_helper_calorie_converter/overlay_front_active"
         }
       }
@@ -37,7 +37,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "voyagercore:block/casing/radiant_titanex_casing",
+          "all": "voyagercore:block/casing/radiant_titanex_vent_casing",
           "overlay_front": "voyagercore:block/multiblock/hyper_helper_calorie_converter/overlay_front_active"
         }
       }
@@ -46,7 +46,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "voyagercore:block/casing/radiant_titanex_casing",
+          "all": "voyagercore:block/casing/radiant_titanex_vent_casing",
           "overlay_front": "voyagercore:block/multiblock/hyper_helper_calorie_converter/overlay_front"
         }
       }
@@ -55,7 +55,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "voyagercore:block/casing/radiant_titanex_casing",
+          "all": "voyagercore:block/casing/radiant_titanex_vent_casing",
           "overlay_front": "voyagercore:block/multiblock/hyper_helper_calorie_converter/overlay_front"
         }
       }
@@ -64,7 +64,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "voyagercore:block/casing/radiant_titanex_casing",
+          "all": "voyagercore:block/casing/radiant_titanex_vent_casing",
           "overlay_front": "voyagercore:block/multiblock/hyper_helper_calorie_converter/overlay_front_active"
         }
       }
@@ -73,7 +73,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "voyagercore:block/casing/radiant_titanex_casing",
+          "all": "voyagercore:block/casing/radiant_titanex_vent_casing",
           "overlay_front": "voyagercore:block/multiblock/hyper_helper_calorie_converter/overlay_front_active"
         }
       }

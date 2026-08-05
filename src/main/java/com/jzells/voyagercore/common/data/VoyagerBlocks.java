@@ -5,9 +5,11 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.GlassBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
@@ -18,6 +20,7 @@ import com.tterrag.registrate.util.nullness.NonNullSupplier;
 
 import java.util.function.Supplier;
 
+import static com.gregtechceu.gtceu.common.registry.GTRegistration.REGISTRATE;
 import static com.jzells.voyagercore.VoyagerCore.VOYAGERCORE_REGISTRATE;
 
 public class VoyagerBlocks {
@@ -92,6 +95,22 @@ public class VoyagerBlocks {
 
     /// 0: Casing, 1: Gearbox, 2: Pipe Casing
     public static final BlockEntry<Block>[] STRUCTURE_ARRAY_NEUTRONIUM = fastBulkBlock("neutronium");
+
+//    chemical_resistant_glass
+    public static final BlockEntry<GlassBlock> CHEMICAL_RESISTANT_GLASS = createGlassCasingBlock("chemical_resistant_glass", VoyagerCore.id("block/glass/chemical_resistant_glass"), () -> RenderType::translucent);
+
+    private static BlockEntry<GlassBlock> createGlassCasingBlock(String name, ResourceLocation texture,
+                                                                 Supplier<Supplier<RenderType>> type) {
+        return VOYAGERCORE_REGISTRATE.block(name, GlassBlock::new)
+                .initialProperties(() -> Blocks.GLASS)
+                .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
+                .addLayer(type)
+                .exBlockstate(GTModels.cubeAllModel(texture))
+                .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .item(BlockItem::new)
+                .build()
+                .register();
+    }
 
     public static BlockEntry<Block>[] fastBulkBlock(String name) {
         @SuppressWarnings("unchecked") // I have no idea if this is safe or not.

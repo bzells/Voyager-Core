@@ -5,7 +5,6 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
@@ -13,7 +12,9 @@ import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMac
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 
+import com.jzells.voyagercore.common.item.component.ParamountHelperItemComponent;
 import com.jzells.voyagercore.common.machine.multiblock.part.HelperHolderPartMachine;
 import com.jzells.voyagercore.util.VoyagerVoltageTierUtils;
 
@@ -44,12 +45,15 @@ public class VoyagerCoreRecipeModifiers {
         double durationMod = 0.75;
         double eutMod = 0.75;
 
-        return ModifierFunction.builder()
-                .modifyAllContents(ContentModifier.multiplier(parallelMod))
-                .durationMultiplier(durationMod)
-                .eutMultiplier(eutMod)
-                .parallels(parallelMod)
-                .build();
+        return VoyagerVoltageTierUtils.getModifierFunctionWithParallels(recipe, parallelMod, 1f, (float) eutMod,
+                (float) durationMod);
+
+        // return ModifierFunction.builder()
+        // .modifyAllContents(ContentModifier.multiplier(parallelMod))
+        // .durationMultiplier(durationMod)
+        // .eutMultiplier(eutMod)
+        // .parallels(parallelMod)
+        // .build();
     }
 
     public static ModifierFunction heatBoostingModifier(MetaMachine machine, GTRecipe recipe) {
@@ -96,20 +100,18 @@ public class VoyagerCoreRecipeModifiers {
         int parallelAvailable = Math.max(0, ParallelLogic.getParallelAmountWithoutEU(machine, recipe, parallels));
 
         if (parallelAvailable >= parallels) {
-            return ModifierFunction.builder()
-                    .modifyAllContents(ContentModifier.multiplier(parallels))
-                    .durationMultiplier(durationMod)
-                    .eutMultiplier(eutMod)
-                    .parallels(parallels)
-                    .build();
+            return VoyagerVoltageTierUtils.getModifierFunctionWithParallels(recipe, parallels, 1f, (float) eutMod,
+                    (float) durationMod);
+            // return ModifierFunction.builder()
+            // .modifyAllContents(ContentModifier.multiplier(parallels))
+            // .durationMultiplier(durationMod)
+            // .eutMultiplier(eutMod)
+            // .parallels(parallels)
+            // .build();
         } else {
             int pars = Math.max(0, ParallelLogic.getParallelAmount(machine, recipe, parallels));
-            return ModifierFunction.builder()
-                    .modifyAllContents(ContentModifier.multiplier(pars))
-                    .durationMultiplier(durationMod)
-                    .eutMultiplier(eutMod)
-                    .parallels(pars)
-                    .build();
+            return VoyagerVoltageTierUtils.getModifierFunctionWithParallels(recipe, pars, 1f, (float) eutMod,
+                    (float) durationMod);
         }
     }
 
@@ -137,20 +139,18 @@ public class VoyagerCoreRecipeModifiers {
         int parallelAvailable = Math.max(0, ParallelLogic.getParallelAmountWithoutEU(machine, recipe, parallels));
 
         if (parallelAvailable >= parallels) {
-            return ModifierFunction.builder()
-                    .modifyAllContents(ContentModifier.multiplier(parallels))
-                    .durationMultiplier(durationMod)
-                    .eutMultiplier(eutMod)
-                    .parallels(parallels)
-                    .build();
+            return VoyagerVoltageTierUtils.getModifierFunctionWithParallels(recipe, parallels, 1f, (float) eutMod,
+                    (float) durationMod);
+            // return ModifierFunction.builder()
+            // .modifyAllContents(ContentModifier.multiplier(parallels))
+            // .durationMultiplier(durationMod)
+            // .eutMultiplier(eutMod)
+            // .parallels(parallels)
+            // .build();
         } else {
             int pars = Math.max(0, ParallelLogic.getParallelAmount(machine, recipe, parallels));
-            return ModifierFunction.builder()
-                    .modifyAllContents(ContentModifier.multiplier(pars))
-                    .durationMultiplier(durationMod)
-                    .eutMultiplier(eutMod)
-                    .parallels(pars)
-                    .build();
+            return VoyagerVoltageTierUtils.getModifierFunctionWithParallels(recipe, pars, 1f, (float) eutMod,
+                    (float) durationMod);
         }
     }
 
@@ -183,20 +183,18 @@ public class VoyagerCoreRecipeModifiers {
         int parallelAvailable = Math.max(0, ParallelLogic.getParallelAmountWithoutEU(machine, recipe, parallels));
 
         if (parallelAvailable >= parallels) {
-            return ModifierFunction.builder()
-                    .modifyAllContents(ContentModifier.multiplier(parallels))
-                    .durationMultiplier(durationMod)
-                    .eutMultiplier(eutMod)
-                    .parallels(parallels)
-                    .build();
+            return VoyagerVoltageTierUtils.getModifierFunctionWithParallels(recipe, parallels, 1f, (float) eutMod,
+                    (float) durationMod);
+            // return ModifierFunction.builder()
+            // .modifyAllContents(ContentModifier.multiplier(parallels))
+            // .durationMultiplier(durationMod)
+            // .eutMultiplier(eutMod)
+            // .parallels(parallels)
+            // .build();
         } else {
             int pars = Math.max(0, ParallelLogic.getParallelAmount(machine, recipe, parallels));
-            return ModifierFunction.builder()
-                    .modifyAllContents(ContentModifier.multiplier(pars))
-                    .durationMultiplier(durationMod)
-                    .eutMultiplier(eutMod)
-                    .parallels(pars)
-                    .build();
+            return VoyagerVoltageTierUtils.getModifierFunctionWithParallels(recipe, pars, 1f, (float) eutMod,
+                    (float) durationMod);
         }
     }
 
@@ -240,20 +238,18 @@ public class VoyagerCoreRecipeModifiers {
             int parallelAvailable = Math.max(0, ParallelLogic.getParallelAmountWithoutEU(machine, recipe, parallels));
 
             if (parallelAvailable >= parallels) {
-                return ModifierFunction.builder()
-                        .modifyAllContents(ContentModifier.multiplier(parallels))
-                        .durationMultiplier(durationMod)
-                        .eutMultiplier(eutMod)
-                        .parallels(parallels)
-                        .build();
+                return VoyagerVoltageTierUtils.getModifierFunctionWithParallels(recipe, parallels, 1f, (float) eutMod,
+                        (float) durationMod);
+                // return ModifierFunction.builder()
+                // .modifyAllContents(ContentModifier.multiplier(parallels))
+                // .durationMultiplier(durationMod)
+                // .eutMultiplier(eutMod)
+                // .parallels(parallels)
+                // .build();
             } else {
                 int pars = Math.max(0, ParallelLogic.getParallelAmount(machine, recipe, parallels));
-                return ModifierFunction.builder()
-                        .modifyAllContents(ContentModifier.multiplier(pars))
-                        .durationMultiplier(durationMod)
-                        .eutMultiplier(eutMod)
-                        .parallels(pars)
-                        .build();
+                return VoyagerVoltageTierUtils.getModifierFunctionWithParallels(recipe, pars, 1f, (float) eutMod,
+                        (float) durationMod);
             }
         } else {
             return ModifierFunction.cancel(Component.literal("This isn't a fusion reactor!"));
@@ -291,11 +287,8 @@ public class VoyagerCoreRecipeModifiers {
         int parallelMod = 4;
         double durationMod = 0.75;
 
-        return ModifierFunction.builder()
-                .modifyAllContents(ContentModifier.multiplier(parallelMod))
-                .durationMultiplier(durationMod)
-                .parallels(parallelMod)
-                .build();
+        return VoyagerVoltageTierUtils.getModifierFunctionWithParallels(recipe, parallelMod, 1F, 1F,
+                (float) durationMod);
     }
 
     public static ModifierFunction helperCompatabilityModifier(MetaMachine machine, GTRecipe recipe) {
@@ -315,8 +308,33 @@ public class VoyagerCoreRecipeModifiers {
             }
         }
 
-        if (helperHolder == null)
+        if (helperHolder == null && (recipe.data.contains("specialized"))) {
+            return ModifierFunction
+                    .cancel(Component.literal("This recipe needs a " + (recipe.data.contains("specialized") ?
+                            recipe.data.getString("specialized") : recipe.data.getString("paramount")) + " helper"));
+        }
+
+        if (helperHolder == null) {
             return ModifierFunction.IDENTITY;
+        }
+
+        ItemStack helper = helperHolder.getHeldItem(false);
+
+        if (helperHolder.getHeldItem(false).isEmpty() &&
+                !(recipe.data.contains("specialized") && !recipe.data.contains("paramount")))
+            return ModifierFunction.cancel(Component.literal("No helper installed"));
+
+        if (helper.isEmpty()) {
+            return ModifierFunction
+                    .cancel(Component.literal("This recipe needs a " + (recipe.data.contains("specialized") ?
+                            recipe.data.getString("specialized") : recipe.data.getString("paramount")) + " helper"));
+        }
+
+        if (helperHolder.getHelperIsHull()) {
+            return ModifierFunction
+                    .cancel(Component.literal("This recipe needs a " + (recipe.data.contains("specialized") ?
+                            recipe.data.getString("specialized") : recipe.data.getString("paramount")) + " helper"));
+        }
 
         ArrayList<String> helperRecipes = helperHolder.getRecipes();
 
@@ -338,31 +356,23 @@ public class VoyagerCoreRecipeModifiers {
                 return ModifierFunction.cancel(Component.literal("Helper is not compatible with this specialization"));
             }
         }
-        // if(paramountRecipe)
-        // {
-        // if(!(recipe.data.getString("paramount").equals(helperHolder.getParamountHelperData()))) return
-        // ModifierFunction.cancel(Component.literal("Incorrect Paramount helper"));
-        // }
+
         if (helperHolder.getHelperIsParamount()) {
-            if (helperHolder.getParamountHelperLevel() < GTUtil.getTierByVoltage(recipe.getInputEUt().voltage()))
+            ParamountHelperItemComponent parHelper = helperHolder.getParamountHelperComponent();
+            if (parHelper.getGTTier() < GTUtil.getTierByVoltage(recipe.getInputEUt().voltage()))
                 return ModifierFunction.cancel(Component.literal("Helper level is too low for this recipe"));
         }
 
         else if (helperHolder.getHelperTier() < GTUtil.getTierByVoltage(recipe.getInputEUt().voltage()))
             return ModifierFunction.cancel(Component.literal("Helper tier is too low for this recipe"));
 
-        int pars = helperHolder.getHelperParallels();
+        int newPars = helperHolder.getHelperParallels();
+
         float eutMod = 1 / helperHolder.getHelperEUt();
         float speed = 1 / helperHolder.getHelperSpeed();
         float outputMod = helperHolder.getOutputModifier();
 
-        return ModifierFunction.builder()
-                .outputModifier(ContentModifier.multiplier(outputMod * pars))
-                .inputModifier(ContentModifier.multiplier(pars))
-                .eutMultiplier(eutMod)
-                .durationMultiplier(speed)
-                .parallels(pars)
-                .build();
+        return VoyagerVoltageTierUtils.getModifierFunctionWithParallels(recipe, newPars, outputMod, eutMod, speed);
     }
 
     public static ModifierFunction paramountHelperModifier(MetaMachine machine, GTRecipe recipe) {

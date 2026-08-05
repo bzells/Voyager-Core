@@ -24,6 +24,7 @@ import com.lowdragmc.lowdraglib.utils.Position;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.ItemStack;
 
+import com.jzells.voyagercore.common.item.component.EnergyModParamountHelperItemComponent;
 import com.jzells.voyagercore.common.item.component.HelperComponentItem;
 import com.jzells.voyagercore.common.item.component.HelperItemComponent;
 import com.jzells.voyagercore.common.item.component.ParamountHelperItemComponent;
@@ -101,7 +102,7 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
                 pars = helper.getOrCreateTagElement("modifiers").getInt("parallels");
             return pars;
         }
-        return 0;
+        return 1;
     }
 
     public float getHelperEUt() {
@@ -112,7 +113,7 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
                 eut = helper.getOrCreateTagElement("modifiers").getFloat("eut");
             return eut;
         }
-        return 0;
+        return 1;
     }
 
     public float getHelperSpeed() {
@@ -123,7 +124,7 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
                 speed = helper.getOrCreateTagElement("modifiers").getFloat("speed");
             return speed;
         }
-        return 0;
+        return 1;
     }
 
     public float getOutputModifier() {
@@ -134,7 +135,7 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
                 output = helper.getOrCreateTagElement("modifiers").getFloat("output");
             return output;
         }
-        return 0;
+        return 1;
     }
 
     @CheckForNull
@@ -194,6 +195,31 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
         return false;
     }
 
+    @CheckForNull
+    public ParamountHelperItemComponent getParamountHelperComponent() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof ParamountHelperItemComponent p) {
+                    return p;
+                }
+            }
+        }
+        return null;
+    }
+
+    public boolean getHelperIsHull() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof HelperItemComponent h) {
+                    return h.isHull();
+                }
+            }
+        }
+        return false;
+    }
+
     public String getParamountHelperData() {
         ItemStack helper = this.getHeldItem(false);
         if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
@@ -220,12 +246,62 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
         return 0;
     }
 
+    public float getEnergyParamountHelperEUtMod() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof ParamountHelperItemComponent p) {
+                    p.setOwner(helper);
+                    if (p instanceof EnergyModParamountHelperItemComponent e) return e.getEUtGenMod();
+                }
+            }
+        }
+        return 1;
+    }
+
+    public float getEnergyParamountHelperEatTimeMod() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof ParamountHelperItemComponent p) {
+                    p.setOwner(helper);
+                    if (p instanceof EnergyModParamountHelperItemComponent e) return e.getEatTimeMod();
+                }
+            }
+        }
+        return 1;
+    }
+
+    public float getEnergyParamountHelperOutputMod() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof ParamountHelperItemComponent p) {
+                    p.setOwner(helper);
+                    if (p instanceof EnergyModParamountHelperItemComponent e) return e.getOutput();
+                }
+            }
+        }
+        return 1;
+    }
+
     @Override
     public boolean onWorking(IWorkableMultiController controller) {
         ItemStack helper = this.getHeldItem(false);
-        if (helper.isEmpty()) controller.getRecipeLogic().interruptRecipe();
+        if (helper.isEmpty()) {
+            controller.getRecipeLogic().setProgress(0);
+        }
         return super.onWorking(controller);
     }
+
+    // @Override
+    // public boolean beforeWorking(IWorkableMultiController controller) {
+    // ItemStack helper = this.getHeldItem(false);
+    // if (helper.isEmpty()) {
+    // return false;
+    // }
+    // return super.beforeWorking(controller);
+    // }
 
     @Override
     public boolean afterWorking(IWorkableMultiController controller) {
@@ -236,7 +312,10 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
                     GTRecipe lastRecipe = controller.getRecipeLogic().getLastRecipe();
                     if (lastRecipe != null) {
                         p.setOwner(helper);
-                        p.levelHelper(lastRecipe.duration, GTUtil.getTierByVoltage(lastRecipe.getInputEUt().voltage()));
+                        int tier = controller.getRecipeLogic().getLastRecipe().getOutputEUt().voltage() > 0 ?
+                                GTUtil.getTierByVoltage(lastRecipe.getOutputEUt().voltage()) :
+                                GTUtil.getTierByVoltage(lastRecipe.getInputEUt().voltage());
+                        p.levelHelper(lastRecipe.duration, tier);
                     }
 
                 }

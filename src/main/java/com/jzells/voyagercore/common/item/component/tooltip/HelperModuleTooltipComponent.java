@@ -30,6 +30,11 @@ public class HelperModuleTooltipComponent implements IAddInformation {
                                 "§7Can only be installed on §r§6generic§r§7 helpers"));
                     else tooltipComponents.add(Component.literal(VoyagerVoltageTierUtils.paramountApplicationFromData(
                             helperModuleItemComponent.getModuleData()) + " §7helper exclusive"));
+                    if (helperModuleItemComponent instanceof EnergyHelperModuleItemModifierComponent e) {
+                        addTooltip("§7EUt Boost: ", e.getEUTMOD(), tooltipComponents, false);
+                        addTooltipReverse("§7Hunger: ", e.getEAT_MOD(), tooltipComponents, true);
+                        addTooltip("§7Output Modifier: ", e.getOUTPUT_MOD(), tooltipComponents, false);
+                    }
                     if (helperModuleItemComponent instanceof HelperRecipeModuleItemComponent recipeModule) {
                         // good lord i love Java
                         addTooltip((helperModuleItemComponent.isSpecialized() ? "§7Specialization§r" : "§7Recipe§r"),
@@ -53,7 +58,8 @@ public class HelperModuleTooltipComponent implements IAddInformation {
                                 false);
                         tooltipComponents.add(Component.literal(""));
                         tooltipComponents.add(Component
-                                .literal("§7Modifier Slots Required: §r" + modifierComponent.getMODULE_SPACE()));
+                                .literal("§7Module Slots Required: §r" + modifierComponent.getMODULE_SPACE()));
+                        tooltipComponents.add(Component.literal(modifierComponent.isMULT() ? "§7Speed and Efficiency will be applied multiplicatively" : "§7Speed and Efficiency will be applied additively"));
 
                     }
                     if (helperModuleItemComponent instanceof HelperModuleItemBeamComponent beamComponent) {
@@ -61,9 +67,11 @@ public class HelperModuleTooltipComponent implements IAddInformation {
                                 true);
                     }
                     tooltipComponents.add(Component.literal(helperModuleItemComponent.isPARAMOUNT() ?
-                            "§7Module Level: §6" + helperModuleItemComponent.getGT_TIER() :
+                            "§7Module Level: §6" + helperModuleItemComponent.getPARAMOUNT_LEVEL() :
                             "§7Module Tier: " + VoyagerVoltageTierUtils
                                     .getVoltageTierColorStringShortForm(VN[helperModuleItemComponent.getGT_TIER()])));
+                    tooltipComponents.add(Component.literal("§7Tier Required to Install: " + VoyagerVoltageTierUtils
+                            .getVoltageTierColorStringShortForm(VN[helperModuleItemComponent.getGT_TIER()])));
 
                 }
             }
@@ -86,6 +94,17 @@ public class HelperModuleTooltipComponent implements IAddInformation {
         }
         if (amt < 0f) {
             tooltipComponents.add(Component.literal(name + "§c" + s));
+        }
+    }
+
+    private static void addTooltipReverse(String name, float amt, List<Component> tooltipComponents,
+                                          boolean isPercentage) {
+        String s = isPercentage ? String.format("%.1f%%", amt * 100) : String.format("%.2f", amt) + "x";
+        if (amt < 0) {
+            tooltipComponents.add(Component.literal(name + "§a" + s));
+        }
+        if (amt > 0f) {
+            tooltipComponents.add(Component.literal(name + "§c+" + s));
         }
     }
 }

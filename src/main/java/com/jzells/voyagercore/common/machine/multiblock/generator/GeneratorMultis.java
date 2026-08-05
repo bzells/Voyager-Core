@@ -5,14 +5,19 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import com.jzells.voyagercore.VoyagerCore;
+import com.jzells.voyagercore.common.data.VoyagerCoreRecipeModifiers;
 import com.jzells.voyagercore.common.data.VoyagerMaterials;
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
 import com.jzells.voyagercore.common.machine.multiblock.generator.calorieconverters.AdvancedHelperCalorieConverterType;
 import com.jzells.voyagercore.common.machine.multiblock.generator.electric.MultiTurbineMachine;
+import com.jzells.voyagercore.common.machine.multiblock.part.VoyagerPartAbilities;
+import com.jzells.voyagercore.util.VoyagerVoltageTierUtils;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.jzells.voyagercore.VoyagerCore.VOYAGERCORE_REGISTRATE;
@@ -26,36 +31,37 @@ public class GeneratorMultis {
             .multiblock("hyper_helper_calorie_converter", AdvancedHelperCalorieConverterType::new)
             .rotationState(RotationState.ALL)
             .recipeTypes(VoyagerRecipeTypes.ADVANCED_CALORIE_CONVERSION)
-            .recipeModifier(AdvancedHelperCalorieConverterType::recipeModifier)
+            .recipeModifiers(AdvancedHelperCalorieConverterType::recipeModifier, VoyagerCoreRecipeModifiers.PARAMOUNT_HELPER_REQUIRE)
             .langValue("Hyper Helper Calorie Converter (HHCC)")
             .generator(true)
-            .appearanceBlock(CASING_RADIANT_TITANEX)
+            .appearanceBlock(CASING_VENT_RADIANT_TITANEX)
             .pattern(def -> FactoryBlockPattern.start()
-                    .aisle("CCC", "CDC", "CCC")
-                    .aisle("CCC", "CBC", "CCC")
-                    .aisle("CCC", "CBC", "CCC")
-                    .aisle("III", "I@I", "III")
+                    .aisle("bbbbbbbbbbbbbbb", "bbbbbbbbbbbbbbb", "bbbbbbbbbbbbbbb", "cbddbbbbbbbddbc", "efddfbbbbbfddfe", "cbddbbbbbbbddbc", "bbbbbbbbbbbbbbb", "bbbbbbbbbbbbbbb", "bbbbbbbbbbbbbbb")
+                    .aisle("bbbbbbbbbbbbbbb", "cfddbbbbbbbddfc", "cbddbbbbbbbddbc", "bbbgcbbbbbcgbbb", "bbbgcfbbbfcgbbb", "bbbgcbbbbbcgbbb", "cbddbbbbbbbddbc", "cfddbbbbbbbddfc", "bbbbbbbbbbbbbbb")
+                    .aisle("bbbbbbbbbbbbbbb", "cbddbbbbbbbddbc", "bbbgcbbbbbcgbbb", "bbbgbdddddbgbbb", "bbbgbggLggbgbbb", "bbbgbdddddbgbbb", "bbbgcbbbbbcgbbb", "cbddbbbbbbbddbc", "bbbbbbbbbbbbbbb")
+                    .aisle("cbddbbbbbbbddbc", "bbbgcbbbbbcgbbb", "bbbgbdddddbgbbb", "bbbgeebbbeegbbb", "bbbghhhhhhhgbbb", "bbbgeebbbeegbbb", "bbbgbdddddbgbbb", "bbbgcbbbbbcgbbb", "cbddbbbbbbbddbc")
+                    .aisle("efddfbbbbbfddfe", "bbbgcfbbbfcgbbb", "bbbgbgggggbgbbb", "bbbghhhhhhhgbbb", "bbbgbbbbbbbgbbb", "bbbghhhhhhhgbbb", "bbbgbgggggbgbbb", "bbbgcfbbbfcgbbb", "efddfbbbbbfddfe")
+                    .aisle("cbddbbbbbbbddbc", "bbbgcbbbbbcgbbb", "bbbgbdddddbgbbb", "bbbgeebbbeegbbb", "bbbghhhhhhhgbbb", "bbbgeebbbeegbbb", "bbbgbdddddbgbbb", "bbbgcbbbbbcgbbb", "cbddbbbbbbbddbc")
+                    .aisle("bbbbbbbbbbbbbbb", "cbddbbbbbbbddbc", "bbbgcbbbbbcgbbb", "bbbgbdddddbgbbb", "bbbgbgg@ggbgbbb", "bbbgbdddddbgbbb", "bbbgcbbbbbcgbbb", "cbddbbbbbbbddbc", "bbbbbbbbbbbbbbb")
+                    .aisle("bbbbbbbbbbbbbbb", "cfddbbbbbbbddfc", "cbddbbbbbbbddbc", "bbbgcbbbbbcgbbb", "bbbgcfbbbfcgbbb", "bbbgcbbbbbcgbbb", "cbddbbbbbbbddbc", "cfddbbbbbbbddfc", "bbbbbbbbbbbbbbb")
+                    .aisle("bbbbbbbbbbbbbbb", "bbbbbbbbbbbbbbb", "bbbbbbbbbbbbbbb", "cbddbbbbbbbddbc", "efddfbbbbbfddfe", "cbddbbbbbbbddbc", "bbbbbbbbbbbbbbb", "bbbbbbbbbbbbbbb", "bbbbbbbbbbbbbbb")
+
+                    .where("b", Predicates.any())
+                    .where("c", Predicates.blocks(GCYMBlocks.CASING_VIBRATION_SAFE.get()))
+                    .where("d", Predicates.blocks(CASING_RADIANT_TITANEX.get()))
+                    .where("e", Predicates.blocks(COOLING_LAMP.get()))
+                    .where("f", Predicates.blocks(VoyagerVoltageTierUtils.getFrameBlock(GTMaterials.IncoloyMA956).get()))
+                    .where("g", Predicates.blocks(CASING_VENT_RADIANT_TITANEX.get())
+                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(4,1).setMinGlobalLimited(1))
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(4,1).setMinGlobalLimited(1))
+                            .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(4,1).setMinGlobalLimited(1))
+                            .or(Predicates.abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(4,1).setMinGlobalLimited(1))
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(4,1).setMinGlobalLimited(1)))
+                    .where("h", Predicates.blocks(GTBlocks.CASING_TUNGSTENSTEEL_PIPE.get()))
                     .where('@', Predicates.controller(Predicates.blocks(def.get())))
-                    .where('C',
-                            Predicates
-                                    .blocks(CASING_RADIANT_TITANEX.get())
-                                    // .where('C', Predicates.blocks(GCYMBlocks.CASING_ATOMIC.get())
-                                    .setMinGlobalLimited(5)
-                                    .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setExactLimit(1)
-                                            .setPreviewCount(1))
-                                    .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setExactLimit(1)
-                                            .setPreviewCount(1))
-                                    .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setExactLimit(1)
-                                            .setPreviewCount(1))
-                                    .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setExactLimit(1)
-                                            .setPreviewCount(1))
-                                    .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
-                    .where('B', Predicates.blocks(COOLING_LAMP.get()))
-                    .where('I',
-                            Predicates.blocks(CASING_VENT_RADIANT_TITANEX.get()))
-                    .where('D', Predicates.abilities(PartAbility.OUTPUT_ENERGY))
+                    .where('L', Predicates.abilities(VoyagerPartAbilities.HELPER_HOLDER))
                     .build())
-            .workableCasingModel(VoyagerCore.id("block/casing/radiant_titanex_casing"),
+            .workableCasingModel(VoyagerCore.id("block/casing/radiant_titanex_vent_casing"),
                     VoyagerCore.id("block/multiblock/hyper_helper_calorie_converter"))
             .register();
 
@@ -85,6 +91,10 @@ public class GeneratorMultis {
             .workableCasingModel(VoyagerCore.id("block/casing/ostrum_casing"),
                     VoyagerCore.id("block/multiblock/advanced_gas_turbine"))
             .register();
+
+
+
+
 
     public static void init() {}
     //spotless:on

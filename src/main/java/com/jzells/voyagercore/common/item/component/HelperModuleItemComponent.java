@@ -8,20 +8,28 @@ import net.minecraft.world.item.ItemStack;
 import com.jzells.voyagercore.common.item.helpermodules.IHelperModuleModifier;
 import lombok.Getter;
 
-import java.util.Objects;
-
 import javax.annotation.Nullable;
 
 @Getter
 public class HelperModuleItemComponent implements IItemComponent, IHelperModuleModifier {
 
+    public HelperModuleItemComponent(int gt_tier, @Nullable String moduleData, boolean specialized, int moduleSpace) {
+        this.ModuleData = moduleData;
+        this.GT_TIER = gt_tier;
+        this.specialized = specialized;
+        this.MODULE_SPACE = moduleSpace;
+        this.PARAMOUNT = false;
+        this.PARAMOUNT_LEVEL = -1;
+    }
+
     public HelperModuleItemComponent(int gt_tier, @Nullable String moduleData, boolean specialized, int moduleSpace,
-                                     @Nullable Boolean isParamount) {
+                                     @Nullable Boolean isParamount, int paramountLevel) {
         this.ModuleData = moduleData;
         this.GT_TIER = gt_tier;
         this.specialized = specialized;
         this.MODULE_SPACE = moduleSpace;
         this.PARAMOUNT = Boolean.TRUE.equals(isParamount);
+        this.PARAMOUNT_LEVEL = paramountLevel;
     }
 
     @Getter
@@ -36,6 +44,7 @@ public class HelperModuleItemComponent implements IItemComponent, IHelperModuleM
     private final boolean specialized;
     private final int MODULE_SPACE;
     private final boolean PARAMOUNT;
+    private final int PARAMOUNT_LEVEL;
 
     @Override
     public void apply(ItemStack stack) {
@@ -47,28 +56,33 @@ public class HelperModuleItemComponent implements IItemComponent, IHelperModuleM
 
     @Override
     public boolean canApply(ItemStack stack, HelperItemComponent helperItemComponent) {
-        int helperTier = helperItemComponent.getTier();
+        return helperModuleApplicationLogic(stack, helperItemComponent);
+    }
+
+    private boolean helperModuleApplicationLogic(ItemStack stack, HelperItemComponent helperItemComponent) {
         int currentModuleCount = 0;
+        int helperTier = helperItemComponent.getTier();
+        int helperMaxModules = helperItemComponent.getMAX_MODULE_COUNT();
+        boolean isParamountHelper = helperItemComponent instanceof ParamountHelperItemComponent;
 
-        if (specialized && !helperItemComponent.isSpecialized()) {
-            return false;
-        }
-        if (PARAMOUNT && !(helperItemComponent instanceof ParamountHelperItemComponent)) {
-            return false;
-        }
-
-        assert stack.getTag() != null;
         if (stack.getOrCreateTag().contains("modifiers"))
             currentModuleCount = Integer.parseInt(stack.getTagElement("modifiers").getString("count"));
 
-        if (helperItemComponent instanceof ParamountHelperItemComponent p) {
-            if (!this.PARAMOUNT) return false;
+        if (this.PARAMOUNT) {
+            if (isParamountHelper) {
+                ((ParamountHelperItemComponent) helperItemComponent).setOwner(stack);
+                return (currentModuleCount + MODULE_SPACE <= helperMaxModules) &&
+                        (((ParamountHelperItemComponent) helperItemComponent).getLevel() >= this.PARAMOUNT_LEVEL);
+            }
+            return false;
 
-            return ((this.GT_TIER) <= p.getLevel()) && Objects.equals(this.ModuleData, p.getPARAMOUNT_DATA()) &&
-                    currentModuleCount + MODULE_SPACE <= helperItemComponent.getMAX_MODULE_COUNT();
+        } else if (this.specialized) {
+            if (helperItemComponent.isSpecialized()) return ((this.GT_TIER <= helperTier &&
+                    currentModuleCount + MODULE_SPACE <= helperMaxModules));
+            else return false;
+        } else {
+            return ((this.GT_TIER <= helperTier &&
+                    currentModuleCount + MODULE_SPACE <= helperMaxModules) && !isParamountHelper);
         }
-
-        return ((this.GT_TIER <= helperTier &&
-                currentModuleCount + MODULE_SPACE <= helperItemComponent.getMAX_MODULE_COUNT()));
     }
 }

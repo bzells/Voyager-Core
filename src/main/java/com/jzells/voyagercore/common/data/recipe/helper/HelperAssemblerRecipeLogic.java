@@ -73,9 +73,10 @@ public class HelperAssemblerRecipeLogic implements GTRecipeType.ICustomRecipeLog
             boolean paramount = false;
 
             if (helperItemComponent.isHull()) {
-                if (helperItemComponent instanceof ParamountHelperItemComponent) {
+                if (helperItemComponent instanceof ParamountHelperItemComponent p) {
                     helper = PARAMOUNT_HULL_TO_HELPER
                             .get(((ParamountHelperItemComponent) helperItemComponent).getPARAMOUNT_DATA());
+
                     paramount = true;
                 } else {
                     helper = helperItemComponent.isSpecialized() ?
@@ -84,6 +85,7 @@ public class HelperAssemblerRecipeLogic implements GTRecipeType.ICustomRecipeLog
                 }
 
                 outputHelper = new ItemStack(helper.get());
+                if (paramount) ((ParamountHelperItemComponent) helperItemComponent).setOwner(outputHelper);
                 outputHelper.getOrCreateTagElement("modifiers").putString("count", "0");
 
             } else {

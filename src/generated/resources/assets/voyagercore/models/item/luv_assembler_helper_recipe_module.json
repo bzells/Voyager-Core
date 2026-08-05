@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "voyagercore:item/luv_helper_module",
+    "layer1": "voyagercore:item/assembler_helper_recipe_module"
+  }
+}

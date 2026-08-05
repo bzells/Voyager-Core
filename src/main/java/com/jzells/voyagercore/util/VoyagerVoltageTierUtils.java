@@ -4,14 +4,46 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.common.data.GTMaterialBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterialItems;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
+import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
+import net.minecraft.world.level.block.Block;
 
+import javax.annotation.CheckForNull;
 import java.util.Objects;
 
 public class VoyagerVoltageTierUtils {
+
+    public static float getParallelMultiplierForSequentialRecipeModifier(GTRecipe recipe, int parallels) {
+        int existingParallels = recipe.parallels;
+
+        if (existingParallels <= 1) {
+            return parallels;
+        }
+
+        return (float) (existingParallels + parallels) / existingParallels;
+    }
+
+    public static ModifierFunction getModifierFunctionWithParallels(GTRecipe recipe, int pars, float outputMod,
+                                                                    float eutMod, float speed) {
+        int recipePars = recipe.parallels;
+
+        float parMultiplier = getParallelMultiplierForSequentialRecipeModifier(recipe, pars);
+
+        return ModifierFunction.builder()
+                .outputModifier(ContentModifier.multiplier(outputMod * parMultiplier))
+                .inputModifier(ContentModifier.multiplier(parMultiplier))
+                .eutMultiplier(eutMod)
+                .durationMultiplier(speed)
+                .parallels((int) Math.ceil(parMultiplier))
+                .build();
+    }
 
     public static int getExactVoltageTier(long voltage) {
         return GTUtil.getTierByVoltage(voltage);
@@ -32,6 +64,18 @@ public class VoyagerVoltageTierUtils {
             }
         }
         return voltage;
+    }
+
+    /*
+
+    When using, make sure the material actually has a frame.
+
+     */
+    @CheckForNull
+    public static BlockEntry<?> getFrameBlock(Material material)
+    {
+        return GTMaterialBlocks.MATERIAL_BLOCKS
+                .get(TagPrefix.frameGt, material);
     }
 
     public enum VoltageColorTable {
@@ -60,6 +104,8 @@ public class VoyagerVoltageTierUtils {
         return switch (dat) {
             case "plat_line" -> "§ePlat Line";
             case "desh_line" -> "§6Desh Line";
+            case "smd_assembly" -> "§bSMD Assembly";
+            case "petrochem" -> "§6Petrochem";
             default -> dat;
         };
     }
@@ -67,7 +113,6 @@ public class VoyagerVoltageTierUtils {
     public static String helperRecipeFromID(String id) {
         return switch (id) {
             case "gtceu:electric_blast_furnace" -> "§eElectric Blast Furnace";
-            case "desh_line" -> "§6Desh Line";
             default -> id;
         };
     }
@@ -78,6 +123,7 @@ public class VoyagerVoltageTierUtils {
             case "grandma" -> "§6Grandma";
             case "embassy" -> "§9Embassy";
             case "chemist" -> "§bThe Chemist";
+            case "hungry" -> "§2Hungry";
             default -> id;
         };
     }

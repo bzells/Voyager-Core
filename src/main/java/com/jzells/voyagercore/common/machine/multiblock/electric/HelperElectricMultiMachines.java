@@ -17,6 +17,7 @@ import com.jzells.voyagercore.common.machine.multiblock.part.VoyagerPartAbilitie
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.any;
+import static com.gregtechceu.gtceu.common.data.GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.jzells.voyagercore.VoyagerCore.VOYAGERCORE_REGISTRATE;
 import static com.jzells.voyagercore.common.data.VoyagerBlocks.*;
@@ -29,8 +30,7 @@ public class HelperElectricMultiMachines {
                     CoilWorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.ALL)
             .recipeType(GTRecipeTypes.BLAST_RECIPES)
-            .recipeModifiers(VoyagerCoreRecipeModifiers.HELPER_COMPATABILITY,
-                    GTRecipeModifiers::ebfOverclock)
+            .recipeModifiers(VoyagerCoreRecipeModifiers.HELPER_COMPATABILITY, GTRecipeModifiers::ebfOverclock)
             .appearanceBlock(CASING_HEATPROOF_HELPER)
             .pattern(def -> FactoryBlockPattern.start()
                     .aisle("ccc", "hhh", "hhh", "ccc")
@@ -82,6 +82,37 @@ public class HelperElectricMultiMachines {
                     .build())
             .workableCasingModel(VoyagerCore.id("block/casing/clean_assembly_casing"),
                     GTCEu.id("block/machines/assembler"))
+            .register();
+
+    public static final MultiblockMachineDefinition GRANDMAS_STOVETOP_OVEN = VOYAGERCORE_REGISTRATE
+            .multiblock("grandmas_stovetop_oven", CoilWorkableElectricMultiblockMachine::new)
+            .rotationState(RotationState.ALL)
+            .appearanceBlock(CASING_STEEL_SOLID)
+            .recipeTypes(VoyagerRecipeTypes.GRANDMAS_BAKING)
+            .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, VoyagerCoreRecipeModifiers.HELPER_COMPATABILITY,
+                    VoyagerCoreRecipeModifiers.PARAMOUNT_HELPER_REQUIRE, VoyagerCoreRecipeModifiers.HEAT_BOOSTING)
+            .pattern(def -> FactoryBlockPattern.start()
+                    .aisle("abbba", "aaaaa", "aaaaa", "aaaaa", "aaaaa", "aa@aa", "daaad")
+                    .aisle("beeeb", "cdddc", "cdddc", "cdddc", "aggga", "ddddd", "ddddd")
+                    .aisle("beheb", "cdddc", "cdddc", "cdddc", "aghga", "ddddd", "ddddd")
+                    .aisle("beeeb", "cdddc", "cdddc", "cdddc", "aggga", "ddddd", "ddddd")
+                    .aisle("abbba", "cfffc", "cfffc", "cfffc", "aaaaa", "ddddd", "ddddd")
+                    .where("a", Predicates.blocks(CASING_STEEL_SOLID.get())
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
+                            .or(Predicates.abilities(VoyagerPartAbilities.HELPER_HOLDER).setExactLimit(1))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2, 1)))
+                    .where("b", Predicates.blocks(FIREBOX_STEEL.get()))
+                    .where("c", Predicates.blocks(CASING_STAINLESS_CLEAN.get()))
+                    .where("d", Predicates.any())
+                    .where("e", Predicates.heatingCoils())
+                    .where("f", Predicates.blocks(CASING_LAMINATED_GLASS.get()))
+                    .where("g", Predicates.blocks(CASING_HIGH_TEMPERATURE_SMELTING.get()))
+                    .where("h", Predicates.blocks(CASING_TUNGSTENSTEEL_PIPE.get()))
+                    .where("@", Predicates.controller(Predicates.blocks(def.get())))
+                    .build())
+            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
+                    GTCEu.id("block/machines/arc_furnace"))
             .register();
 
     public static void init() {}

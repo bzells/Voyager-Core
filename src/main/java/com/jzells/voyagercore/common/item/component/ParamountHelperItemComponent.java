@@ -5,21 +5,24 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
+import com.jzells.voyagercore.util.VoyagerConstants;
 import lombok.Getter;
+
+import java.util.Objects;
 
 @Getter
 public class ParamountHelperItemComponent extends HelperItemComponent {
 
-    private static final String DATA_TAG = "paramount_helper_data";
+    protected static final String DATA_TAG = "paramount_helper_data";
 
-    private final String PARAMOUNT_DATA;
-    private final int baseLevel;
-    private final float LevelXPScaleFactor;
+    protected final String PARAMOUNT_DATA;
+    protected final int baseLevel;
+    protected final float LevelXPScaleFactor;
 
     /*
      * This is the ItemStack that owns this component's persistent nbt data.
      */
-    private ItemStack owner;
+    protected ItemStack owner;
 
     public ParamountHelperItemComponent(
                                         GTRecipeType recipeType,
@@ -48,7 +51,7 @@ public class ParamountHelperItemComponent extends HelperItemComponent {
         }
     }
 
-    private CompoundTag getData() {
+    protected CompoundTag getData() {
         if (owner == null) {
             throw new IllegalStateException(
                     "ParamountHelperItemComponent has no ItemStack owner");
@@ -57,17 +60,30 @@ public class ParamountHelperItemComponent extends HelperItemComponent {
         return owner.getOrCreateTagElement(DATA_TAG);
     }
 
-    private void initializeData(ItemStack stack) {
+    protected void initializeData(ItemStack stack) {
         CompoundTag tag = stack.getOrCreateTagElement(DATA_TAG);
 
         tag.putInt("level", baseLevel);
         tag.putLong("current_xp", 0);
-        tag.putLong("level_up_xp", 512);
+        tag.putLong("level_up_xp", (long) (512 * this.LevelXPScaleFactor));
         tag.putInt("max_module_count", MAX_MODULE_COUNT);
+        tag.putInt("tier", getTier());
     }
 
     public int getLevel() {
         return getData().getInt("level");
+    }
+
+    public int getGTTier() {
+        return getData().getInt("tier");
+    }
+
+    public float getOutput() {
+        return getData().getFloat("output");
+    }
+
+    public int getParallels() {
+        return Objects.requireNonNull(owner.getTagElement("modifiers")).getInt("parallels");
     }
 
     public long getCurrentXP() {
@@ -90,19 +106,23 @@ public class ParamountHelperItemComponent extends HelperItemComponent {
         long levelUpXP = tag.getLong("level_up_xp");
         int level = tag.getInt("level");
         int maxModuleCount = tag.getInt("max_module_count");
+        int tier = tag.getInt("tier");
 
-        currentXP += (long) ((Math.pow(recipeTime, 1.5) * Math.pow(recipeTier, 1.2)) / 3200) + recipeTier;
+        currentXP += VoyagerConstants.PARAMOUNT_XP_FORMULA(recipeTime, recipeTier);
 
         while (currentXP >= levelUpXP) {
             currentXP -= levelUpXP;
             level++;
 
-            levelUpXP = (long) (levelUpXP * LevelXPScaleFactor * 4);
+            levelUpXP = (long) (levelUpXP * VoyagerConstants.PARAMOUNT_HELPER_LEVEL_UP_XP_MULTIPLIER(level));
 
             maxModuleCount++;
+
+            tier += (level % 2 == 0 ? 1 : 0);
         }
 
         tag.putInt("level", level);
+        tag.putInt("tier", tier);
         tag.putLong("current_xp", currentXP);
         tag.putLong("level_up_xp", levelUpXP);
         tag.putInt("max_module_count", maxModuleCount);
