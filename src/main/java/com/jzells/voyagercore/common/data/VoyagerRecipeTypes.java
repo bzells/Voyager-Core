@@ -13,6 +13,9 @@ import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 
 import net.minecraft.client.resources.language.I18n;
 
+import com.jzells.voyagercore.common.data.recipe.helper.HelperAssemblerRecipeLogic;
+import com.jzells.voyagercore.util.VoyagerVoltageTierUtils;
+
 public class VoyagerRecipeTypes {
 
     public static final GTRecipeType ADVANCED_CALORIE_CONVERSION = GTRecipeTypes
@@ -44,6 +47,11 @@ public class VoyagerRecipeTypes {
                             I18n.get(requiredCoil.getMaterial().getUnlocalizedName()));
                 }
                 return "";
+            })
+            .addDataInfo(data -> {
+                String specialized = (data.contains("specialized")) ? data.getString("specialized") : "none";
+                return (specialized.equals("none")) ? "" :
+                        "Helper Specialization: §6" + VoyagerVoltageTierUtils.helperSpecializationFromData(specialized);
             })
             .setSound(GTSoundEntries.CHEMICAL);
 
@@ -89,6 +97,32 @@ public class VoyagerRecipeTypes {
             .setEUIO(IO.IN)
             .setMaxIOSize(5, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ASSEMBLY_LINE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSlotOverlay(true, false, GuiTextures.BOX_OVERLAY)
+
+            .setSound(GTSoundEntries.ASSEMBLER);
+
+    public static final GTRecipeType HELPER_FACTORY = GTRecipeTypes
+            .register("helper_factory", GTRecipeTypes.ELECTRIC)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(9, 1, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ASSEMBLY_LINE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSlotOverlay(true, false, GuiTextures.BOX_OVERLAY)
+
+            .setSound(GTSoundEntries.ASSEMBLER);
+
+    public static final GTRecipeType HELPER_ASSEMBLY = GTRecipeTypes
+            .register("helper_assembly", GTRecipeTypes.ELECTRIC)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(3, 1, 0, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BENDING, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.ASSEMBLER)
+            .addCustomRecipeLogic(new HelperAssemblerRecipeLogic());
+
+    public static final GTRecipeType SMD_ASSEMBLY = GTRecipeTypes
+            .register("smd_assembly", GTRecipeTypes.MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(6, 1, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BENDING, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSlotOverlay(true, false, GuiTextures.BOX_OVERLAY)
 
             .setSound(GTSoundEntries.ASSEMBLER);

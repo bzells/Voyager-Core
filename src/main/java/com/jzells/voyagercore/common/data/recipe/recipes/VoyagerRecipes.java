@@ -9,5 +9,6 @@ public class VoyagerRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
         ChemicalPlantRecipes.init(provider);
         PulverizerRecipes.init(provider);
+        HelperSpecialRecipes.init(provider);
     }
 }

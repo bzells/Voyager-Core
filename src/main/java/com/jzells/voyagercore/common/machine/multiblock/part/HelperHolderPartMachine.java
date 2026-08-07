@@ -21,8 +21,12 @@ import com.lowdragmc.lowdraglib.utils.Position;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.ItemStack;
 
+import com.jzells.voyagercore.common.item.component.HelperComponentItem;
 import com.jzells.voyagercore.common.item.component.HelperItemComponent;
 
+import java.util.ArrayList;
+
+import javax.annotation.CheckForNull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
@@ -39,6 +43,11 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
     public HelperHolderPartMachine(IMachineBlockEntity holder) {
         super(holder);
         helperHandler = new HelperHandler(this);
+    }
+
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
     }
 
     @Override
@@ -76,6 +85,95 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
             // Should Work, since there's only one component attached
             return (HelperItemComponent) metaItem.getComponents().get(0);
         } else return HelperItemComponent.NULL_HELPER;
+    }
+
+    public int getHelperParallels() {
+        ItemStack helper = this.getHeldItem(false);
+        int pars = 1;
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            if (helper.getOrCreateTagElement("modifiers").contains("parallels"))
+                pars = helper.getOrCreateTagElement("modifiers").getInt("parallels");
+            return pars;
+        }
+        return 0;
+    }
+
+    public float getHelperEUt() {
+        ItemStack helper = this.getHeldItem(false);
+        float eut = 1;
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            if (helper.getOrCreateTagElement("modifiers").contains("eut"))
+                eut = helper.getOrCreateTagElement("modifiers").getFloat("eut");
+            return eut;
+        }
+        return 0;
+    }
+
+    public float getHelperSpeed() {
+        ItemStack helper = this.getHeldItem(false);
+        float speed = 1;
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            if (helper.getOrCreateTagElement("modifiers").contains("speed"))
+                speed = helper.getOrCreateTagElement("modifiers").getFloat("speed");
+            return speed;
+        }
+        return 0;
+    }
+
+    public float getOutputModifier() {
+        ItemStack helper = this.getHeldItem(false);
+        float output = 1;
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            if (helper.getOrCreateTagElement("modifiers").contains("output"))
+                output = helper.getOrCreateTagElement("modifiers").getFloat("output");
+            return output;
+        }
+        return 0;
+    }
+
+    @CheckForNull
+    public ArrayList<String> getRecipes() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            return new ArrayList<>(helper.getOrCreateTagElement("recipes").getAllKeys());
+        }
+        return null;
+    }
+
+    public int getHelperTier() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof HelperItemComponent helperItemComponent) {
+                    return helperItemComponent.getTier();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public boolean getHelperIsSpecialized() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof HelperItemComponent helperItemComponent) {
+                    return helperItemComponent.isSpecialized();
+                }
+            }
+        }
+        return false;
+    }
+
+    public String getHelperSpecialization() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            if (!getHelperIsSpecialized()) return "none";
+            for (String key : helper.getTagElement("recipes").getAllKeys()) {
+                System.out.println("Keys: " + key);
+                return key;
+            }
+        }
+        return "none";
     }
 
     @Override
@@ -116,5 +214,18 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
             }
             return isHelperItem;
         }
+
+        // TDL
+        // public float getRecipeList(ItemStack helper)
+        // {
+        // float output = 1;
+        // if(helper.getItem() instanceof HelperComponentItem helperComponentItem)
+        // {
+        // if(helper.getOrCreateTagElement("modifiers").contains("output"))
+        // output = helper.getOrCreateTagElement("modifiers").getFloat("output");
+        // return output;
+        // }
+        // return 0;
+        // }
     }
 }

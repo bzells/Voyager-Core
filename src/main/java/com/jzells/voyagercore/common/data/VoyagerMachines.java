@@ -11,6 +11,7 @@ import net.minecraft.network.chat.Component;
 
 import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.common.machine.multiblock.part.*;
+import com.jzells.voyagercore.util.VoyagerVoltageTierUtils;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.capability.recipe.IO.*;
@@ -26,7 +27,8 @@ public class VoyagerMachines {
             .abilities(VoyagerPartAbilities.CRUSHING_WHEEL)
             .workableCasingModel(VoyagerCore.id("block/crushing_wheel/luv/luv_crushing_wheel"),
                     VoyagerCore.id("block/crushing_wheel/luv/luv_crushing_wheel"))
-            .tooltips(Component.literal("Crushing Wheel Tier: " + GTValues.LuV))
+            .tooltips(Component.literal(
+                    "Crushing Wheel Tier: " + VoyagerVoltageTierUtils.getVoltageTierColorStringShortForm(VN[LuV])))
             .register();
 
     public static final MachineDefinition ZPM_CRUSH_WHEEL = VoyagerCore.VOYAGERCORE_REGISTRATE.machine(
@@ -37,7 +39,8 @@ public class VoyagerMachines {
             .abilities(VoyagerPartAbilities.CRUSHING_WHEEL)
             .workableCasingModel(VoyagerCore.id("block/crushing_wheel/zpm/zpm_crushing_wheel"),
                     VoyagerCore.id("block/crushing_wheel/zpm/zpm_crushing_wheel"))
-            .tooltips(Component.literal("Crushing Wheel Tier: " + GTValues.ZPM))
+            .tooltips(Component.literal(
+                    "Crushing Wheel Tier: " + VoyagerVoltageTierUtils.getVoltageTierColorStringShortForm(VN[ZPM])))
             .register();
 
     public static final MachineDefinition UV_CRUSH_WHEEL = VoyagerCore.VOYAGERCORE_REGISTRATE.machine(
@@ -48,7 +51,8 @@ public class VoyagerMachines {
             .abilities(VoyagerPartAbilities.CRUSHING_WHEEL)
             .workableCasingModel(VoyagerCore.id("block/crushing_wheel/uv/uv_crushing_wheel"),
                     VoyagerCore.id("block/crushing_wheel/uv/uv_crushing_wheel"))
-            .tooltips(Component.literal("Crushing Wheel Tier: " + GTValues.UV))
+            .tooltips(Component.literal(
+                    "Crushing Wheel Tier: " + VoyagerVoltageTierUtils.getVoltageTierColorStringShortForm(VN[UV])))
             .register();
 
     public static final MachineDefinition NETHER_STAR_BEAM = VoyagerCore.VOYAGERCORE_REGISTRATE.machine(
@@ -92,13 +96,24 @@ public class VoyagerMachines {
 
     public static final MachineDefinition CRYSTAL_CALCULATED_BEAM = VoyagerCore.VOYAGERCORE_REGISTRATE.machine(
             "crystal_calculated_beam",
-            holder -> new BeamPartMachine(holder, .2f))
+            holder -> new BeamPartMachine(holder, .25f))
 
             .rotationState(RotationState.ALL)
             .abilities(VoyagerPartAbilities.BEAM_LENS)
             .workableCasingModel(VoyagerCore.id("block/beam/crystal_calculated_beam"),
                     VoyagerCore.id("block/beam/crystal_calculated_beam"))
-            .tooltips(Component.literal("Beam concentration: " + .2f * 100 + "%"))
+            .tooltips(Component.literal("Beam concentration: " + .25f * 100 + "%"))
+            .register();
+
+    public static final MachineDefinition EV_PRECISE_ROBOT_ARM = VoyagerCore.VOYAGERCORE_REGISTRATE.machine(
+            "ev_precise_robot_arm_box",
+            holder -> new PreciseRobotArmPartMachine(holder, EV))
+
+            .rotationState(RotationState.ALL)
+            .abilities(VoyagerPartAbilities.PRECISE_ROBOT_ARM)
+            .workableCasingModel(VoyagerCore.id("block/beam/crystal_calculated_beam"),
+                    VoyagerCore.id("block/precise_robot_arm/ev"))
+            .tooltips(Component.literal("Tier: " + VoyagerVoltageTierUtils.getVoltageTierColorStringShortForm(VN[EV])))
             .register();
 
     public static void init() {};
