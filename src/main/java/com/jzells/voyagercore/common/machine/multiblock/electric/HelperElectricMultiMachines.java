@@ -10,10 +10,13 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.*;
 
+import net.minecraft.world.level.block.Blocks;
+
 import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.common.data.VoyagerCoreRecipeModifiers;
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
 import com.jzells.voyagercore.common.machine.multiblock.part.VoyagerPartAbilities;
+import com.jzells.voyagercore.util.VoyagerVoltageTierUtils;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.any;
@@ -113,6 +116,64 @@ public class HelperElectricMultiMachines {
                     .build())
             .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
                     GTCEu.id("block/machines/arc_furnace"))
+            .register();
+
+    public static final MultiblockMachineDefinition CELESTIAL_POST_BOX = VOYAGERCORE_REGISTRATE
+            .multiblock("celestial_post_box", WorkableElectricMultiblockMachine::new)
+            .rotationState(RotationState.ALL)
+            .appearanceBlock(CASING_STEEL_SOLID)
+            .recipeTypes(VoyagerRecipeTypes.CELESTIAL_POST_BOX)
+            .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, VoyagerCoreRecipeModifiers.HELPER_COMPATABILITY,
+                    VoyagerCoreRecipeModifiers.PARAMOUNT_HELPER_REQUIRE)
+            .pattern(def -> FactoryBlockPattern.start()
+                    .aisle("aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa",
+                            "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaggga")
+                    .aisle("aaccca", "aaggga", "aaggga", "aaggga", "aaggga", "aggggg", "aaggga", "aaggga", "aaggga",
+                            "aaggga", "aaggga", "aaggga", "aaggga", "aaggga", "agcccg")
+                    .aisle("aaccca", "aagiga", "aagiga", "aagiga", "aagiga", "aggigg", "aagiga", "aagiga", "aagiga",
+                            "aagiga", "aagiga", "aagiga", "aagiga", "aagiga", "agcccg")
+                    .aisle("aaccca", "aaggga", "aaggga", "aaggga", "aaggga", "aggggg", "aaggga", "aaggga", "aaggga",
+                            "aaggga", "aaggga", "aaggga", "aaggga", "aaggga", "agcccg")
+                    .aisle("aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aggggg", "abbbbb", "abcccb", "abcccb",
+                            "abcccb", "abbcbb", "aabbba", "aaaaaa", "aaaaaa", "aaghga")
+                    .aisle("aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aggggg", "abbbbb", "abaaab", "abfefb",
+                            "abaaab", "abbabb", "aabbba", "aaaaaa", "aaaaaa", "aaaaaa")
+                    .aisle("aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aggggg", "abbbbb", "abaaab", "abaeab",
+                            "abaaab", "abbabb", "aabbba", "aaaaaa", "aaaaaa", "aaaaaa")
+                    .aisle("aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aggggg", "abbbbb", "abaaab", "abfefb",
+                            "abaaab", "abbabb", "aabbba", "aaaaaa", "aaaaaa", "aaaaaa")
+                    .aisle("aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aggggg", "abbbbb", "abaaab", "abaeab",
+                            "abaaab", "abbabb", "aabbba", "aaaaaa", "aaaaaa", "aaaaaa")
+                    .aisle("aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aggggg", "abbbbb", "abaaab", "abfefb",
+                            "abaaab", "abbabb", "aabbba", "aaaaaa", "aaaaaa", "aaaaaa")
+                    .aisle("aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "abbbbb", "abaaab", "abaeab",
+                            "abaaab", "abbabb", "aabbba", "aaaaaa", "aaaaaa", "aaaaaa")
+                    .aisle("aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "abbbbb", "abaaab", "abfefb",
+                            "abaaab", "abbabb", "aabbba", "aaaaaa", "daaaaa", "daaaaa")
+                    .aisle("aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "abbbbb", "abaaab", "dbaeab",
+                            "dbaaab", "dbbabb", "dabbba", "daaaaa", "daaaaa", "daaaaa")
+                    .aisle("aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "abbbbb", "abcccb", "abcccb",
+                            "abcccb", "abbcbb", "aabbba", "aaaaaa", "aaaaaa", "aaaaaa")
+                    .aisle("aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "aaaaaa", "abbbbb", "abaaab", "abaaab",
+                            "abaaab", "abbabb", "aabbba", "aaaaaa", "aaaaaa", "aaaaaa")
+
+                    .where("a", Predicates.any())
+                    .where("b", Predicates.blocks(CASING_OSTRUM.get()))
+                    .where("c", Predicates.blocks(CASING_CONDENSATION_RESISTANT_TUNGSTEN.get()))
+                    .where("d", Predicates.blocks(Blocks.RED_CONCRETE))
+                    .where("e", Predicates.blocks(CASING_TUNGSTENSTEEL_GEARBOX.get()))
+                    .where("f", Predicates.blocks(CASING_TITANIUM_PIPE.get()))
+                    .where("g", Predicates.blocks(CASING_STEEL_SOLID.get())
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
+                            .or(Predicates.abilities(VoyagerPartAbilities.HELPER_HOLDER).setExactLimit(1))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2, 1)))
+                    .where("i",
+                            Predicates.blocks(VoyagerVoltageTierUtils.getFrameBlock(GTMaterials.TungstenCarbide).get()))
+                    .where("h", Predicates.controller(Predicates.blocks(def.get())))
+                    .build())
+            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
+                    GTCEu.id("block/machines/electrolyzer"))
             .register();
 
     public static void init() {}

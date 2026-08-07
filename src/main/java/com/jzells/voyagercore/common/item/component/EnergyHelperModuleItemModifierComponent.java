@@ -52,18 +52,8 @@ public class EnergyHelperModuleItemModifierComponent extends HelperModuleItemMod
         float eutm;
         float speed;
 
-        if(MULT)
-        {
-            eutm = Math.max(0.05f, helperEUt + (helperEUt * EUTMOD));
-            speed = Math.max(0.05f, helperSpeed + (helperSpeed * EAT_MOD));
-        }
-        else
-        {
-            eutm = Math.max(0.05f, helperEUt + EUTMOD);
-            speed = Math.max(0.05f, helperSpeed + EAT_MOD);
-        }
-
-
+        eutm = Math.max(0.05f, helperEUt + (addValue(helperEUt, EUTMOD)));
+        speed = Math.max(0.05f, helperSpeed + (addValue(helperSpeed, EAT_MOD)));
 
         tag.putInt("parallels", helperParallel + getPARALLELS());
         tag.putFloat("eut_gen_mod", eutm);

@@ -94,7 +94,7 @@ public class VoyagerItems {
             createHelperModifierModule("efficiency_helper_module", "Efficiency Helper Module", tier, 0,
                     1.2f / (float) tier, -.4f + (.5f * ((float) tier / 8)), 0, false, 1, tier);
             createHelperModifierModule("speed_helper_module", "Speed Helper Module", (int) tier, 0,
-                    -0.25f * ((float) tier) / 4, .2f + (.4f * ((float) tier / 6)), 0, false, 1, tier);
+                    -0.20f * ((float) tier) / 4, .2f + (.2f * ((float) tier / 6)), 0, false, 1, tier);
             createHelperModifierModule("output_helper_module", "Output Modifier Helper Module", tier, 0,
                     0.05f * ((float) tier) / 4, -.8f + (.3f * ((float) tier / 8)), .5f, true, 2, tier);
             createHelperModifierModule("parallel_helper_module", "Parallel Modifier Helper Module", tier,

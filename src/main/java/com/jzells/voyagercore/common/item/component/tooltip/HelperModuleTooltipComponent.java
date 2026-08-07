@@ -59,7 +59,6 @@ public class HelperModuleTooltipComponent implements IAddInformation {
                         tooltipComponents.add(Component.literal(""));
                         tooltipComponents.add(Component
                                 .literal("§7Module Slots Required: §r" + modifierComponent.getMODULE_SPACE()));
-                        tooltipComponents.add(Component.literal(modifierComponent.isMULT() ? "§7Speed and Efficiency will be applied multiplicatively" : "§7Speed and Efficiency will be applied additively"));
 
                     }
                     if (helperModuleItemComponent instanceof HelperModuleItemBeamComponent beamComponent) {
@@ -72,6 +71,11 @@ public class HelperModuleTooltipComponent implements IAddInformation {
                                     .getVoltageTierColorStringShortForm(VN[helperModuleItemComponent.getGT_TIER()])));
                     tooltipComponents.add(Component.literal("§7Tier Required to Install: " + VoyagerVoltageTierUtils
                             .getVoltageTierColorStringShortForm(VN[helperModuleItemComponent.getGT_TIER()])));
+
+                    tooltipComponents.add(Component.literal(""));
+                    if (helperModuleItemComponent instanceof HelperModuleItemModifierComponent)
+                        tooltipComponents.add(Component.literal(
+                                "§8Positive values are applied additively, negative values are applied multiplicatively"));
 
                 }
             }

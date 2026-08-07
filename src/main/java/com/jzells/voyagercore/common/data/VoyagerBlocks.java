@@ -20,7 +20,6 @@ import com.tterrag.registrate.util.nullness.NonNullSupplier;
 
 import java.util.function.Supplier;
 
-import static com.gregtechceu.gtceu.common.registry.GTRegistration.REGISTRATE;
 import static com.jzells.voyagercore.VoyagerCore.VOYAGERCORE_REGISTRATE;
 
 public class VoyagerBlocks {
@@ -83,6 +82,9 @@ public class VoyagerBlocks {
     public static final BlockEntry<Block> CASING_OSTRUM = createCasingBlock(
             "ostrum_casing", VoyagerCore.id("block/casing/ostrum_casing"));
 
+    public static final BlockEntry<Block> CASING_LEAD = createCasingBlock(
+            "radiation_proof_lead_casing", VoyagerCore.id("block/casing/radiation_proof_lead_casing"));
+
     /// 0: Casing, 1: Gearbox, 2: Pipe Casing
     public static final BlockEntry<Block>[] STRUCTURE_ARRAY_RHODIUM_PLATED_PALLADIUM = fastBulkBlock(
             "rhodium_plated_palladium");
@@ -96,8 +98,10 @@ public class VoyagerBlocks {
     /// 0: Casing, 1: Gearbox, 2: Pipe Casing
     public static final BlockEntry<Block>[] STRUCTURE_ARRAY_NEUTRONIUM = fastBulkBlock("neutronium");
 
-//    chemical_resistant_glass
-    public static final BlockEntry<GlassBlock> CHEMICAL_RESISTANT_GLASS = createGlassCasingBlock("chemical_resistant_glass", VoyagerCore.id("block/glass/chemical_resistant_glass"), () -> RenderType::translucent);
+    // chemical_resistant_glass
+    public static final BlockEntry<GlassBlock> CHEMICAL_RESISTANT_GLASS = createGlassCasingBlock(
+            "chemical_resistant_glass", VoyagerCore.id("block/glass/chemical_resistant_glass"),
+            () -> RenderType::translucent);
 
     private static BlockEntry<GlassBlock> createGlassCasingBlock(String name, ResourceLocation texture,
                                                                  Supplier<Supplier<RenderType>> type) {

@@ -1,14 +1,12 @@
 package com.jzells.voyagercore.common.machine.multiblock.generator;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
-import com.gregtechceu.gtceu.common.data.GCYMBlocks;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.common.data.*;
 
 import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.common.data.VoyagerCoreRecipeModifiers;
@@ -28,10 +26,10 @@ public class GeneratorMultis {
     // spotless:off
     // spotless is disabled in this file
     public static final MultiblockMachineDefinition HYPER_HELPER_CALORIE_CONVERTER = VOYAGERCORE_REGISTRATE
-            .multiblock("hyper_helper_calorie_converter", AdvancedHelperCalorieConverterType::new)
+            .multiblock("hyper_helper_calorie_converter", holder -> new AdvancedHelperCalorieConverterType(holder, 2))
             .rotationState(RotationState.ALL)
             .recipeTypes(VoyagerRecipeTypes.ADVANCED_CALORIE_CONVERSION)
-            .recipeModifiers(AdvancedHelperCalorieConverterType::recipeModifier, VoyagerCoreRecipeModifiers.PARAMOUNT_HELPER_REQUIRE)
+            .recipeModifiers(AdvancedHelperCalorieConverterType::recipeModifier, VoyagerCoreRecipeModifiers.PARAMOUNT_HELPER_REQUIRE, GTRecipeModifiers.OC_NON_PERFECT_SUBTICK)
             .langValue("Hyper Helper Calorie Converter (HHCC)")
             .generator(true)
             .appearanceBlock(CASING_VENT_RADIANT_TITANEX)
@@ -91,6 +89,40 @@ public class GeneratorMultis {
             .workableCasingModel(VoyagerCore.id("block/casing/ostrum_casing"),
                     VoyagerCore.id("block/multiblock/advanced_gas_turbine"))
             .register();
+
+
+
+
+    public static final MultiblockMachineDefinition HELPER_CALORIE_CONVERTER = VOYAGERCORE_REGISTRATE
+            .multiblock("helper_calorie_converter", holder -> new AdvancedHelperCalorieConverterType(holder, 1))
+            .rotationState(RotationState.ALL)
+            .recipeTypes(VoyagerRecipeTypes.ADVANCED_CALORIE_CONVERSION)
+            .recipeModifiers(AdvancedHelperCalorieConverterType::recipeModifier, VoyagerCoreRecipeModifiers.PARAMOUNT_HELPER_REQUIRE, GTRecipeModifiers.OC_NON_PERFECT_SUBTICK)
+            .langValue("Helper Calorie Converter (HCC)")
+            .generator(true)
+            .appearanceBlock(GCYMBlocks.HEAT_VENT)
+            .pattern(def -> FactoryBlockPattern.start()
+                .aisle("aaaaaaaaaaaaa", "baccaaaaaccab", "bdccdaaadccdb", "baccaaaaaccab", "aaaaaaaaaaaaa")
+                .aisle("baccaaaaaccab", "aaaebaaabeaaa", "aaaebcecbeaaa", "aaaebaaabeaaa", "baccaaaaaccab")
+                .aisle("bdccdaaadccdb", "aaaebcecbeaaa", "aaaebgggbeaaa", "aaaebcecbeaaa", "bdccdaaadccdb")
+                .aisle("baccaaaaaccab", "aaaebaaabeaaa", "aaaebcfcbeaaa", "aaaebaaabeaaa", "baccaaaaaccab")
+                .aisle("aaaaaaaaaaaaa", "baccaaaaaccab", "bdccdaaadccdb", "baccaaaaaccab", "aaaaaaaaaaaaa")
+
+                .where("a", Predicates.any())
+                            .where("b", Predicates.blocks(CASING_CONDENSATION_RESISTANT_TUNGSTEN.get()))
+                            .where("c", Predicates.blocks(CASING_LEAD.get()))
+                            .where("d", Predicates.blocks(VoyagerVoltageTierUtils.getFrameBlock(GTMaterials.TungstenCarbide).get()))
+                            .where("e", Predicates.blocks(GCYMBlocks.HEAT_VENT.get()))
+                            .where("f", Predicates.controller(Predicates.blocks(def.get())))
+                            .where("g", Predicates.blocks(GTBlocks.CASING_TUNGSTENSTEEL_PIPE.get()))
+                    .build())
+            .workableCasingModel(GTCEu.id("block/heat_vent"),
+                    VoyagerCore.id("block/multiblock/hyper_helper_calorie_converter"))
+            .register();
+
+
+
+
 
 
 

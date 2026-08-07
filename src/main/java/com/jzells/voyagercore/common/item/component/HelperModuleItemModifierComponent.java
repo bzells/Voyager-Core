@@ -93,22 +93,17 @@ public class HelperModuleItemModifierComponent extends HelperModuleItemComponent
         float eut;
         float speed;
 
-        if(MULT)
-        {
-            eut = Math.max(VoyagerConstants.MIN_HELPER_EUT, helperEUt + (helperEUt * EUT_REDUCTION_PERCENT));
-            speed = Math.max(VoyagerConstants.MIN_HELPER_SPEED, helperSpeed + (helperSpeed * SPEED));
-        }
-        else
-        {
-            eut = Math.max(VoyagerConstants.MIN_HELPER_EUT, helperEUt + EUT_REDUCTION_PERCENT);
-            speed = Math.max(VoyagerConstants.MIN_HELPER_SPEED, helperSpeed + SPEED);
-        }
-
-
+        eut = Math.max(VoyagerConstants.MIN_HELPER_EUT, helperEUt + (addValue(helperEUt, EUT_REDUCTION_PERCENT)));
+        speed = Math.max(VoyagerConstants.MIN_HELPER_SPEED, helperSpeed + (addValue(helperSpeed, SPEED)));
 
         tag.putInt("parallels", helperParallel + PARALLELS);
         tag.putFloat("eut", eut);
         tag.putFloat("speed", speed);
         tag.putFloat("output", outputMod + OUTPUT_MOD);
+    }
+
+    protected static float addValue(float val, float val2) {
+        if (val2 > 0) return val2;
+        return val * val2;
     }
 }

@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.jzells.voyagercore.common.machine.multiblock.part.HelperHolderPartMachine;
+import lombok.Getter;
 import lombok.val;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,8 +25,12 @@ import java.util.Objects;
 
 public class AdvancedHelperCalorieConverterType extends WorkableElectricMultiblockMachine {
 
-    public AdvancedHelperCalorieConverterType(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    @Getter
+    private final int TIER;
+
+    public AdvancedHelperCalorieConverterType(IMachineBlockEntity holder, int tier) {
+        super(holder);
+        TIER = tier;
     }
 
     private static final FluidStack DISTILLED_WATER_STACK;
@@ -78,16 +83,27 @@ public class AdvancedHelperCalorieConverterType extends WorkableElectricMultiblo
     }
 
     private double getEUtMultiplier() {
-        if (milk_boosted) {
-            return 1.25;
-        } else if (dt_boosted) {
-            return 1;
-        } else if (helperade_boosted) {
-            return 2.25;
-        } else if (not_boosted) {
-            return .5;
-        } else {
+        if (TIER == 1) {
+            if (milk_boosted) {
+                return 1.25;
+            } else if (dt_boosted) {
+                return 1;
+            } else if (not_boosted) {
+                return .5;
+            }
             return 0;
+        } else {
+            if (milk_boosted) {
+                return 2.25;
+            } else if (dt_boosted) {
+                return 1.5;
+            } else if (helperade_boosted) {
+                return 3;
+            } else if (not_boosted) {
+                return .5;
+            } else {
+                return 0;
+            }
         }
     }
 

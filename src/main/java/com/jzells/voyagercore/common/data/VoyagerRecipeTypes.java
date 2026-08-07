@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 
@@ -30,11 +31,18 @@ public class VoyagerRecipeTypes {
 
     public static final GTRecipeType ADVANCED_CALORIE_CONVERSION = voyagerRecipeType("advanced_calorie_conversion",
             GTRecipeTypes.MULTIBLOCK, IO.OUT, 1, 1, 0, 1,
-            GuiTextures.PROGRESS_BAR_RECYCLER, ProgressTexture.FillDirection.DOWN_TO_UP, GuiTextures.DUST_OVERLAY);
+            GuiTextures.PROGRESS_BAR_RECYCLER, ProgressTexture.FillDirection.DOWN_TO_UP, GuiTextures.DUST_OVERLAY,
+            GTSoundEntries.CHEMICAL);
 
     public static final GTRecipeType GRANDMAS_BAKING = voyagerRecipeType("grandmas_baking",
             GTRecipeTypes.MULTIBLOCK, IO.IN, 9, 9, 0, 0,
-            GuiTextures.FURNACE_OVERLAY_1, ProgressTexture.FillDirection.DOWN_TO_UP, GuiTextures.HEATING_OVERLAY_1);
+            GuiTextures.PRIMITIVE_FURNACE_OVERLAY, ProgressTexture.FillDirection.DOWN_TO_UP, GuiTextures.BOXED_OVERLAY,
+            GTSoundEntries.FURNACE);
+
+    public static final GTRecipeType CELESTIAL_POST_BOX = voyagerRecipeType("celestial_post_box",
+            GTRecipeTypes.MULTIBLOCK, IO.IN, 9, 9, 0, 0,
+            GuiTextures.PROGRESS_BAR_CANNER, ProgressTexture.FillDirection.UP_TO_DOWN, GuiTextures.BOX_OVERLAY,
+            GTSoundEntries.PORTABLE_SCANNER);
 
     public static final GTRecipeType CHEMICAL_PLANT = GTRecipeTypes
             .register("chemical_plant", GTRecipeTypes.MULTIBLOCK)
@@ -138,7 +146,8 @@ public class VoyagerRecipeTypes {
 
     public static final GTRecipeType SMD_ASSEMBLY = voyagerRecipeType("smd_assembly", GTRecipeTypes.MULTIBLOCK, IO.IN,
             6, 1, 1, 0,
-            GuiTextures.PROGRESS_BAR_BENDING, ProgressTexture.FillDirection.LEFT_TO_RIGHT, GuiTextures.BOX_OVERLAY);
+            GuiTextures.PROGRESS_BAR_BENDING, ProgressTexture.FillDirection.LEFT_TO_RIGHT, GuiTextures.BOX_OVERLAY,
+            GTSoundEntries.ASSEMBLER);
 
     public static final GTRecipeType OVEN = GTRecipeTypes
             .register("oven", GTRecipeTypes.MULTIBLOCK)
@@ -162,7 +171,7 @@ public class VoyagerRecipeTypes {
     public static GTRecipeType voyagerRecipeType(String id, String type, IO io, int maxInputs, int maxOutputs,
                                                  int fluidInputs, int fluidOutputs, ResourceTexture pBar,
                                                  ProgressTexture.FillDirection fillDir,
-                                                 ResourceTexture guiOutputOverlay) {
+                                                 ResourceTexture guiOutputOverlay, SoundEntry sound) {
         return GTRecipeTypes
                 .register(id, type)
                 .setEUIO(io)
@@ -184,6 +193,6 @@ public class VoyagerRecipeTypes {
                             "Helper Specialization: §6" +
                                     VoyagerVoltageTierUtils.helperSpecializationFromData(specialized);
                 })
-                .setSound(GTSoundEntries.ASSEMBLER);
+                .setSound(sound);
     }
 }

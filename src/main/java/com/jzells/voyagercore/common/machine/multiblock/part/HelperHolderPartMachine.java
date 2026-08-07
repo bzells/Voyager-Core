@@ -289,7 +289,7 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
     public boolean onWorking(IWorkableMultiController controller) {
         ItemStack helper = this.getHeldItem(false);
         if (helper.isEmpty()) {
-            controller.getRecipeLogic().setProgress(0);
+            controller.getRecipeLogic().resetRecipeLogic();
         }
         return super.onWorking(controller);
     }

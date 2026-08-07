@@ -1,0 +1,5 @@
+{
+    "ldlib": {
+        "connection": "kubejs:block/casing/radiation_proof_lead_casing_ctm"
+    }
+}

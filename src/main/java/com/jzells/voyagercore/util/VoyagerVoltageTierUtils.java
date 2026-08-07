@@ -8,15 +8,14 @@ import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.common.data.GTMaterialBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterialItems;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
-import net.minecraft.world.level.block.Block;
+
+import java.util.Objects;
 
 import javax.annotation.CheckForNull;
-import java.util.Objects;
 
 public class VoyagerVoltageTierUtils {
 
@@ -67,13 +66,12 @@ public class VoyagerVoltageTierUtils {
     }
 
     /*
-
-    When using, make sure the material actually has a frame.
-
+     * 
+     * When using, make sure the material actually has a frame.
+     * 
      */
     @CheckForNull
-    public static BlockEntry<?> getFrameBlock(Material material)
-    {
+    public static BlockEntry<?> getFrameBlock(Material material) {
         return GTMaterialBlocks.MATERIAL_BLOCKS
                 .get(TagPrefix.frameGt, material);
     }
