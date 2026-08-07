@@ -184,5 +184,4 @@ public class BeeHolderPartMachine extends MultiblockPartMachine
     }
 }
 
-// Need to filter slots done
 // Get Auto input to work as well as working to disable that capability if needed

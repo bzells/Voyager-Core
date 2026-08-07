@@ -17,6 +17,7 @@ public class MetalMaterials {
         // registered under the GTCEu registrate due to kjs recipes
         Calorite = new Material.Builder(GTCEu.id("calorite"))
                 .color(0xa10030, true)
+                .langValue("Calorite")
                 .ingot()
                 .fluid()
                 .iconSet(MaterialIconSet.METALLIC)
@@ -29,6 +30,7 @@ public class MetalMaterials {
                 .buildAndRegister();
 
         Ostrum = new Material.Builder(GTCEu.id("ostrum"))
+                .langValue("Ostrum")
                 .ingot()
                 .dust()
                 .fluid()
@@ -43,6 +45,7 @@ public class MetalMaterials {
                 .buildAndRegister();
 
         Desh = new Material.Builder(GTCEu.id("desh"))
+                .langValue("Desh")
                 .color(0xd44e06, true)
                 .ingot()
                 .fluid()
@@ -58,6 +61,7 @@ public class MetalMaterials {
                 .buildAndRegister();
 
         Aluminex202a = new Material.Builder(GTCEu.id("aluminex_202_a"))
+                .langValue("Aluminex-202a")
                 .ingot()
                 .fluid()
                 .color(0x96fffd)

@@ -3,6 +3,7 @@ package com.jzells.voyagercore.common.data;
 import com.gregtechceu.gtceu.common.data.models.GTModels;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
+import com.jzells.voyagercore.common.block.ReflectorBlock;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -63,6 +64,16 @@ public class VoyagerBlocks {
 
     public static final BlockEntry<Block> CASING_OSTRUM = createCasingBlock(
             "ostrum_casing", VoyagerCore.id("block/casing/ostrum_casing"));
+
+    public static final BlockEntry<ReflectorBlock> REFLECTOR_STANDARD = VOYAGERCORE_REGISTRATE
+            .block("standard_reflector",ReflectorBlock::new)
+            .initialProperties(()->Blocks.IRON_BLOCK)
+            .properties(p->p.isValidSpawn((a,b,c,d)->false))
+            .addLayer(()->RenderType::solid)
+            .exBlockstate(GTModels.cubeAllModel(VoyagerCore.id("block/cooling_lamp")))
+            .item(BlockItem::new)
+            .build()
+            .register();
 
 
     /// 0: Casing, 1: Gearbox, 2: Pipe Casing

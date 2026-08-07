@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
+import com.jzells.voyagercore.VoyagerCore;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
 

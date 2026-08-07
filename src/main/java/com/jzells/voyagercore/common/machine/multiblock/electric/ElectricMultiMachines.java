@@ -10,11 +10,13 @@ import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
+import com.jzells.voyagercore.common.machine.multiblock.steam.ThermalSolarMachine;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
@@ -53,7 +55,8 @@ public class ElectricMultiMachines {
             .rotationState(RotationState.ALL)
             .recipeType(GTRecipeTypes.BLAST_RECIPES)
             .recipeModifiers(FluidCoilMulti::recipeModifier, VoyagerCoreRecipeModifiers.HEAT_BOOSTING,
-                    GTRecipeModifiers::ebfOverclock, VoyagerCoreRecipeModifiers.MAGMATIC_MODIFIER)
+                    GTRecipeModifiers::ebfOverclock, VoyagerCoreRecipeModifiers.MAGMATIC_MODIFIER,
+                    VoyagerCoreRecipeModifiers.HELPER_COMPATABILITY)
             .appearanceBlock(CASING_FOUNDRY)
             .pattern(def -> FactoryBlockPattern.start()
                     .aisle("aaaaa", "cdddc", "cdddc", "efefe", "cdddc", "cdddc", "aaaaa")
@@ -70,7 +73,9 @@ public class ElectricMultiMachines {
                                     .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                                     .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
                                     .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
-                                    .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setExactLimit(1)))
+                                    .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
+                                    .or(Predicates.abilities(VoyagerPartAbilities.HELPER_HOLDER).setMaxGlobalLimited(1,
+                                            1)))
                     .where("@", Predicates.controller(Predicates.blocks(def.get())))
                     .where("c",
                             Predicates.blocks(GTMaterialBlocks.MATERIAL_BLOCKS
@@ -91,7 +96,7 @@ public class ElectricMultiMachines {
             .rotationState(RotationState.ALL)
             .recipeType(GTRecipeTypes.VACUUM_RECIPES)
             .recipeModifiers(FluidBasicMulti::recipeModifier, VoyagerCoreRecipeModifiers.BASIC_BOOSTING,
-                    GTRecipeModifiers.OC_NON_PERFECT)
+                    GTRecipeModifiers.OC_NON_PERFECT, VoyagerCoreRecipeModifiers.HELPER_COMPATABILITY)
             .appearanceBlock(CASING_FROST_CONDUCTING)
             .pattern(def -> FactoryBlockPattern.start()
                     .aisle("aaaaa", "bcccb", "bcccb", "deded", "bcccb", "bcccb", "aaaaa")
@@ -105,7 +110,8 @@ public class ElectricMultiMachines {
                             .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                             .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
                             .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
-                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setExactLimit(1)))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
+                            .or(Predicates.abilities(VoyagerPartAbilities.HELPER_HOLDER).setMaxGlobalLimited(1, 1)))
                     .where("b", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
                             .get(TagPrefix.frameGt, GTMaterials.Tungsten)).get()))
                     .where("c", any())
@@ -127,7 +133,8 @@ public class ElectricMultiMachines {
             .recipeTypes(GTRecipeTypes.CHEMICAL_RECIPES, GTRecipeTypes.LARGE_CHEMICAL_RECIPES,
                     VoyagerRecipeTypes.CHEMICAL_PLANT)
             .recipeModifiers(VoyagerCoreRecipeModifiers.HEAT_BOOSTING,
-                    GTRecipeModifiers.OC_PERFECT, ChemicalPlantMachine::recipeModifier)
+                    GTRecipeModifiers.OC_PERFECT, ChemicalPlantMachine::recipeModifier,
+                    VoyagerCoreRecipeModifiers.HELPER_COMPATABILITY)
             .appearanceBlock(CASING_CHEM_PLANT)
             .pattern(def -> FactoryBlockPattern.start()
                     .aisle("aaaaa", "cdddc", "cdddc", "cdddc", "aaaaa")
@@ -143,7 +150,8 @@ public class ElectricMultiMachines {
                                     .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                                     .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
                                     .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
-                                    .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setExactLimit(1)))
+                                    .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
+                                    .or(Predicates.abilities(VoyagerPartAbilities.HELPER_HOLDER)))
                     .where("@", Predicates.controller(Predicates.blocks(def.get())))
                     .where("c", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
                             .get(TagPrefix.frameGt, GTMaterials.Tungsten)).get()))
@@ -266,7 +274,7 @@ public class ElectricMultiMachines {
                     (holder) -> new BeamMachine(holder, .1f, .1f, 200))
             .rotationState(RotationState.ALL)
             .recipeTypes(VoyagerRecipeTypes.BEAM_HEATING)
-            .recipeModifiers(BeamMachine::recipeModifier)
+            .recipeModifiers(BeamMachine::recipeModifier, VoyagerCoreRecipeModifiers.HELPER_COMPATABILITY)
             .appearanceBlock(CASING_FOUNDRY)
             .pattern(def -> FactoryBlockPattern.start()
                     // spotless:off
@@ -291,7 +299,9 @@ public class ElectricMultiMachines {
                                     .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                                     .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
                                     .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
-                                    .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2)))
+                                    .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
+                                    .or(Predicates.abilities(VoyagerPartAbilities.HELPER_HOLDER).setMaxGlobalLimited(1,
+                                            1)))
                     .where("c", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
                             .get(TagPrefix.frameGt, VoyagerMaterials.Calorite)).get()))
                     .where("e", Predicates.blocks(HEAT_VENT.get()))
@@ -316,7 +326,8 @@ public class ElectricMultiMachines {
             .rotationState(RotationState.ALL)
             .recipeTypes(VoyagerRecipeTypes.PULVERIZING)
             .recipeModifiers(TieredPulverizerMachine::recipeModifier, PARALLEL_HATCH,
-                    GTRecipeModifiers.OC_NON_PERFECT, BATCH_MODE, FluidBasicMulti::recipeModifier)
+                    GTRecipeModifiers.OC_NON_PERFECT, BATCH_MODE, FluidBasicMulti::recipeModifier,
+                    VoyagerCoreRecipeModifiers.HELPER_COMPATABILITY)
             .appearanceBlock(CASING_INDUSTRIAL_MACERATION)
             .pattern(def -> FactoryBlockPattern.start()
 
@@ -335,7 +346,8 @@ public class ElectricMultiMachines {
                             .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
                             .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                             .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
-                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2)))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
+                            .or(Predicates.abilities(VoyagerPartAbilities.HELPER_HOLDER).setMaxGlobalLimited(1, 1)))
                     .where("@", Predicates.controller(Predicates.blocks(def.get())))
                     .where("a",
                             Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
@@ -389,9 +401,9 @@ public class ElectricMultiMachines {
             .multiblock("magmaic_melter",
                     (holder) -> new FluidCoilMulti(holder, VoyagerMaterials.Pyrotheum.getFluid(100)))
             .rotationState(RotationState.ALL)
-            .recipeTypes(VoyagerRecipeTypes.PULVERIZING)
+            .recipeTypes(GCYMRecipeTypes.ALLOY_BLAST_RECIPES)
             .recipeModifiers(FluidCoilMulti::recipeModifier, VoyagerCoreRecipeModifiers.HEAT_BOOSTING,
-                    GTRecipeModifiers.OC_NON_PERFECT, BATCH_MODE)
+                    GTRecipeModifiers.OC_NON_PERFECT, BATCH_MODE, VoyagerCoreRecipeModifiers.HELPER_COMPATABILITY)
             .appearanceBlock(CASING_INDUSTRIAL_MACERATION)
             .pattern(def -> FactoryBlockPattern.start()
                     // spotless:off
@@ -413,7 +425,8 @@ public class ElectricMultiMachines {
                             .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                             .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
                             .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
-                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(1)))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(1))
+                            .or(Predicates.abilities(VoyagerPartAbilities.HELPER_HOLDER).setMaxGlobalLimited(1, 1)))
                     .where("@", Predicates.controller(Predicates.blocks(def.get())))
                     .where("c",
                             Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
@@ -486,6 +499,103 @@ public class ElectricMultiMachines {
     // Spotless is disabled past this point
     // spotless:off
     // ====================//
+
+    public static final MultiblockMachineDefinition HELPER_ASSEMBLER = VOYAGERCORE_REGISTRATE
+            .multiblock("helper_assembler", WorkableElectricMultiblockMachine::new)
+            .rotationState(RotationState.ALL)
+            .appearanceBlock(CASING_PLATINUM)
+            .recipeTypes(VoyagerRecipeTypes.HELPER_ASSEMBLY)
+            .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
+            .pattern(def -> FactoryBlockPattern.start()
+                    .aisle("PXXXP", "PAAAP", "PXXXP")
+                    .aisle("PAAAP", "IGGGO", "PAAAP")
+                    .aisle("PXXXP", "PA@AP", "PXXXP")
+                    .where("P", Predicates.blocks(CASING_PLATINUM.get())
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setExactLimit(1).setPreviewCount(1)))
+                    .where("A", Predicates.blocks(CASING_GRATE.get()))
+                    .where("G", Predicates.blocks(CASING_TITANIUM_GEARBOX.get()))
+                    .where("X", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
+                            .get(TagPrefix.frameGt, GTMaterials.Steel)).get()))
+                    .where("@", Predicates.controller(Predicates.blocks(def.get())))
+                    .where("I", Predicates.abilities(PartAbility.IMPORT_ITEMS))
+                    .where("O", Predicates.abilities(PartAbility.EXPORT_ITEMS))
+                    .build())
+            .workableCasingModel(VoyagerCore.id("block/casing/platinum_casing"),
+                    GTCEu.id("block/machines/assembler"))
+            .register();
+
+    public static final MultiblockMachineDefinition HELPER_FACTORY = VOYAGERCORE_REGISTRATE
+            .multiblock("helper_factory", PreciseRobotArmMachine::new)
+            .rotationState(RotationState.ALL)
+            .appearanceBlock(CASING_CONDENSATION_RESISTANT_TUNGSTEN)
+            .recipeTypes(VoyagerRecipeTypes.HELPER_FACTORY)
+            .recipeModifiers(PreciseRobotArmMachine::recipeModifier, GTRecipeModifiers.OC_PERFECT)
+            .pattern(def -> FactoryBlockPattern.start()
+                    .aisle("aaaaaaa", "aaaaaaa", "aacccaa", "aacccaa", "aacccaa", "aaaaaaa", "aaaaaaa")
+                    .aisle("aabbbaa", "abbbbba", "bbdddbb", "bbdddbb", "bbdddbb", "abbbbba", "aabbbaa")
+                    .aisle("aaeeeaa", "aebfbea", "eagbgbe", "efahafe", "ebgagbe", "aebfbea", "aaeeeaa")
+                    .aisle("aaaaaaa", "aabfbaa", "aagagba", "afahafa", "abgagba", "aabfbaa", "aaaaaaa")
+                    .aisle("aaaaaaa", "aabfbaa", "abgagba", "afahafa", "abgagba", "aabfbaa", "aaaaaaa")
+                    .aisle("aaaaaaa", "abbfbba", "abgagba", "abahaba", "abgagba", "abbfbba", "aaaaaaa")
+                    .aisle("aaaaaaa", "abbfbba", "abgagba", "afahafa", "abgagba", "abbfbba", "aaaaaaa")
+                    .aisle("aaaaaaa", "abbfbba", "abgagba", "abahaba", "abgagba", "abbfbba", "aaaaaaa")
+                    .aisle("aaaaaaa", "aabfbaa", "abgagba", "afahafa", "abgagba", "aabfbaa", "aaaaaaa")
+                    .aisle("aaaaaaa", "aabfbaa", "abgagba", "afahafa", "abgagba", "aabfbaa", "aaaaaaa")
+                    .aisle("aaeeeaa", "aebfbea", "ebgagbe", "efahafe", "ebgagbe", "aebfbea", "aaeeeaa")
+                    .aisle("aabbbaa", "abbbbba", "bbdddbb", "bbdddbb", "bbdddbb", "abbbbba", "aabbbaa")
+                    .aisle("aaaaaaa", "aaaaaaa", "aacccaa", "aac@caa", "aacccaa", "aaaaaaa", "aaaaaaa")
+
+                    .where("b", Predicates.blocks(CASING_PLATINUM.get()))
+                    .where("a", Predicates.any())
+                    .where("c", Predicates.blocks(CASING_CONDENSATION_RESISTANT_TUNGSTEN.get())
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY))
+                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS))
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS))
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS))
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE)))
+                    .where("d", Predicates.blocks(CASING_GRATE.get()))
+                    .where("e", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
+                            .get(TagPrefix.frameGt, GTMaterials.BlackSteel)).get()))
+                    .where("g", Predicates.blocks(CASING_LAMINATED_GLASS.get()))
+                    .where("f", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
+                            .get(TagPrefix.frameGt, GTMaterials.Tungsten)).get()))
+                    .where("h", Predicates.abilities(VoyagerPartAbilities.PRECISE_ROBOT_ARM))
+                    .where("@", Predicates.controller(Predicates.blocks(def.get())))
+                    .build())
+            .workableCasingModel(VoyagerCore.id("block/casing/condensation_resistant_tungsten_casing"),
+                    VoyagerCore.id("block/multiblock/helper_factory"))
+            .register();
+
+    public static final MultiblockMachineDefinition THERMAL_SOLAR = VOYAGERCORE_REGISTRATE
+            .multiblock("thermal_solar", ThermalSolarMachine::new)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .appearanceBlock(CASING_INDUSTRIAL_SOLID)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+            .pattern(def -> FactoryBlockPattern.start(RelativeDirection.RIGHT, RelativeDirection.BACK, RelativeDirection.UP)
+                    .aisle("A A", "   ", "A A").setRepeatable(5)
+                    .aisle("BBB", "BBB", "BBB")
+                    .aisle("B@B", "B B", "BBB")
+                    .aisle("BBB", "BBB", "BBB")
+                    .where('A', Predicates.frames(GTMaterials.Tungsten))
+                    .where('B', Predicates.blocks(CASING_INDUSTRIAL_SOLID.get()))
+                    .where('@', Predicates.controller(Predicates.blocks(def.get())))
+                    .build())
+            .workableCasingModel(VoyagerCore.id("block/casing/condensation_resistant_tungsten_casing"),
+                    VoyagerCore.id("block/multiblock/helper_factory"))
+            .register();
+
+    //
+    // .where("a", Predicates.blocks("minecraft:air"))
+    // .where("b", Predicates.blocks("gtceu:raw_chalcopyrite_block"))
+    // .where("c", Predicates.blocks("kubejs:condensation_resistant_tungsten_casing"))
+    // .where("d", Predicates.blocks("kubejs:platinum_casing"))
+    // .where("e", Predicates.blocks("gtceu:assembly_line_grating"))
+    // .where("f", Predicates.blocks("gtceu:black_steel_frame"))
+    // .where("g", Predicates.blocks("gtceu:laminated_glass"))
+    // .where("h", Predicates.blocks("gtceu:tungsten_frame"))
+    // .where("i", Predicates.blocks("gtceu:stainless_steel_gearbox"))
+    // .where("j", Predicates.blocks("gtceu:cube_assembler"))
 
     public static void init() {}
 }
