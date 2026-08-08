@@ -51,7 +51,7 @@ public class ReflectorBlock extends Block {
         for (ThermalSolarMachine machine : thermals) {
             BlockPos mpos = machine.getPos();
             if (mpos.getY() <= pos.getY() || machine.getLevel() != level) continue;
-            double dist = pos.distToCenterSqr(mpos.getCenter());
+            double dist = pos.distToCenterSqr(machine.getCenterVec3());
             if (dist < (machine.getRange() * machine.getRange())) {
                 if (minDist == 0 || dist <= minDist) {
                     minDist = dist;

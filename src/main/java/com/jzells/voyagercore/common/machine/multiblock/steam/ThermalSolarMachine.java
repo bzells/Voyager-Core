@@ -50,6 +50,8 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
     protected Map<BlockPos, Vec3> blockCache = new HashMap<>(); //intentionally nonpersistent;
     @Getter
     protected double range = 10d;
+    @Getter
+    protected Vec3 centerVec3;
 
 
     public ThermalSolarMachine(IMachineBlockEntity holder) {
@@ -72,6 +74,12 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
         thermalSolarSet.add(this);
         updateReflectorCount();
         restoreCache();
+        Direction dir = holder.getMetaMachine().getFrontFacing();
+        centerVec3 = holder.getCurrentPos().getCenter().relative(dir.getOpposite(),1);
+        //There's a weird bug that maybe exists
+        //apparently a dummy machine gets loaded before the world loads
+        //and the position is logged in this code...
+        //If a player makes this multi near this dummy co-ord, it'll fuck up.
     }
 
     public void addReflectorPosition(BlockPos pos){
@@ -88,9 +96,11 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
     }
 
     public boolean attemptReflector(BlockPos pos) {
-        Direction dir = holder.getMetaMachine().getFrontFacing();
-        Vec3 mpos = holder.getCurrentPos().getCenter().relative(dir.getOpposite(),1);
-        Vec3 tpos = pos.getCenter().relative(Direction.UP,0.4); //Error here. Need to somehow fix the face detection, should prior. closest
+        if (getLevel() != null && !getLevel().canSeeSky(pos.above())) return false;
+//        Direction dir = holder.getMetaMachine().getFrontFacing();
+//        Vec3 mpos = holder.getCurrentPos().getCenter().relative(dir.getOpposite(),1);
+        Vec3 mpos = getCenterVec3();
+        Vec3 tpos = pos.getCenter().relative(Direction.UP,0.4);
         Vec3 nvec = mpos.vectorTo(tpos).normalize();
         Vec3 gap = nvec.scale(4);
         Vec3 tvec = mpos.add(gap);
@@ -115,8 +125,9 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
     }
 
     protected Vec3 calculateNormalToMachine(BlockPos pos) {
-        Direction dir = holder.getMetaMachine().getFrontFacing();
-        Vec3 machine = holder.getCurrentPos().getCenter().relative(dir.getOpposite(),1);
+//        Direction dir = holder.getMetaMachine().getFrontFacing();
+//        Vec3 machine = holder.getCurrentPos().getCenter().relative(dir.getOpposite(),1);
+        Vec3 machine = getCenterVec3();
         Vec3 reflector = pos.getCenter().relative(Direction.UP,0.5);
         Vec3 vec = machine.vectorTo(reflector);
         return vec.normalize();
@@ -143,16 +154,16 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
         }
     }
 
-//    protected void verifyReflectors() {
-//        Set<BlockPos> removal = new HashSet<>();
-//        reflectorCache.addAll(reflectorPositions);
-//        for(BlockPos pos : reflectorPositions) {
-//            if (!attemptReflector(pos)) removal.add(pos);
-//        }
-//        for(BlockPos pos : removal){
-//            removeReflectorPosition(pos);
-//        }
-//    }
+    protected void checkReflectorsCanSeeSky() {
+        Set<BlockPos> removal = new HashSet<>();
+        for (BlockPos pos : reflectorPositions) {
+            if (getLevel() != null && !getLevel().canSeeSky(pos)) {
+                removal.add(pos);
+            }
+        }
+        reflectorPositions.removeAll(removal);
+        updateReflectorCount();
+    }
 
     @Override
     public void onStructureInvalid() {
@@ -189,5 +200,5 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
 //      -> onSuccess add normalized vector between machine+reflector to Map with key of BlockPos and add to reflCount
 //      -> verify reflectors with norm dot prod > 0.98 (arbitrary, can tune)
 //      -> if check fails, remove from reflCount, but keep in blockCache
-//      -> on reflectorRemove, reflePosition
-//      -> check blockCache for
+//      -> on reflectorRemove, reflectPosition
+//      -> check blockCache
