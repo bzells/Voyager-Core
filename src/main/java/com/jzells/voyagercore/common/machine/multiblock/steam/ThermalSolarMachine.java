@@ -90,7 +90,7 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
     public boolean attemptReflector(BlockPos pos) {
         Direction dir = holder.getMetaMachine().getFrontFacing();
         Vec3 mpos = holder.getCurrentPos().getCenter().relative(dir.getOpposite(),1);
-        Vec3 tpos = pos.getCenter().relative(Direction.UP,0.5); //Error here. Need to somehow fix the face detection, should prior. closest
+        Vec3 tpos = pos.getCenter().relative(Direction.UP,0.4); //Error here. Need to somehow fix the face detection, should prior. closest
         Vec3 nvec = mpos.vectorTo(tpos).normalize();
         Vec3 gap = nvec.scale(4);
         Vec3 tvec = mpos.add(gap);
