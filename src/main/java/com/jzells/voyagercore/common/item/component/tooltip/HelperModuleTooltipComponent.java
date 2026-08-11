@@ -27,7 +27,9 @@ public class HelperModuleTooltipComponent implements IAddInformation {
                     if (!helperModuleItemComponent.isPARAMOUNT())
                         tooltipComponents.add(Component.literal(helperModuleItemComponent.isSpecialized() ?
                                 "§7Can only be installed on §r§6specialized §r§7helpers" :
-                                "§7Can only be installed on §r§6generic§r§7 helpers"));
+                                helperModuleItemComponent instanceof HelperRecipeModuleItemComponent ?
+                                        "§7Can only be installed on §r§6generic§r§7 helpers" :
+                                        "§7Can only be installed on §r§6generic or specialized§r§7 helpers"));
                     else tooltipComponents.add(Component.literal(VoyagerVoltageTierUtils.paramountApplicationFromData(
                             helperModuleItemComponent.getModuleData()) + " §7helper exclusive"));
                     if (helperModuleItemComponent instanceof EnergyHelperModuleItemModifierComponent e) {

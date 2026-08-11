@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 
 import com.jzells.voyagercore.common.item.component.*;
 import com.jzells.voyagercore.common.machine.cover.HeatRedstoneCoverDefinition;
+import com.jzells.voyagercore.util.VoyagerTags;
 import com.jzells.voyagercore.util.VoyagerVoltageTierUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
 
@@ -97,9 +98,6 @@ public class VoyagerItems {
                     -0.20f * ((float) tier) / 4, .2f + (.2f * ((float) tier / 6)), 0, false, 1, tier);
             createHelperModifierModule("output_helper_module", "Output Modifier Helper Module", tier, 0,
                     0.05f * ((float) tier) / 4, -.8f + (.3f * ((float) tier / 8)), .5f, true, 2, tier);
-            createHelperModifierModule("parallel_helper_module", "Parallel Modifier Helper Module", tier,
-                    tier,
-                    0.05f * ((float) tier) / 4, -.8f + (.1f * ((float) tier / 8)), 0f, false, 2, tier);
 
             ItemEntry<Item> HELPER_MODULE_BASE = VOYAGERCORE_REGISTRATE
                     .item(VN[tier].toLowerCase() + "_helper_module", Item::new).properties(
@@ -108,9 +106,18 @@ public class VoyagerItems {
                             " Helper Module Base")
                     .register();
         }
+        for (int tier = GTValues.HV; tier < GTValues.UV; tier++) {
+            createHelperModifierModule("parallel_helper_module", "Parallel Modifier Helper Module", tier,
+                    tier,
+                    0.05f * ((float) tier) / 4, -.8f + (.1f * ((float) tier / 8)), 0f, false, 2, tier);
+        }
 
         final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_EBF = createHelperRecipeModule(
                 GTValues.MV, "ebf_helper_recipe_module", "Recipe Helper Module", "gtceu:electric_blast_furnace", false,
+                1);
+
+        final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_HELPER_WHEEL = createHelperRecipeModule(
+                GTValues.HV, "helper_wheel_recipe_module", "Recipe Helper Module", "gtceu:large_helper_wheel", false,
                 1);
         final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_CENTRIFUGE = createHelperRecipeModule(
                 GTValues.EV, "centrifuge_helper_recipe_module", "Recipe Helper Module", "gtceu:centrifuge", false,
@@ -206,15 +213,24 @@ public class VoyagerItems {
             // grandmas_love_hungry_helper_module
 
         }
-        createHelperEUModifierModule("grandmas_love_hungry_helper_module", "§6Grandmas Love Module", 6, 2, .1f, .15f,
+        createHelperEUModifierModule("grandmas_love_hungry_helper_module", "§6Grandmas Love Module", 6, 2, .5f, .50f,
                 2f,
                 3, 1, "hungry", 10);
-        createHelperEUModifierModule("grandmas_love_hungry_helper_module", "§6Grandmas Love Module", 8, 8, .25f, .35f,
+        createHelperEUModifierModule("grandmas_love_hungry_helper_module", "§6Grandmas Love Module", 8, 8, .75f, 1f,
                 3f,
                 3, 2, "hungry", 15);
+        createHelperEUModifierModule("grandmas_love_hungry_helper_module", "§6Grandmas Love Module", 10, 16, 1f, 2f,
+                5f,
+                3, 3, "hungry", 20);
 
         createHelperEUModifierModule("stomach_hungry_helper_module", "§6Stomach Module", 1, 0, 0.05f, 0.15f, 0,
                 1, 1, "hungry", 1);
+
+        createHelperEUModifierModule("stomach_hungry_helper_module", "§6Stomach Module", 5, 0, 0.075f, 0.20f, .05f,
+                1, 2, "hungry", 2);
+
+        createHelperEUModifierModule("stomach_hungry_helper_module", "§6Stomach Module", 6, 0, 0.125f, 0.25f, .1f,
+                1, 3, "hungry", 3);
 
     }
 
@@ -235,6 +251,7 @@ public class VoyagerItems {
                 .model((ctx, prov) -> prov.withExistingParent(ctx.getName(), prov.mcLoc("item/generated"))
                         .texture("layer0", prov.modLoc("item/" + tierName + "_helper_module"))
                         .texture("layer1", prov.modLoc("item/" + id)))
+                .tag(VoyagerTags.HELPER_MODULES)
                 .register();
     }
 
@@ -242,20 +259,20 @@ public class VoyagerItems {
                                                      int tier, int pars,
                                                      float eutm, float eatm,
                                                      float outputMod,
-                                                     int moduleSpace, int langTier, String paramount_data, int lvl) {
-        String tierName = VN[langTier].toLowerCase(Locale.ROOT);
+                                                     int moduleSpace, int levelName, String paramount_data, int lvl) {
         VOYAGERCORE_REGISTRATE
-                .item(tierName + "_" + id, HelperModuleComponentTooltipItem::new).properties(
+                .item(id + "_" + levelName, HelperModuleComponentTooltipItem::new).properties(
                         properties -> properties.stacksTo(1))
                 .lang(lang + " " +
-                        VoyagerVoltageTierUtils.getVoltageTierColorStringShortForm(VN[langTier]).substring(0, 2) +
-                        langTier)
+                        VoyagerVoltageTierUtils.getVoltageTierColorStringShortForm(VN[levelName]).substring(0, 2) +
+                        levelName)
                 .onRegister(item -> item.attachComponents(
                         new EnergyHelperModuleItemModifierComponent(tier, pars, moduleSpace, true, paramount_data, eutm,
                                 eatm, outputMod, lvl)))
                 .model((ctx, prov) -> prov.withExistingParent(ctx.getName(), prov.mcLoc("item/generated"))
-                        .texture("layer0", prov.modLoc("item/" + tierName + "_helper_module"))
+                        .texture("layer0", prov.modLoc("item/paramount_helper_module_" + levelName))
                         .texture("layer1", prov.modLoc("item/" + id)))
+                .tag(VoyagerTags.HELPER_MODULES)
                 .register();
     }
 
@@ -276,6 +293,7 @@ public class VoyagerItems {
                 .model((ctx, prov) -> prov.withExistingParent(ctx.getName(), prov.mcLoc("item/generated"))
                         .texture("layer0", prov.modLoc("item/paramount_helper_module_" + levelName))
                         .texture("layer1", prov.modLoc("item/" + id)))
+                .tag(VoyagerTags.HELPER_MODULES)
                 .register();
     }
 
@@ -298,6 +316,7 @@ public class VoyagerItems {
                 .model((ctx, prov) -> prov.withExistingParent(ctx.getName(), prov.mcLoc("item/generated"))
                         .texture("layer0", prov.modLoc("item/" + tierName + "_beam_helper_module"))
                         .texture("layer1", prov.modLoc("item/" + id)))
+                .tag(VoyagerTags.HELPER_MODULES)
                 .register();
     }
 
@@ -315,6 +334,7 @@ public class VoyagerItems {
                 .model((ctx, prov) -> prov.withExistingParent(ctx.getName(), prov.mcLoc("item/generated"))
                         .texture("layer0", prov.modLoc("item/" + tierName + "_helper_module"))
                         .texture("layer1", prov.modLoc("item/" + id)))
+                .tag(VoyagerTags.HELPER_MODULES)
                 .register();
     }
 
@@ -333,6 +353,7 @@ public class VoyagerItems {
                                     ((int) (tier / 2)) + 1,
                                     tier,
                                     false, ((int) (tier / 4)) + 1, false)))
+                    .tag(VoyagerTags.HELPERS)
                     .register();
 
             ItemEntry<HelperComponentItem> hull = VOYAGERCORE_REGISTRATE
@@ -347,6 +368,7 @@ public class VoyagerItems {
                                     ((int) (tier / 2)) + 1,
                                     tier,
                                     true, ((int) (tier / 4)) + 1, false)))
+                    .tag(VoyagerTags.HELPER_HULLS)
                     .register();
             HELPERS.put(tier, helper);
             HELPER_HULLS.put(tier, hull);
@@ -364,6 +386,7 @@ public class VoyagerItems {
                                     ((int) (tier / 2)) + 2,
                                     tier,
                                     false, 1, true)))
+                    .tag(VoyagerTags.HELPERS)
                     .register();
 
             ItemEntry<HelperComponentItem> hull = VOYAGERCORE_REGISTRATE
@@ -378,6 +401,7 @@ public class VoyagerItems {
                                     ((int) (tier / 2)) + 2,
                                     tier,
                                     true, 1, true)))
+                    .tag(VoyagerTags.HELPER_HULLS)
                     .register();
             SPECIALIZED_HELPERS.put(tier, helper);
             SPECIALIZED_HELPER_HULLS.put(tier, hull);
@@ -400,6 +424,7 @@ public class VoyagerItems {
                                 baseTier,
                                 true,
                                 paramountData, baseLevel, xpScale)))
+                .tag(VoyagerTags.HELPER_HULLS)
                 .register();
 
         ItemEntry<HelperComponentItem> helper = VOYAGERCORE_REGISTRATE
@@ -413,6 +438,7 @@ public class VoyagerItems {
                                 baseTier,
                                 false,
                                 paramountData, baseLevel, xpScale)))
+                .tag(VoyagerTags.HELPERS)
                 .register();
         PARAMOUNT_HULL_TO_HELPER.put(paramountData, helper);
 
@@ -434,6 +460,7 @@ public class VoyagerItems {
                                 baseLevel,
                                 true,
                                 paramountData, baseLevel, xpScale, baseEUt, baseEatTime)))
+                .tag(VoyagerTags.HELPER_HULLS)
                 .register();
 
         ItemEntry<HelperComponentItem> helper = VOYAGERCORE_REGISTRATE
@@ -447,6 +474,7 @@ public class VoyagerItems {
                                 baseLevel,
                                 false,
                                 paramountData, baseLevel, xpScale, baseEUt, baseEatTime)))
+                .tag(VoyagerTags.HELPERS)
                 .register();
         PARAMOUNT_HULL_TO_HELPER.put(paramountData, helper);
 

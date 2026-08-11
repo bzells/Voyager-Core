@@ -144,6 +144,12 @@ public class VoyagerRecipeTypes {
             .setSound(GTSoundEntries.ASSEMBLER)
             .addCustomRecipeLogic(new HelperAssemblerRecipeLogic());
 
+    public static final GTRecipeType HELPER_ASSEMBLY_JEI = GTRecipeTypes
+            .register("helper_assembly_jei", GTRecipeTypes.DUMMY)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(2, 1, 0, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BENDING, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
     public static final GTRecipeType SMD_ASSEMBLY = voyagerRecipeType("smd_assembly", GTRecipeTypes.MULTIBLOCK, IO.IN,
             6, 1, 1, 0,
             GuiTextures.PROGRESS_BAR_BENDING, ProgressTexture.FillDirection.LEFT_TO_RIGHT, GuiTextures.BOX_OVERLAY,

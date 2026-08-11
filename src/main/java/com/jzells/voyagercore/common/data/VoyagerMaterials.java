@@ -20,4 +20,9 @@ public class VoyagerMaterials {
     public static Material Desh;
     public static Material Ostrum;
     public static Material Aluminex202a;
+
+    public static Material Pearlic_Steel;
+    public static Material Pink_Steel;
+    public static Material Energetic_Alloy;
+    public static Material Energetic_Pearlic_Alloy;
 }
