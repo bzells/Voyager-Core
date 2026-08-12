@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "voyagercore:item/paramount_helper_module_3",
+    "layer1": "voyagercore:item/coil_coiltronics_helper_module"
+  }
+}

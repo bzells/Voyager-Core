@@ -1,0 +1,23 @@
+{
+  "values": [
+    "voyagercore:hv_specialized_helper",
+    "voyagercore:ev_specialized_helper",
+    "voyagercore:iv_specialized_helper",
+    "voyagercore:luv_specialized_helper",
+    "voyagercore:zpm_specialized_helper",
+    "voyagercore:uv_specialized_helper",
+    "voyagercore:mv_generic_helper",
+    "voyagercore:hv_generic_helper",
+    "voyagercore:ev_generic_helper",
+    "voyagercore:iv_generic_helper",
+    "voyagercore:luv_generic_helper",
+    "voyagercore:zpm_generic_helper",
+    "voyagercore:uv_generic_helper",
+    "voyagercore:grandma_paramount_helper",
+    "voyagercore:embassy_paramount_helper",
+    "voyagercore:chemist_paramount_helper",
+    "voyagercore:coiltronics_paramount_helper",
+    "voyagercore:hungry_paramount_helper",
+    "voyagercore:computer_paramount_helper"
+  ]
+}

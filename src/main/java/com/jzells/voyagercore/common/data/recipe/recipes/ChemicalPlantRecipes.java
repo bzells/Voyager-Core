@@ -20,6 +20,7 @@ public class ChemicalPlantRecipes {
                         GTMaterials.DistilledWater.getFluid(2000))
                 .outputFluids(GTMaterials.Nitrobenzene.getFluid(8000), GTMaterials.DilutedSulfuricAcid.getFluid(1000))
                 .EUt(480)
+                .addData("specialized", "chemist")
                 .duration(8 * 20)
                 .blastFurnaceTemp(3600)
                 .save(provider);

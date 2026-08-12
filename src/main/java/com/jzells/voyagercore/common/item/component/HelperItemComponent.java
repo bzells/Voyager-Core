@@ -26,7 +26,7 @@ public class HelperItemComponent implements IItemComponent {
     private int MODULE_COUNT;
 
     @Getter
-    private final int MAX_MODULE_COUNT;
+    protected int MAX_MODULE_COUNT;
 
     @Getter
     @Setter

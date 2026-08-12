@@ -10,5 +10,6 @@ public class VoyagerRecipes {
         ChemicalPlantRecipes.init(provider);
         PulverizerRecipes.init(provider);
         HelperSpecialRecipes.init(provider);
+        DummyRecipes.init(provider);
     }
 }

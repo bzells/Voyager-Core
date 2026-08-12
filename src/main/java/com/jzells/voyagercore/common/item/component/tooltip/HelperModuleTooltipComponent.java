@@ -14,6 +14,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+import static com.gregtechceu.gtceu.api.GTValues.VN;
+
 public class HelperModuleTooltipComponent implements IAddInformation {
 
     @Override
@@ -22,9 +24,19 @@ public class HelperModuleTooltipComponent implements IAddInformation {
         if (stack.getItem() instanceof HelperModuleComponentTooltipItem hmcpti) {
             for (IItemComponent comp : hmcpti.getComponents()) {
                 if (comp instanceof HelperModuleItemComponent helperModuleItemComponent) {
-                    tooltipComponents.add(Component.literal(helperModuleItemComponent.isSpecialized() ?
-                            "§7Can only be installed on §r§6specialized §r§7helpers" :
-                            "§7Can be installed on all helpers"));
+                    if (!helperModuleItemComponent.isPARAMOUNT())
+                        tooltipComponents.add(Component.literal(helperModuleItemComponent.isSpecialized() ?
+                                "§7Can only be installed on §r§6specialized §r§7helpers" :
+                                helperModuleItemComponent instanceof HelperRecipeModuleItemComponent ?
+                                        "§7Can only be installed on §r§6generic§r§7 helpers" :
+                                        "§7Can only be installed on §r§6generic or specialized§r§7 helpers"));
+                    else tooltipComponents.add(Component.literal(VoyagerVoltageTierUtils.paramountApplicationFromData(
+                            helperModuleItemComponent.getModuleData()) + " §7helper exclusive"));
+                    if (helperModuleItemComponent instanceof EnergyHelperModuleItemModifierComponent e) {
+                        addTooltip("§7EUt Boost: ", e.getEUTMOD(), tooltipComponents, false);
+                        addTooltipReverse("§7Hunger: ", e.getEAT_MOD(), tooltipComponents, true);
+                        addTooltip("§7Output Modifier: ", e.getOUTPUT_MOD(), tooltipComponents, false);
+                    }
                     if (helperModuleItemComponent instanceof HelperRecipeModuleItemComponent recipeModule) {
                         // good lord i love Java
                         addTooltip((helperModuleItemComponent.isSpecialized() ? "§7Specialization§r" : "§7Recipe§r"),
@@ -48,13 +60,24 @@ public class HelperModuleTooltipComponent implements IAddInformation {
                                 false);
                         tooltipComponents.add(Component.literal(""));
                         tooltipComponents.add(Component
-                                .literal("§7Modifier Slots Required: §r" + modifierComponent.getMODULE_SPACE()));
+                                .literal("§7Module Slots Required: §r" + modifierComponent.getMODULE_SPACE()));
 
                     }
                     if (helperModuleItemComponent instanceof HelperModuleItemBeamComponent beamComponent) {
                         addTooltip("§7Beam Concentration:§r ", beamComponent.getBEAM_PERCENT(), tooltipComponents,
                                 true);
                     }
+                    tooltipComponents.add(Component.literal(helperModuleItemComponent.isPARAMOUNT() ?
+                            "§7Module Level: §6" + helperModuleItemComponent.getPARAMOUNT_LEVEL() :
+                            "§7Module Tier: " + VoyagerVoltageTierUtils
+                                    .getVoltageTierColorStringShortForm(VN[helperModuleItemComponent.getGT_TIER()])));
+                    tooltipComponents.add(Component.literal("§7Tier Required to Install: " + VoyagerVoltageTierUtils
+                            .getVoltageTierColorStringShortForm(VN[helperModuleItemComponent.getGT_TIER()])));
+
+                    tooltipComponents.add(Component.literal(""));
+                    if (helperModuleItemComponent instanceof HelperModuleItemModifierComponent)
+                        tooltipComponents.add(Component.literal(
+                                "§8Positive values are applied additively, negative values are applied multiplicatively"));
 
                 }
             }
@@ -77,6 +100,17 @@ public class HelperModuleTooltipComponent implements IAddInformation {
         }
         if (amt < 0f) {
             tooltipComponents.add(Component.literal(name + "§c" + s));
+        }
+    }
+
+    private static void addTooltipReverse(String name, float amt, List<Component> tooltipComponents,
+                                          boolean isPercentage) {
+        String s = isPercentage ? String.format("%.1f%%", amt * 100) : String.format("%.2f", amt) + "x";
+        if (amt < 0) {
+            tooltipComponents.add(Component.literal(name + "§a" + s));
+        }
+        if (amt > 0f) {
+            tooltipComponents.add(Component.literal(name + "§c+" + s));
         }
     }
 }

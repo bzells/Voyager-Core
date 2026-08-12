@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "voyagercore:item/paramount_helper_module_1",
+    "layer1": "voyagercore:item/satiating_hungry_helper_module"
+  }
+}

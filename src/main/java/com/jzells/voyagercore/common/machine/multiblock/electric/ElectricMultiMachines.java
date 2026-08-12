@@ -23,7 +23,6 @@ import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.client.renderer.machine.VoyagerRenderHelper;
 import com.jzells.voyagercore.common.data.VoyagerCoreRecipeModifiers;
 import com.jzells.voyagercore.common.data.VoyagerMaterials;
-import com.jzells.voyagercore.common.data.VoyagerPredicates;
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
 import com.jzells.voyagercore.common.machine.multiblock.part.VoyagerPartAbilities;
 
@@ -564,6 +563,47 @@ public class ElectricMultiMachines {
             .workableCasingModel(VoyagerCore.id("block/casing/condensation_resistant_tungsten_casing"),
                     VoyagerCore.id("block/multiblock/helper_factory"))
             .register();
+
+    public static final MultiblockMachineDefinition MULTIBLOCK_OVEN = VOYAGERCORE_REGISTRATE
+            .multiblock("large_industrial_oven", WorkableElectricMultiblockMachine::new)
+            .rotationState(RotationState.ALL)
+            .appearanceBlock(CASING_HEATPROOF_HELPER)
+            .recipeTypes(VoyagerRecipeTypes.OVEN)
+            .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, VoyagerCoreRecipeModifiers.HELPER_COMPATABILITY)
+            .pattern(def -> FactoryBlockPattern.start()
+                    .aisle("PPPPP", "PPPPP", "PPPPP")
+                    .aisle("PPPPP", "PXXXP", "PPPPP")
+                    .aisle("PPPPP", "PP@PP", "PPPPP")
+                    .where("P", Predicates.blocks(CASING_HEATPROOF_HELPER.get())
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setExactLimit(1).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS))
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS))
+                            .or(Predicates.abilities(VoyagerPartAbilities.HELPER_HOLDER).setMaxGlobalLimited(1, 1)))
+                    .where("X", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
+                            .get(TagPrefix.frameGt, GTMaterials.Steel)).get()))
+                    .where("@", Predicates.controller(Predicates.blocks(def.get())))
+                    .build())
+            .workableCasingModel(VoyagerCore.id("block/casing/heatproof_helper_casing"),
+                    GTCEu.id("block/machines/arc_furnace"))
+            .register();
+
+    // .aisle("abbba", "acccc", "acccc", "acccc", "aaaaa", "adddd", "jdddd")
+    // .aisle("beeeb", "adddf", "adddf", "adddf", "aggga", "adddd", "adddd")
+    // .aisle("beheb", "adddf", "adddf", "adddf", "aghga", "idddd", "adddd")
+    // .aisle("beeeb", "adddf", "adddf", "adddf", "aggga", "adddd", "adddd")
+    // .aisle("abbba", "acccc", "acccc", "acccc", "aaaaa", "adddd", "ddddd")
+    //
+    // .where("a", Predicates.blocks("gtceu:solid_machine_casing"))
+    // .where("b", Predicates.blocks("gtceu:steel_firebox_casing"))
+    // .where("c", Predicates.blocks("gtceu:clean_machine_casing"))
+    // .where("d", Predicates.blocks("minecraft:air"))
+    // .where("e", Predicates.blocks("kubejs:desh_coil_block"))
+    // .where("f", Predicates.blocks("gtceu:laminated_glass"))
+    // .where("g", Predicates.blocks("gtceu:high_temperature_smelting_casing"))
+    // .where("h", Predicates.blocks("gtceu:tungstensteel_pipe_casing"))
+    // .where("i", Predicates.blocks("voyagercore:clean_assembly_casing"))
+    // .where("j", Predicates.blocks("gtceu:uxv_output_bus"))
 
     //
     // .where("a", Predicates.blocks("minecraft:air"))
