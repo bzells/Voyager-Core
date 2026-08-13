@@ -36,7 +36,7 @@ public class VoyagerRecipeTypes {
 
     public static final GTRecipeType GRANDMAS_BAKING = voyagerRecipeType("grandmas_baking",
             GTRecipeTypes.MULTIBLOCK, IO.IN, 9, 9, 0, 0,
-            GuiTextures.PRIMITIVE_FURNACE_OVERLAY, ProgressTexture.FillDirection.DOWN_TO_UP, GuiTextures.BOXED_OVERLAY,
+            GuiTextures.PRIMITIVE_FURNACE_OVERLAY, ProgressTexture.FillDirection.LEFT_TO_RIGHT, GuiTextures.BOXED_OVERLAY,
             GTSoundEntries.FURNACE);
 
     public static final GTRecipeType CELESTIAL_POST_BOX = voyagerRecipeType("celestial_post_box",
