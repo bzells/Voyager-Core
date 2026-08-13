@@ -7,6 +7,9 @@ import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.RotorProperty;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.ToolProperty;
+import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 
 import com.jzells.voyagercore.util.VoyagerVoltageTierUtils;
 
@@ -64,15 +67,21 @@ public class MetalMaterials {
 
         Pearlic_Steel = basic_alloy_mat("pearlic_steel", "Pearlic Steel", MaterialIconSet.DULL, 0x119e99);
         Pink_Steel = basic_alloy_mat("pink_steel", "Pink Steel", MaterialIconSet.DULL, 0xf2a6ff);
-        Energetic_Alloy = basic_alloy_mat("energetic_alloy", "Energetic Alloy", MaterialIconSet.DULL, 0xffee00,
+        Energetic_Alloy = basic_alloy_mat("energetic_alloy", "Energetic Alloy", MaterialIconSet.DULL, 0xffe600,
                 0xff6200);
         Energetic_Pearlic_Alloy = basic_alloy_mat("energetic_pearlic_alloy", "Energetic-Pearlic Alloy",
                 MaterialIconSet.DULL, 0x00c458);
-//        Pearlic_Steel.setProperty(PropertyKey.BLAST, new BlastProperty(1000));
-//        Pink_Steel.setProperty(PropertyKey.BLAST, new BlastProperty(2000));
-//        Energetic_Alloy.setProperty(PropertyKey.BLAST, new BlastProperty(2000));
+        // Pearlic_Steel.setProperty(PropertyKey.BLAST, new BlastProperty(1000));
+        // Pink_Steel.setProperty(PropertyKey.BLAST, new BlastProperty(2000));
+        // Energetic_Alloy.setProperty(PropertyKey.BLAST, new BlastProperty(2000));
         Energetic_Pearlic_Alloy.setProperty(PropertyKey.BLAST, new BlastProperty(3600));
         // New Materials
+
+        Lunarium = no_smelt_element_mat("lunarium", true, 0x000d61, IV, MaterialIconSet.METALLIC);
+        Lunarium.setProperty(PropertyKey.ROTOR, new RotorProperty(200, 500, 1, 100000));
+
+        Lunarium.setProperty(PropertyKey.TOOL,
+                new ToolProperty(12f, 12f, 1200, 4, new GTToolType[] { GTToolType.WRENCH }));
     }
 
     // public static Material Pearlic_Steel;
@@ -125,5 +134,25 @@ public class MetalMaterials {
                         MaterialFlags.GENERATE_LONG_ROD, MaterialFlags.GENERATE_ROTOR, MaterialFlags.GENERATE_RING,
                         MaterialFlags.GENERATE_FINE_WIRE, MaterialFlags.NO_SMELTING)
                 .buildAndRegister();
+    }
+
+    private static Material no_smelt_element_mat(String id, boolean hot, int c1, int tier, MaterialIconSet iconSet) {
+        Material mat = new Material.Builder(GTCEu.id(id))
+                .ingot()
+                .dust()
+                .fluid()
+                // .element(GTElements.createAndRegister())
+                .color(c1)
+                .iconSet(iconSet)
+                .cableProperties(VA[tier], 1, 4, false)
+                .flags(MaterialFlags.GENERATE_FRAME, MaterialFlags.GENERATE_PLATE, MaterialFlags.GENERATE_ROD,
+                        MaterialFlags.GENERATE_SMALL_GEAR, MaterialFlags.GENERATE_FOIL, GENERATE_GEAR,
+                        MaterialFlags.GENERATE_LONG_ROD, MaterialFlags.GENERATE_ROTOR, MaterialFlags.GENERATE_RING,
+                        MaterialFlags.GENERATE_FINE_WIRE, MaterialFlags.NO_SMELTING)
+                .register();
+
+        if (hot) mat.setProperty(PropertyKey.BLAST, new BlastProperty(3600));
+
+        return mat;
     }
 }

@@ -90,7 +90,7 @@ public class VoyagerRecipeTypes {
             .setSound(GTSoundEntries.ARC)
             .addDataInfo(tag -> {
                 if (tag.contains("beam_concentration")) {
-                    return "Beam Concentration: " + (tag.getFloat("beam_concentration") * 100) + "%";
+                    return "Beam Concentration: " + (tag.getFloat("beam_concentration") * 100) + "%%";
                 }
                 return "";
             });
