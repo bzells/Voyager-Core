@@ -554,8 +554,8 @@ public class ElectricMultiMachines {
                     .where("d", Predicates.blocks(CASING_GRATE.get()))
                     .where("e", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
                             .get(TagPrefix.frameGt, GTMaterials.BlackSteel)).get()))
-                    .where("g", Predicates.blocks(CASING_LAMINATED_GLASS.get()))
-                    .where("f", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
+                    .where("f", Predicates.blocks(CASING_LAMINATED_GLASS.get()))
+                    .where("g", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
                             .get(TagPrefix.frameGt, GTMaterials.Tungsten)).get()))
                     .where("h", Predicates.abilities(VoyagerPartAbilities.PRECISE_ROBOT_ARM))
                     .where("@", Predicates.controller(Predicates.blocks(def.get())))

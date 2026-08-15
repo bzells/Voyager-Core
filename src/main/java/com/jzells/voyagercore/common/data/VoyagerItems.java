@@ -157,7 +157,7 @@ public class VoyagerItems {
         String grandmaName = "§eGrandma Helper";
 
         final ItemEntry<HelperComponentItem> HELPER_PARAMOUNT_GRANDMA = createParamountHelper("grandma", "paramount",
-                grandmaName, 1, "grandma", 1, 1);
+                grandmaName, 1, "grandma", .5f, 1);
         final ItemEntry<HelperComponentItem> HELPER_PARAMOUNT_EMBASSY = createParamountHelper("embassy", "paramount",
                 "§9Embassy Helper", 1, "embassy", 2f, GTValues.IV);
         final ItemEntry<HelperComponentItem> HELPER_PARAMOUNT_THE_CHEMIST = createParamountHelper("chemist",
@@ -165,7 +165,7 @@ public class VoyagerItems {
                 "§bChemist Helper", 1, "chemist", 4f, GTValues.HV);
         final ItemEntry<HelperComponentItem> HELPER_PARAMOUNT_COILTRONICS = createParamountHelper("coiltronics",
                 "paramount",
-                "§eCoiltronics Helper", 1, "coiltronics", .5f, GTValues.LuV);
+                "§eCoiltronics Helper", 1, "coiltronics", .25f, GTValues.LuV);
         final ItemEntry<HelperComponentItem> HELPER_PARAMOUNT_HUNGRY = createEnergyParamountHelper("hungry",
                 "paramount",
                 "§2Hungry Helper", 1, "hungry", .5f, 1f, 1f);
