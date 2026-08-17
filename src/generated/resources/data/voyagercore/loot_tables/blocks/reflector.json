@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "voyagercore:standard_reflector"
+          "name": "voyagercore:reflector"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "voyagercore:blocks/standard_reflector"
+  "random_sequence": "voyagercore:blocks/reflector"
 }

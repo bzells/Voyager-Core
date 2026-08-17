@@ -1,5 +1,6 @@
 package com.jzells.voyagercore.common.data;
 
+import com.gregtechceu.gtceu.api.registry.registrate.provider.GTBlockstateProvider;
 import com.gregtechceu.gtceu.common.data.models.GTModels;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
@@ -16,6 +17,9 @@ import com.jzells.voyagercore.VoyagerCore;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import net.minecraftforge.client.model.generators.*;
+import net.minecraftforge.client.model.generators.loaders.ObjModelBuilder;
+import net.minecraftforge.client.model.obj.ObjModel;
 
 import java.util.function.Supplier;
 
@@ -82,11 +86,24 @@ public class VoyagerBlocks {
             "ostrum_casing", VoyagerCore.id("block/casing/ostrum_casing"));
 
     public static final BlockEntry<ReflectorBlock> REFLECTOR_STANDARD = VOYAGERCORE_REGISTRATE
-            .block("standard_reflector",ReflectorBlock::new)
+            .block("reflector",ReflectorBlock::new)
             .initialProperties(()->Blocks.IRON_BLOCK)
-            .properties(p->p.isValidSpawn((a,b,c,d)->false))
+            .properties(p->p.isValidSpawn((a,b,c,d)->false)
+                    .noOcclusion())
             .addLayer(()->RenderType::solid)
-            .exBlockstate(GTModels.cubeAllModel(VoyagerCore.id("block/cooling_lamp")))
+            .exBlockstate((ctx,prov)->{
+                var model = prov.models().getBuilder("reflector")
+                        .customLoader(ObjModelBuilder::begin)
+                        .modelLocation(VoyagerCore.id("models/block/reflector/reflector.obj"))
+                        .flipV(true)
+                        .end()
+                        .texture("reflector", VoyagerCore.id("block/reflector"));
+
+
+                prov.simpleBlock(ctx.getEntry(), model);
+
+            })
+//            .exBlockstate(GTModels.cubeAllModel(VoyagerCore.id("block/cooling_lamp")))
             .item(BlockItem::new)
             .build()
             .register();

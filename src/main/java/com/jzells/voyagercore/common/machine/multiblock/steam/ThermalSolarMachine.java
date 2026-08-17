@@ -36,6 +36,7 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
             ThermalSolarMachine.class, MultiblockControllerMachine.MANAGED_FIELD_HOLDER);
 
     @Getter
+    // Probably should have this as blockPos.
     protected static Set<ThermalSolarMachine> thermalSolarSet = new HashSet<>();
     @Getter
     @Setter
@@ -80,6 +81,9 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
         //apparently a dummy machine gets loaded before the world loads
         //and the position is logged in this code...
         //If a player makes this multi near this dummy co-ord, it'll fuck up.
+        // Another possible issue is that the dummy machine never get removed from mem.
+        // Woo mem leaks :)
+        // Woe to those that try to fix my fucked up code
     }
 
     public void addReflectorPosition(BlockPos pos){
@@ -108,17 +112,15 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
         BlockHitResult result = getLevel().clip(bc);
         return result.getBlockPos().equals(pos);
     }
-//                    addReflectorPosition(pos);
-//        VoyagerCore.LOGGER.info("machine x: {}, y: {}, z: {}", mpos.x(), mpos.y(), mpos.z());
-//        VoyagerCore.LOGGER.info("target Position x: {}, y: {}, z: {}", tpos.x(), tpos.y(), tpos.z());
-//        VoyagerCore.LOGGER.info("Tested: x: {}, y: {}, z: {}", tvec.x(), tvec.y(), tvec.z());
 
+    ///Runs on world load, restores active blocks to block cache
     protected void restoreCache(){
         for (BlockPos pos : reflectorPositions){
             addBlockToCache(pos);
         }
     }
 
+    ///
     protected void addBlockToCache(BlockPos pos) {
         Vec3 norm = calculateNormalToMachine(pos);
         blockCache.putIfAbsent(pos,norm);
@@ -142,13 +144,19 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
     // I'm sorry
     public void updateReflectors(BlockPos blockPos, boolean removing) {
         for (BlockPos cache : blockCache.keySet()) {
+            // Skip if the cached block is the checking block
             if (cache.equals(blockPos)) continue;
+            // Skip the cached if the DotProd isn't similar
             if (!checkDirection(blockPos, cache, 0.98F)) continue;
+            // If the altered Block is being added and the cached block is active, attempt check
             if (!removing && reflectorPositions.contains(cache) && !attemptReflector(cache)) {
+                // If check returns false, remove cached from Active
                 removeReflectorPosition(cache);
                 continue;
             }
+            // If the altered block is being removed, attempt check
             if (removing && attemptReflector(cache)){
+                // Add it back to active if true
                 addReflectorPosition(cache);
             }
         }

@@ -22,10 +22,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 
 import com.jzells.voyagercore.VoyagerCore;
-import com.jzells.voyagercore.client.renderer.machine.VoyagerRenderHelper;
+import com.jzells.voyagercore.client.renderer.VoyagerRenderHelper;
 import com.jzells.voyagercore.common.data.VoyagerCoreRecipeModifiers;
 import com.jzells.voyagercore.common.data.VoyagerMaterials;
-import com.jzells.voyagercore.common.data.VoyagerPredicates;
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
 import com.jzells.voyagercore.common.machine.multiblock.part.VoyagerPartAbilities;
 

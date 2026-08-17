@@ -4,9 +4,13 @@ import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.common.machine.multiblock.steam.ThermalSolarMachine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.client.model.data.ModelData;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
@@ -24,6 +28,16 @@ public class ReflectorBlock extends Block {
             therm.updateReflectors(pos,false);
             therm.updateReflectorCount();
         }
+    }
+
+    public ModelData getModelData() {
+        ModelData model = this.
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+
+        return super.getShape(state, level, pos, context);
     }
 
     @Override
@@ -51,6 +65,7 @@ public class ReflectorBlock extends Block {
         for (ThermalSolarMachine machine : thermals) {
             BlockPos mpos = machine.getPos();
             if (mpos.getY() <= pos.getY() || machine.getLevel() != level) continue;
+//            if (machine.getCenterVec3() == null) continue;
             double dist = pos.distToCenterSqr(machine.getCenterVec3());
             if (dist < (machine.getRange() * machine.getRange())) {
                 if (minDist == 0 || dist <= minDist) {
