@@ -56,6 +56,8 @@ public class VoyagerCore {
         // we need to register our object like this!
         MinecraftForge.EVENT_BUS.register(this);
 
+        VoyagerCoreTConModifiers.MODIFIERS.register(modEventBus);
+
         VOYAGERCORE_REGISTRATE.registerRegistrate();
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> VoyagerCore::initializeDynamicRenders);
     }
