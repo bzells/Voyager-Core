@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderManager;
 
+import com.jzells.voyagercore.tools.VCTConModifiers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -56,7 +57,9 @@ public class VoyagerCore {
         // we need to register our object like this!
         MinecraftForge.EVENT_BUS.register(this);
 
-        VoyagerCoreTConModifiers.MODIFIERS.register(modEventBus);
+        modEventBus.register(new VCTConModifiers());
+
+//        VoyagerCoreTConModifiers.MODIFIERS.register(modEventBus);
 
         VOYAGERCORE_REGISTRATE.registerRegistrate();
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> VoyagerCore::initializeDynamicRenders);

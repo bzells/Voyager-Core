@@ -27,6 +27,10 @@ repositories {
             includeGroup 'com.gregtechceu.gtceu'
         }
     }
+    maven { // JEI mirror, AE2
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
     maven {
         name 'FirstDarkDev'
         url "https://maven.firstdark.dev/snapshots/"
