@@ -30,13 +30,9 @@ public class ReflectorBlock extends Block {
         }
     }
 
-    public ModelData getModelData() {
-        ModelData model = this.
-    }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-
         return super.getShape(state, level, pos, context);
     }
 
