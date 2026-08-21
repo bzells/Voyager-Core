@@ -48,12 +48,12 @@ public class VoyagerCoreModifierRecipeProvider extends VoyagerCoreRecipeProvider
         String defenseSalvage = salvageFolder + "defense/";
         String compatSalvage = salvageFolder + "compat/";
 
-        ModifierRecipeBuilder.modifier(dragon_looting)
-                .addInput(Tags.Items.INGOTS_NETHERITE)
-                .setSlots(SlotType.ABILITY,1)
-                .allowCrystal()
-                .setTools(TinkerTags.Items.HARVEST)
-                .save(consumer, prefix(dragon_looting, abilityFolder));
+//        ModifierRecipeBuilder.modifier(dragon_looting)
+//                .addInput(Tags.Items.INGOTS_NETHERITE)
+//                .setSlots(SlotType.ABILITY,1)
+//                .allowCrystal()
+//                .setTools(TinkerTags.Items.HARVEST)
+//                .save(consumer, prefix(dragon_looting, abilityFolder));
     }
 
     public ResourceLocation prefix(LazyModifier modifier, String prefix) {

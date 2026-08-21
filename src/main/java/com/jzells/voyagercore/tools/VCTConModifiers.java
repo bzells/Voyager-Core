@@ -1,6 +1,8 @@
 package com.jzells.voyagercore.tools;
 
 import com.jzells.voyagercore.VoyagerCore;
+import com.jzells.voyagercore.tools.data.VoyagerCoreModifierLangProvider;
+import com.jzells.voyagercore.tools.data.VoyagerCoreModifierProvider;
 import com.jzells.voyagercore.tools.data.VoyagerCoreModifierRecipeProvider;
 import com.jzells.voyagercore.tools.data.tags.VCModifierTagProvider;
 import com.jzells.voyagercore.tools.modifiers.DragonLootingModifier;
@@ -28,7 +30,9 @@ public class VCTConModifiers {
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
         boolean server = event.includeServer();
-        generator.addProvider(server, new VCModifierTagProvider(packOutput,event.getExistingFileHelper()));
+        generator.addProvider(server, new VoyagerCoreModifierProvider(packOutput));
         generator.addProvider(server, new VoyagerCoreModifierRecipeProvider(packOutput));
+        generator.addProvider(server, new VCModifierTagProvider(packOutput,event.getExistingFileHelper()));
     }
+
 }

@@ -201,5 +201,11 @@
   "itemGroup.voyagercore.main": "Voyager Core Blocks",
   "material.voyagercore.cryotheum": "Cryotheum",
   "material.voyagercore.high_stress_lubricant": "High Stress Lubricant",
-  "material.voyagercore.pyrotheum": "Pyrotheum"
+  "material.voyagercore.pyrotheum": "Pyrotheum",
+  "modifier.voyagercore.dragon_looting": "Dragon Looting",
+  "modifier.voyagercore.dragon_looting.description": "Find more from ores with this tool",
+  "modifier.voyagercore.dragon_looting.flavor": "Hoarder!",
+  "modifier.voyagercore.dragon_strength": "Dragon Strength",
+  "modifier.voyagercore.dragon_strength.description": "Dragonblood fuels this tool's attack power",
+  "modifier.voyagercore.dragon_strength.flavor": "Power!"
 }

@@ -15,7 +15,7 @@ public class VCModifierTagProvider extends AbstractModifierTagProvider {
 
     @Override
     protected void addTags() {
-        this.tag(HARVEST_ABILITIES).add(dragon_looting.getId());
+//        this.tag(HARVEST_ABILITIES).add(dragon_looting.getId());
     }
 
     @Override

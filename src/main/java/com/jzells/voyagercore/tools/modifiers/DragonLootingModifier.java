@@ -30,6 +30,7 @@ public class DragonLootingModifier extends Modifier implements ProcessLootModifi
     }
 
 
+
     @Override
     public void processLoot(IToolStackView tool, ModifierEntry modifier, List<ItemStack> generatedLoot, LootContext context) {
 
