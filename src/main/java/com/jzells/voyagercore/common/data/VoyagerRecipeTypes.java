@@ -34,6 +34,11 @@ public class VoyagerRecipeTypes {
             GuiTextures.PROGRESS_BAR_RECYCLER, ProgressTexture.FillDirection.DOWN_TO_UP, GuiTextures.DUST_OVERLAY,
             GTSoundEntries.CHEMICAL);
 
+    public static final GTRecipeType LARGE_DEHUMIDIFIER = voyagerRecipeType("large_dehumidifier",
+            GTRecipeTypes.MULTIBLOCK, IO.OUT, 1, 0, 0, 1,
+            GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT, GuiTextures.EXTRACTOR_OVERLAY,
+            GTSoundEntries.COOLING);
+
     public static final GTRecipeType GRANDMAS_BAKING = voyagerRecipeType("grandmas_baking",
             GTRecipeTypes.MULTIBLOCK, IO.IN, 9, 9, 0, 0,
             GuiTextures.PRIMITIVE_FURNACE_OVERLAY, ProgressTexture.FillDirection.LEFT_TO_RIGHT,
