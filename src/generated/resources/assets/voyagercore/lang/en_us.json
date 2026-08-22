@@ -205,6 +205,9 @@
   "modifier.voyagercore.dragon_looting": "Dragon Looting",
   "modifier.voyagercore.dragon_looting.description": "Find more from ores with this tool",
   "modifier.voyagercore.dragon_looting.flavor": "Hoarder!",
+  "modifier.voyagercore.dragon_protection": "Dragon Scales",
+  "modifier.voyagercore.dragon_protection.description": "Ice-Forged steel strengthens the armors forged in this material",
+  "modifier.voyagercore.dragon_protection.flavor": "Hard!",
   "modifier.voyagercore.dragon_strength": "Dragon Strength",
   "modifier.voyagercore.dragon_strength.description": "Dragonblood fuels this tool's attack power",
   "modifier.voyagercore.dragon_strength.flavor": "Power!"

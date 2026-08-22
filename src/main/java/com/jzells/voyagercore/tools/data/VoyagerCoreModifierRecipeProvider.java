@@ -1,14 +1,11 @@
 package com.jzells.voyagercore.tools.data;
 
-import com.jzells.voyagercore.common.data.VoyagerCoreRecipeProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.Tags;
-import slimeknights.tconstruct.common.TinkerTags;
+
+import com.jzells.voyagercore.common.data.VoyagerCoreRecipeProvider;
 import slimeknights.tconstruct.library.modifiers.util.LazyModifier;
-import slimeknights.tconstruct.library.recipe.modifiers.adding.ModifierRecipeBuilder;
-import slimeknights.tconstruct.library.tools.SlotType;
 
 import java.util.function.Consumer;
 
@@ -20,7 +17,6 @@ public class VoyagerCoreModifierRecipeProvider extends VoyagerCoreRecipeProvider
         super(packOutput);
     }
 
-
     @Override
     public String getName() {
         return "Voyager Core Tinkers Recipe Provider";
@@ -31,8 +27,7 @@ public class VoyagerCoreModifierRecipeProvider extends VoyagerCoreRecipeProvider
         addModifierRecipes(consumer);
     }
 
-    public void addModifierRecipes(Consumer<FinishedRecipe> consumer){
-
+    public void addModifierRecipes(Consumer<FinishedRecipe> consumer) {
         // Ripped Straight from tcon's ModifierRecipeProvider
         // modifiers
         String upgradeFolder = "tools/modifiers/upgrade/";
@@ -48,12 +43,13 @@ public class VoyagerCoreModifierRecipeProvider extends VoyagerCoreRecipeProvider
         String defenseSalvage = salvageFolder + "defense/";
         String compatSalvage = salvageFolder + "compat/";
 
-//        ModifierRecipeBuilder.modifier(dragon_looting)
-//                .addInput(Tags.Items.INGOTS_NETHERITE)
-//                .setSlots(SlotType.ABILITY,1)
-//                .allowCrystal()
-//                .setTools(TinkerTags.Items.HARVEST)
-//                .save(consumer, prefix(dragon_looting, abilityFolder));
+        // Leaving this here as a template, in case we want to add recipe based modifiers
+        // ModifierRecipeBuilder.modifier(dragon_looting)
+        // .addInput(Tags.Items.INGOTS_NETHERITE)
+        // .setSlots(SlotType.ABILITY,1)
+        // .allowCrystal()
+        // .setTools(TinkerTags.Items.HARVEST)
+        // .save(consumer, prefix(dragon_looting, abilityFolder));
     }
 
     public ResourceLocation prefix(LazyModifier modifier, String prefix) {

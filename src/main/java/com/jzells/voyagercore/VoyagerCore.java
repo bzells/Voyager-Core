@@ -10,8 +10,6 @@ import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderManager;
 
-import com.jzells.voyagercore.tools.VCTConModifiers;
-import com.jzells.voyagercore.tools.data.VoyagerTinkersDataGen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -26,6 +24,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import com.jzells.voyagercore.client.renderer.machine.impl.SuperDonutRender;
 import com.jzells.voyagercore.common.data.*;
 import com.jzells.voyagercore.common.machine.multiblock.VoyagerMultiRegistry;
+import com.jzells.voyagercore.tools.VCTConModifiers;
+import com.jzells.voyagercore.tools.data.VoyagerTinkersDataGen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -58,8 +58,6 @@ public class VoyagerCore {
         // we need to register our object like this!
         MinecraftForge.EVENT_BUS.register(this);
 
-
-//        VoyagerCoreTConModifiers.MODIFIERS.register(modEventBus);
 
         VOYAGERCORE_REGISTRATE.registerRegistrate();
         VoyagerTinkersDataGen.init();

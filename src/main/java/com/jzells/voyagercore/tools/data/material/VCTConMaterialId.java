@@ -8,9 +8,9 @@ public class VCTConMaterialId {
     public static final MaterialId dragonsteel_ice = id("dragonsteel_ice");
     public static final MaterialId dragonsteel_fire = id("dragonsteel_fire");
 
-    private VCTConMaterialId(){};
+    private VCTConMaterialId() {};
 
-    public static MaterialId id(String name){
-        return new MaterialId(VoyagerCore.MOD_ID,name);
+    public static MaterialId id(String name) {
+        return new MaterialId(VoyagerCore.MOD_ID, name);
     }
 }

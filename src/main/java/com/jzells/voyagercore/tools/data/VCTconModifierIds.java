@@ -8,7 +8,7 @@ public class VCTconModifierIds {
     public static final ModifierId dragon_strength = id("dragon_strength");
     public static final ModifierId dragon_protection = id("dragon_protection");
 
-    public static ModifierId id(String name){
-        return new ModifierId(VoyagerCore.MOD_ID,name);
+    public static ModifierId id(String name) {
+        return new ModifierId(VoyagerCore.MOD_ID, name);
     }
 }
