@@ -85,7 +85,7 @@ public class SteamMultis {
             .register();
 
     public static final MultiblockMachineDefinition LARGE_STEAM_FORGE_COMPRESSOR = VOYAGERCORE_REGISTRATE
-            .multiblock("large_steam_forge_compressor", (holder) -> new SteamParallelMultiblockMachine(holder, 16))
+            .multiblock("large_steam_compressor", (holder) -> new SteamParallelMultiblockMachine(holder, 16))
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(ORE_WASHER_RECIPES)
             .appearanceBlock(CASING_BRONZE_BRICKS)
