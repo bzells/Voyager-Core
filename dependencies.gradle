@@ -33,6 +33,9 @@ dependencies {
     modImplementation(forge.curios) // FORESTRY PLEASE
     modImplementation(forge.forestry)
 
+    //Tinkers
+    modImplementation(forge.bundles.tinkers)
+
     // lombok
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'

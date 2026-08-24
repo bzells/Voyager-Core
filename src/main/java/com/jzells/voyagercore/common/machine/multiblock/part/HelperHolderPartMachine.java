@@ -8,9 +8,12 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
+import com.gregtechceu.gtceu.utils.GTUtil;
 
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -21,8 +24,10 @@ import com.lowdragmc.lowdraglib.utils.Position;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.ItemStack;
 
+import com.jzells.voyagercore.common.item.component.EnergyModParamountHelperItemComponent;
 import com.jzells.voyagercore.common.item.component.HelperComponentItem;
 import com.jzells.voyagercore.common.item.component.HelperItemComponent;
+import com.jzells.voyagercore.common.item.component.ParamountHelperItemComponent;
 
 import java.util.ArrayList;
 
@@ -39,6 +44,8 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
 
     @Persisted
     private final HelperHandler helperHandler;
+
+    private int runTime = 0;
 
     public HelperHolderPartMachine(IMachineBlockEntity holder) {
         super(holder);
@@ -95,7 +102,7 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
                 pars = helper.getOrCreateTagElement("modifiers").getInt("parallels");
             return pars;
         }
-        return 0;
+        return 1;
     }
 
     public float getHelperEUt() {
@@ -106,7 +113,7 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
                 eut = helper.getOrCreateTagElement("modifiers").getFloat("eut");
             return eut;
         }
-        return 0;
+        return 1;
     }
 
     public float getHelperSpeed() {
@@ -117,7 +124,7 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
                 speed = helper.getOrCreateTagElement("modifiers").getFloat("speed");
             return speed;
         }
-        return 0;
+        return 1;
     }
 
     public float getOutputModifier() {
@@ -128,7 +135,7 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
                 output = helper.getOrCreateTagElement("modifiers").getFloat("output");
             return output;
         }
-        return 0;
+        return 1;
     }
 
     @CheckForNull
@@ -174,6 +181,147 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
             }
         }
         return "none";
+    }
+
+    public boolean getHelperIsParamount() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof ParamountHelperItemComponent) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @CheckForNull
+    public ParamountHelperItemComponent getParamountHelperComponent() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof ParamountHelperItemComponent p) {
+                    return p;
+                }
+            }
+        }
+        return null;
+    }
+
+    public boolean getHelperIsHull() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof HelperItemComponent h) {
+                    return h.isHull();
+                }
+            }
+        }
+        return false;
+    }
+
+    public String getParamountHelperData() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof ParamountHelperItemComponent p) {
+                    p.setOwner(helper);
+                    return p.getPARAMOUNT_DATA();
+                }
+            }
+        }
+        return "not_paramount";
+    }
+
+    public int getParamountHelperLevel() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof ParamountHelperItemComponent p) {
+                    p.setOwner(helper);
+                    return p.getLevel();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public float getEnergyParamountHelperEUtMod() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof ParamountHelperItemComponent p) {
+                    p.setOwner(helper);
+                    if (p instanceof EnergyModParamountHelperItemComponent e) return e.getEUtGenMod();
+                }
+            }
+        }
+        return 1;
+    }
+
+    public float getEnergyParamountHelperEatTimeMod() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof ParamountHelperItemComponent p) {
+                    p.setOwner(helper);
+                    if (p instanceof EnergyModParamountHelperItemComponent e) return e.getEatTimeMod();
+                }
+            }
+        }
+        return 1;
+    }
+
+    public float getEnergyParamountHelperOutputMod() {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof ParamountHelperItemComponent p) {
+                    p.setOwner(helper);
+                    if (p instanceof EnergyModParamountHelperItemComponent e) return e.getOutput();
+                }
+            }
+        }
+        return 1;
+    }
+
+    @Override
+    public boolean onWorking(IWorkableMultiController controller) {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.isEmpty()) {
+            controller.getRecipeLogic().resetRecipeLogic();
+        }
+        return super.onWorking(controller);
+    }
+
+    // @Override
+    // public boolean beforeWorking(IWorkableMultiController controller) {
+    // ItemStack helper = this.getHeldItem(false);
+    // if (helper.isEmpty()) {
+    // return false;
+    // }
+    // return super.beforeWorking(controller);
+    // }
+
+    @Override
+    public boolean afterWorking(IWorkableMultiController controller) {
+        ItemStack helper = this.getHeldItem(false);
+        if (helper.getItem() instanceof HelperComponentItem helperComponentItem) {
+            for (IItemComponent comp : helperComponentItem.getComponents()) {
+                if (comp instanceof ParamountHelperItemComponent p) {
+                    GTRecipe lastRecipe = controller.getRecipeLogic().getLastRecipe();
+                    if (lastRecipe != null) {
+                        p.setOwner(helper);
+                        int tier = controller.getRecipeLogic().getLastRecipe().getOutputEUt().voltage() > 0 ?
+                                GTUtil.getTierByVoltage(lastRecipe.getOutputEUt().voltage()) :
+                                GTUtil.getTierByVoltage(lastRecipe.getInputEUt().voltage());
+                        p.levelHelper(lastRecipe.duration, tier);
+                    }
+
+                }
+            }
+        }
+        return super.afterWorking(controller);
     }
 
     @Override

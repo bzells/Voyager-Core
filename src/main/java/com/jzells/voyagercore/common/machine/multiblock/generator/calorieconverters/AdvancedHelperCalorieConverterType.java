@@ -3,9 +3,11 @@ package com.jzells.voyagercore.common.machine.multiblock.generator.calorieconver
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
+import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.ingredient.EnergyStack;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
@@ -14,12 +16,21 @@ import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
 import net.minecraftforge.fluids.FluidStack;
 
+import com.jzells.voyagercore.common.machine.multiblock.part.HelperHolderPartMachine;
+import lombok.Getter;
 import lombok.val;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 public class AdvancedHelperCalorieConverterType extends WorkableElectricMultiblockMachine {
 
-    public AdvancedHelperCalorieConverterType(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    @Getter
+    private final int TIER;
+
+    public AdvancedHelperCalorieConverterType(IMachineBlockEntity holder, int tier) {
+        super(holder);
+        TIER = tier;
     }
 
     private static final FluidStack DISTILLED_WATER_STACK;
@@ -72,16 +83,27 @@ public class AdvancedHelperCalorieConverterType extends WorkableElectricMultiblo
     }
 
     private double getEUtMultiplier() {
-        if (milk_boosted) {
-            return 2;
-        } else if (dt_boosted) {
-            return 1;
-        } else if (helperade_boosted) {
-            return 4;
-        } else if (not_boosted) {
-            return .5;
-        } else {
+        if (TIER == 1) {
+            if (milk_boosted) {
+                return 1.25;
+            } else if (dt_boosted) {
+                return 1;
+            } else if (not_boosted) {
+                return .5;
+            }
             return 0;
+        } else {
+            if (milk_boosted) {
+                return 2.25;
+            } else if (dt_boosted) {
+                return 1.5;
+            } else if (helperade_boosted) {
+                return 3;
+            } else if (not_boosted) {
+                return .5;
+            } else {
+                return 0;
+            }
         }
     }
 
@@ -119,8 +141,17 @@ public class AdvancedHelperCalorieConverterType extends WorkableElectricMultiblo
         if (machine instanceof AdvancedHelperCalorieConverterType calorieConverter) {
             EnergyStack EUt = recipe.getOutputEUt();
             if (!EUt.isEmpty() && calorieConverter.hasFluidInputs()) {
-                return ModifierFunction.builder().eutMultiplier(calorieConverter.getEUtMultiplier())
-                        .durationMultiplier(calorieConverter.getDurationModifier()).build();
+
+                if (calorieConverter.getHelperHolder().getHelperIsHull()) return ModifierFunction.NULL;
+
+                return ModifierFunction.builder()
+                        .eutMultiplier(calorieConverter.getEUtMultiplier() * calorieConverter.getHelperEUtMod())
+                        .durationMultiplier(calorieConverter.getDurationModifier() * calorieConverter.getHelperEatMod())
+                        .inputModifier(ContentModifier.multiplier(calorieConverter.getHelperParallels()))
+                        .outputModifier(ContentModifier.multiplier(
+                                calorieConverter.getHelperParallels() * calorieConverter.getHelperOutputMod()))
+                        .parallels(calorieConverter.getHelperParallels())
+                        .build();
             } else {
                 return ModifierFunction.builder().eutMultiplier(.1).build();
             }
@@ -155,5 +186,29 @@ public class AdvancedHelperCalorieConverterType extends WorkableElectricMultiblo
         MILK_STACK = GTMaterials.Milk.getFluid(350);
         BLUE_HELPERADE_STACK = GTMaterials.Ammonia.getFluid(50);
 
+    }
+
+    @Nullable
+    protected HelperHolderPartMachine getHelperHolder() {
+        for (IMultiPart part : this.getParts()) {
+            if (part instanceof HelperHolderPartMachine h) return h;
+        }
+        return null;
+    }
+
+    protected float getHelperEUtMod() {
+        return Objects.requireNonNull(getHelperHolder()).getEnergyParamountHelperEUtMod();
+    }
+
+    protected float getHelperEatMod() {
+        return 1 / Objects.requireNonNull(getHelperHolder()).getEnergyParamountHelperEatTimeMod();
+    }
+
+    protected float getHelperOutputMod() {
+        return Objects.requireNonNull(getHelperHolder()).getEnergyParamountHelperOutputMod();
+    }
+
+    protected int getHelperParallels() {
+        return Objects.requireNonNull(getHelperHolder()).getHelperParallels();
     }
 }

@@ -1,0 +1,23 @@
+{
+  "values": [
+    "voyagercore:hv_specialized_helper_hull",
+    "voyagercore:ev_specialized_helper_hull",
+    "voyagercore:iv_specialized_helper_hull",
+    "voyagercore:luv_specialized_helper_hull",
+    "voyagercore:zpm_specialized_helper_hull",
+    "voyagercore:uv_specialized_helper_hull",
+    "voyagercore:mv_generic_helper_hull",
+    "voyagercore:hv_generic_helper_hull",
+    "voyagercore:ev_generic_helper_hull",
+    "voyagercore:iv_generic_helper_hull",
+    "voyagercore:luv_generic_helper_hull",
+    "voyagercore:zpm_generic_helper_hull",
+    "voyagercore:uv_generic_helper_hull",
+    "voyagercore:grandma_paramount_helper_hull",
+    "voyagercore:embassy_paramount_helper_hull",
+    "voyagercore:chemist_paramount_helper_hull",
+    "voyagercore:coiltronics_paramount_helper_hull",
+    "voyagercore:hungry_paramount_helper_hull",
+    "voyagercore:computer_paramount_helper_hull"
+  ]
+}

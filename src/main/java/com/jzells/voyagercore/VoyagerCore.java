@@ -24,6 +24,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import com.jzells.voyagercore.client.renderer.machine.impl.SuperDonutRender;
 import com.jzells.voyagercore.common.data.*;
 import com.jzells.voyagercore.common.machine.multiblock.VoyagerMultiRegistry;
+import com.jzells.voyagercore.tools.VCTConModifiers;
+import com.jzells.voyagercore.tools.data.VoyagerTinkersDataGen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -56,7 +58,10 @@ public class VoyagerCore {
         // we need to register our object like this!
         MinecraftForge.EVENT_BUS.register(this);
 
+
         VOYAGERCORE_REGISTRATE.registerRegistrate();
+        VoyagerTinkersDataGen.init();
+        modEventBus.register(new VCTConModifiers());
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> VoyagerCore::initializeDynamicRenders);
     }
 

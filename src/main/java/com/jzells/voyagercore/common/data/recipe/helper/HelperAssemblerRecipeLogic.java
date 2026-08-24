@@ -20,16 +20,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static com.jzells.voyagercore.common.data.VoyagerItems.HELPERS;
-import static com.jzells.voyagercore.common.data.VoyagerItems.SPECIALIZED_HELPERS;
+import static com.jzells.voyagercore.common.data.VoyagerItems.*;
 
 public class HelperAssemblerRecipeLogic implements GTRecipeType.ICustomRecipeLogic {
 
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
         List<IRecipeHandler<?>> handlers = holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP);
-
-        System.out.println("Test1");
 
         if (handlers.isEmpty()) return null;
 
@@ -71,12 +68,24 @@ public class HelperAssemblerRecipeLogic implements GTRecipeType.ICustomRecipeLog
                 helperModuleItemComponent.canApply(helperItem, helperItemComponent)) {
             ItemStack outputHelper;
 
+            ItemEntry<HelperComponentItem> helper = null;
+
+            boolean paramount = false;
+
             if (helperItemComponent.isHull()) {
-                ItemEntry<HelperComponentItem> helper = helperItemComponent.isSpecialized() ?
-                        SPECIALIZED_HELPERS.get(helperItemComponent.getTier()) :
-                        HELPERS.get(helperItemComponent.getTier());
+                if (helperItemComponent instanceof ParamountHelperItemComponent p) {
+                    helper = PARAMOUNT_HULL_TO_HELPER
+                            .get(((ParamountHelperItemComponent) helperItemComponent).getPARAMOUNT_DATA());
+
+                    paramount = true;
+                } else {
+                    helper = helperItemComponent.isSpecialized() ?
+                            SPECIALIZED_HELPERS.get(helperItemComponent.getTier()) :
+                            HELPERS.get(helperItemComponent.getTier());
+                }
 
                 outputHelper = new ItemStack(helper.get());
+                if (paramount) ((ParamountHelperItemComponent) helperItemComponent).setOwner(outputHelper);
                 outputHelper.getOrCreateTagElement("modifiers").putString("count", "0");
 
             } else {

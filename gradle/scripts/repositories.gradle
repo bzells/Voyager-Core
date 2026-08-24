@@ -6,6 +6,12 @@ repositories {
     mavenCentral()
 
     maven {
+        //Tinkers+Mantle
+        name 'DVS1 Maven FS'
+        url 'https://dvs1.progwml6.com/files/maven'
+    }
+
+    maven {
         name = 'ModKit'
         url 'https://jitpack.io'
         content { includeGroup 'com.github.thedarkcolour' }
@@ -20,6 +26,10 @@ repositories {
         content {
             includeGroup 'com.gregtechceu.gtceu'
         }
+    }
+    maven { // JEI mirror, AE2
+        name = "ModMaven"
+        url = "https://modmaven.dev"
     }
     maven {
         name 'FirstDarkDev'

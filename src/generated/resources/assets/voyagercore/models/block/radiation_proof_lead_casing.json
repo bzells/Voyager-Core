@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "voyagercore:block/casing/radiation_proof_lead_casing"
+  }
+}

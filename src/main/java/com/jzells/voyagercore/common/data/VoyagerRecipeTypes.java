@@ -5,10 +5,12 @@ import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
+import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 
 import net.minecraft.client.resources.language.I18n;
@@ -18,13 +20,35 @@ import com.jzells.voyagercore.util.VoyagerVoltageTierUtils;
 
 public class VoyagerRecipeTypes {
 
-    public static final GTRecipeType ADVANCED_CALORIE_CONVERSION = GTRecipeTypes
-            .register("advanced_calorie_conversion", GTRecipeTypes.MULTIBLOCK)
-            .setEUIO(IO.OUT)
-            .setMaxIOSize(4, 2, 2, 1)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_RECYCLER, ProgressTexture.FillDirection.DOWN_TO_UP)
-            .setSlotOverlay(false, false, GuiTextures.ARROW_INPUT_OVERLAY)
-            .setSound(GTSoundEntries.BATH);
+    //
+    // public static final GTRecipeType ADVANCED_CALORIE_CONVERSION1 = GTRecipeTypes
+    // .register("advanced_calorie_conversion", GTRecipeTypes.MULTIBLOCK)
+    // .setEUIO(IO.OUT)
+    // .setMaxIOSize(4, 2, 2, 1)
+    // .setProgressBar(GuiTextures.PROGRESS_BAR_RECYCLER, ProgressTexture.FillDirection.DOWN_TO_UP)
+    // .setSlotOverlay(false, false, GuiTextures.ARROW_INPUT_OVERLAY)
+    // .setSound(GTSoundEntries.BATH);
+
+    public static final GTRecipeType ADVANCED_CALORIE_CONVERSION = voyagerRecipeType("advanced_calorie_conversion",
+            GTRecipeTypes.MULTIBLOCK, IO.OUT, 1, 1, 0, 1,
+            GuiTextures.PROGRESS_BAR_RECYCLER, ProgressTexture.FillDirection.DOWN_TO_UP, GuiTextures.DUST_OVERLAY,
+            GTSoundEntries.CHEMICAL);
+
+    public static final GTRecipeType LARGE_DEHUMIDIFIER = voyagerRecipeType("large_dehumidifier",
+            GTRecipeTypes.MULTIBLOCK, IO.OUT, 1, 0, 0, 1,
+            GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT, GuiTextures.EXTRACTOR_OVERLAY,
+            GTSoundEntries.COOLING);
+
+    public static final GTRecipeType GRANDMAS_BAKING = voyagerRecipeType("grandmas_baking",
+            GTRecipeTypes.MULTIBLOCK, IO.IN, 9, 9, 0, 0,
+            GuiTextures.PRIMITIVE_FURNACE_OVERLAY, ProgressTexture.FillDirection.LEFT_TO_RIGHT,
+            GuiTextures.BOXED_OVERLAY,
+            GTSoundEntries.FURNACE);
+
+    public static final GTRecipeType CELESTIAL_POST_BOX = voyagerRecipeType("celestial_post_box",
+            GTRecipeTypes.MULTIBLOCK, IO.IN, 9, 9, 0, 0,
+            GuiTextures.PROGRESS_BAR_CANNER, ProgressTexture.FillDirection.UP_TO_DOWN, GuiTextures.BOX_OVERLAY,
+            GTSoundEntries.PORTABLE_SCANNER);
 
     public static final GTRecipeType CHEMICAL_PLANT = GTRecipeTypes
             .register("chemical_plant", GTRecipeTypes.MULTIBLOCK)
@@ -53,6 +77,14 @@ public class VoyagerRecipeTypes {
                 return (specialized.equals("none")) ? "" :
                         "Helper Specialization: §6" + VoyagerVoltageTierUtils.helperSpecializationFromData(specialized);
             })
+            .addDataInfo(tag -> {
+                if (tag.contains("paramount")) {
+                    return "Paramount Application Required: " +
+                            VoyagerVoltageTierUtils.paramountApplicationFromData(tag.getString("paramount")) +
+                            "\nParamount Level Required: " + tag.getInt("paramount_level");
+                }
+                return "";
+            })
             .setSound(GTSoundEntries.CHEMICAL);
 
     public static final GTRecipeType BEAM_HEATING = GTRecipeTypes
@@ -64,7 +96,7 @@ public class VoyagerRecipeTypes {
             .setSound(GTSoundEntries.ARC)
             .addDataInfo(tag -> {
                 if (tag.contains("beam_concentration")) {
-                    return "Beam Concentration: " + (tag.getFloat("beam_concentration") * 100) + "%";
+                    return "Beam Concentration: " + (tag.getFloat("beam_concentration") * 100) + "%%";
                 }
                 return "";
             });
@@ -118,14 +150,61 @@ public class VoyagerRecipeTypes {
             .setSound(GTSoundEntries.ASSEMBLER)
             .addCustomRecipeLogic(new HelperAssemblerRecipeLogic());
 
-    public static final GTRecipeType SMD_ASSEMBLY = GTRecipeTypes
-            .register("smd_assembly", GTRecipeTypes.MULTIBLOCK)
+    public static final GTRecipeType HELPER_ASSEMBLY_JEI = GTRecipeTypes
+            .register("helper_assembly_jei", GTRecipeTypes.DUMMY)
             .setEUIO(IO.IN)
-            .setMaxIOSize(6, 1, 1, 0)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_BENDING, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .setSlotOverlay(true, false, GuiTextures.BOX_OVERLAY)
+            .setMaxIOSize(2, 1, 0, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BENDING, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
+    public static final GTRecipeType SMD_ASSEMBLY = voyagerRecipeType("smd_assembly", GTRecipeTypes.MULTIBLOCK, IO.IN,
+            6, 1, 1, 0,
+            GuiTextures.PROGRESS_BAR_BENDING, ProgressTexture.FillDirection.LEFT_TO_RIGHT, GuiTextures.BOX_OVERLAY,
+            GTSoundEntries.ASSEMBLER);
+
+    public static final GTRecipeType OVEN = GTRecipeTypes
+            .register("oven", GTRecipeTypes.MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(9, 9, 0, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARC_FURNACE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSlotOverlay(true, false, GuiTextures.BOX_OVERLAY)
+            .setMaxTooltips(5)
+            .addDataInfo(tag -> {
+                if (tag.contains("paramount")) {
+                    return "Paramount Application Required: \n" +
+                            VoyagerVoltageTierUtils.paramountApplicationFromData(tag.getString("paramount")) +
+                            "\nParamount Level Required: " + tag.getInt("paramount_level");
+                }
+                return "";
+            })
             .setSound(GTSoundEntries.ASSEMBLER);
 
     public static void init() {}
+
+    public static GTRecipeType voyagerRecipeType(String id, String type, IO io, int maxInputs, int maxOutputs,
+                                                 int fluidInputs, int fluidOutputs, ResourceTexture pBar,
+                                                 ProgressTexture.FillDirection fillDir,
+                                                 ResourceTexture guiOutputOverlay, SoundEntry sound) {
+        return GTRecipeTypes
+                .register(id, type)
+                .setEUIO(io)
+                .setMaxIOSize(maxInputs, maxOutputs, fluidInputs, fluidOutputs)
+                .setProgressBar(pBar, fillDir)
+                .setSlotOverlay(true, false, guiOutputOverlay)
+                .setMaxTooltips(5)
+                .addDataInfo(tag -> {
+                    if (tag.contains("paramount")) {
+                        return "Paramount Application Required: \n" +
+                                VoyagerVoltageTierUtils.paramountApplicationFromData(tag.getString("paramount")) +
+                                "\nParamount Level Required: " + tag.getInt("paramount_level");
+                    }
+                    return "";
+                })
+                .addDataInfo(data -> {
+                    String specialized = (data.contains("specialized")) ? data.getString("specialized") : "none";
+                    return (specialized.equals("none")) ? "" :
+                            "Helper Specialization: §6" +
+                                    VoyagerVoltageTierUtils.helperSpecializationFromData(specialized);
+                })
+                .setSound(sound);
+    }
 }
