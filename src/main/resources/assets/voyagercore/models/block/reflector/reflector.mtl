@@ -1,2 +1,4 @@
-newmtl base
+# Made in Blockbench 5.1.6
+newmtl reflector
 map_Kd #reflector
+newmtl none
