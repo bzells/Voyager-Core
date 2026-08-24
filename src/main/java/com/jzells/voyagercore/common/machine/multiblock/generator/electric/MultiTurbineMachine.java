@@ -50,7 +50,7 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
     }
 
     private ArrayList<IRotorHolderMachine> getRotorHolders() {
-        var rotorHolders = new ArrayList<IRotorHolderMachine>();
+        var rotorHolders = new ArrayList<IRotorHolderMachine>(); //this might be fucking up garbage collection
         for (IMultiPart part : getParts()) {
             if (part instanceof IRotorHolderMachine rotorHolder) {
                 rotorHolders.add(rotorHolder);
@@ -150,7 +150,7 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
         double holderEfficiency = 1.5 * rotorHolders.stream()
                 .map(h -> (double) h.getTotalEfficiency())
                 .reduce(0.0, Double::sum) / (100 * Math.max(turbineMachine.getRotorCount(), 1));
-        VoyagerCore.LOGGER.info("Duration modifier: {}", holderEfficiency);
+//        VoyagerCore.LOGGER.info("Duration modifier: {}", holderEfficiency);
 
         if (EUt.isEmpty() || turbineMaxVoltage <= EUt.voltage() || holderEfficiency <= 0) return ModifierFunction.NULL;
 
@@ -170,7 +170,6 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
                 .durationMultiplier(holderEfficiency)
                 .build();
 
-        // return ModifierFunction.IDENTITY; //TODO work on this. too tired
     }
 
     @Override

@@ -118,6 +118,7 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
         for (BlockPos pos : reflectorPositions){
             addBlockToCache(pos);
         }
+
     }
 
     ///
