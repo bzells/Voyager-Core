@@ -9,6 +9,8 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
+import com.jzells.voyagercore.util.debug.DebugVector;
+import com.jzells.voyagercore.util.debug.DebugVectors;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -26,7 +28,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -110,7 +114,13 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
         Vec3 tvec = mpos.add(gap);
         ClipContext bc = new ClipContext(tvec, tpos, ClipContext.Block.VISUAL, ClipContext.Fluid.NONE, null);
         BlockHitResult result = getLevel().clip(bc);
-        return result.getBlockPos().equals(pos);
+
+
+        boolean hit = result.getBlockPos().equals(pos);
+        DebugVectors.VECTORS.put(String.valueOf(pos.hashCode()), new DebugVector(tvec, result.getLocation(), hit ? Color.GREEN : Color.RED, true));
+        DebugVectors.VECTORS.put(pos.hashCode() + "target", new DebugVector(result.getLocation(), tpos, Color.GRAY, false));
+
+        return hit;
     }
 
     ///Runs on world load, restores active blocks to block cache
