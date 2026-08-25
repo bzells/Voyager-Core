@@ -1,7 +1,7 @@
 package com.jzells.voyagercore.common.block;
 
-import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.common.machine.multiblock.steam.ThermalSolarMachine;
+import com.jzells.voyagercore.util.debug.DebugVectors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.client.model.data.ModelData;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
@@ -46,6 +45,9 @@ public class ReflectorBlock extends Block {
             thermal.removeReflectorFromCache(pos);
             thermal.updateReflectorCount();
         };
+
+        DebugVectors.VECTORS.remove(String.valueOf(pos.hashCode()));
+        DebugVectors.VECTORS.remove(pos.hashCode() + "target");
     }
 
     @Override
