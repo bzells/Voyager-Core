@@ -64,7 +64,7 @@ public class SteamMultis {
     public static final MultiblockMachineDefinition LARGE_STEAM_FORGE_HAMMER = VOYAGERCORE_REGISTRATE
             .multiblock("large_steam_forge_hammer", (holder) -> new SteamParallelMultiblockMachine(holder, 16))
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(ORE_WASHER_RECIPES)
+            .recipeType(FORGE_HAMMER_RECIPES)
             .appearanceBlock(CASING_BRONZE_BRICKS)
             .recipeModifier(SteamParallelMultiblockMachine::recipeModifier, true)
             .pattern(definition -> FactoryBlockPattern.start()
