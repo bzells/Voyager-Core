@@ -84,10 +84,10 @@ public class SteamMultis {
                     GTCEu.id("block/machines/forge_hammer"))
             .register();
 
-    public static final MultiblockMachineDefinition LARGE_STEAM_FORGE_COMPRESSOR = VOYAGERCORE_REGISTRATE
+    public static final MultiblockMachineDefinition LARGE_STEAM_COMPRESSOR = VOYAGERCORE_REGISTRATE
             .multiblock("large_steam_compressor", (holder) -> new SteamParallelMultiblockMachine(holder, 16))
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(ORE_WASHER_RECIPES)
+            .recipeType(COMPRESSOR_RECIPES)
             .appearanceBlock(CASING_BRONZE_BRICKS)
             .recipeModifier(SteamParallelMultiblockMachine::recipeModifier, true)
             .pattern(definition -> FactoryBlockPattern.start()

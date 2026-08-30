@@ -315,7 +315,7 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
                         int tier = controller.getRecipeLogic().getLastRecipe().getOutputEUt().voltage() > 0 ?
                                 GTUtil.getTierByVoltage(lastRecipe.getOutputEUt().voltage()) :
                                 GTUtil.getTierByVoltage(lastRecipe.getInputEUt().voltage());
-                        p.levelHelper(lastRecipe.duration, tier);
+                        p.levelHelper(lastRecipe.duration, tier, lastRecipe.parallels);
                     }
 
                 }

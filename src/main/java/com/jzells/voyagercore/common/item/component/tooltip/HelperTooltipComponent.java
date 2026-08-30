@@ -115,7 +115,9 @@ public class HelperTooltipComponent implements IAddInformation {
         }
 
         if (remaining != 0)
-            tooltipComponents.add(Component.literal("§7Remaining Module Slots: §a" + remaining));
+            tooltipComponents.add(Component
+                    .literal((specialized ? "§7Remaining Specialization Slots: §a" : "§7Remaining Module Slots: §a") +
+                            remaining));
         tooltipComponents.add(Component.literal("§6Helper Stats:"));
 
         for (String key : modifiers.getAllKeys()) {
@@ -214,7 +216,7 @@ public class HelperTooltipComponent implements IAddInformation {
 
         if (isParamount) {
             tooltipComponents.add(Component.literal("§7Max Recipe Tier: §r" + VoyagerVoltageTierUtils
-                    .getVoltageTierColorStringShortForm(VN[paramountHelperItemComponent.getGTTier()])));
+                    .getVoltageTierColorStringShortForm(VN[paramountHelperItemComponent.getGTTier() + 1])));
             tooltipComponents.add(Component.literal("§7Helper Level: §b" + paramountHelperItemComponent.getLevel()));
             tooltipComponents.add(Component.literal("§7XP: " + paramountHelperItemComponent.getCurrentXP() + "/" +
                     paramountHelperItemComponent.getLevelUpXP()));

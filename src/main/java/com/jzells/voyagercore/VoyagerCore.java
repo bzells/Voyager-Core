@@ -58,7 +58,6 @@ public class VoyagerCore {
         // we need to register our object like this!
         MinecraftForge.EVENT_BUS.register(this);
 
-
         VOYAGERCORE_REGISTRATE.registerRegistrate();
         VoyagerTinkersDataGen.init();
         modEventBus.register(new VCTConModifiers());

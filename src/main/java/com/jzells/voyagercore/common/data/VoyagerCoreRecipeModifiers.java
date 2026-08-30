@@ -359,7 +359,7 @@ public class VoyagerCoreRecipeModifiers {
 
         if (helperHolder.getHelperIsParamount()) {
             ParamountHelperItemComponent parHelper = helperHolder.getParamountHelperComponent();
-            if (parHelper.getGTTier() < GTUtil.getTierByVoltage(recipe.getInputEUt().voltage()))
+            if (parHelper.getGTTier() + 1 < GTUtil.getTierByVoltage(recipe.getInputEUt().voltage()))
                 return ModifierFunction.cancel(Component.literal("Helper level is too low for this recipe"));
         }
 

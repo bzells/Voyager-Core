@@ -148,11 +148,15 @@ public class VoyagerItems {
                 GTValues.HV, "smd_assembler_helper_recipe_module", "Recipe Helper Module", "smd_assembly", true,
                 1);
         final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_PLAT_LINE = createHelperRecipeModule(
-                GTValues.EV, "plat_line_helper_recipe_module", "Recipe Helper Module", "plat_line", true, 1);
+                GTValues.EV, "plat_line_helper_recipe_module", "Specialized Helper Module", "plat_line", true, 1);
         final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_DESH_LINE = createHelperRecipeModule(
-                GTValues.EV, "desh_line_helper_recipe_module", "Recipe Helper Module", "desh_line", true, 1);
+                GTValues.EV, "desh_line_helper_recipe_module", "Specialized Helper Module", "desh_line", true, 1);
         final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_PETROCHEM = createHelperRecipeModule(
-                GTValues.EV, "petrochem_helper_recipe_module", "Recipe Helper Module", "petrochem", true, 1);
+                GTValues.EV, "petrochem_helper_recipe_module", "Specialized Helper Module", "petrochem", true, 1);
+
+        final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_CHEMIST = createHelperRecipeModule(
+                GTValues.EV, "chemist_helper_recipe_module", "Specialized Helper Module", "chemist", true,
+                1);
 
         String grandmaName = "§eGrandma Helper";
 

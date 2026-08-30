@@ -102,6 +102,7 @@ public class VoyagerVoltageTierUtils {
             case "desh_line" -> "§6Desh Line";
             case "smd_assembly" -> "§bSMD Assembly";
             case "petrochem" -> "§6Petrochem";
+            case "chemist" -> "§eChemist";
             default -> dat;
         };
     }

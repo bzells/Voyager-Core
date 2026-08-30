@@ -24,5 +24,11 @@ public class FluidMaterials {
                 .color(0x9972a8, true)
                 .liquid(new FluidBuilder().temperature(300))
                 .buildAndRegister();
+
+        Helperade_BR = new Material.Builder(VoyagerCore.id("helperade_br"))
+                .color(0x00ffff, true)
+                .liquid(new FluidBuilder().temperature(150))
+                .langValue("Helperade (Blue Raspberry)")
+                .buildAndRegister();
     }
 }

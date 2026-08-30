@@ -85,6 +85,9 @@ public class VoyagerBlocks {
     public static final BlockEntry<Block> CASING_LEAD = createCasingBlock(
             "radiation_proof_lead_casing", VoyagerCore.id("block/casing/radiation_proof_lead_casing"));
 
+    public static final BlockEntry<Block> CASING_ENERGETIC = createCasingBlock(
+            "energetic_casing", VoyagerCore.id("block/casing/energetic_casing"));
+
     /// 0: Casing, 1: Gearbox, 2: Pipe Casing
     public static final BlockEntry<Block>[] STRUCTURE_ARRAY_RHODIUM_PLATED_PALLADIUM = fastBulkBlock(
             "rhodium_plated_palladium");
