@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.utils.GTUtil;
@@ -22,6 +23,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.lowdragmc.lowdraglib.utils.Position;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
 import com.jzells.voyagercore.common.item.component.EnergyModParamountHelperItemComponent;
@@ -287,9 +289,15 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
 
     @Override
     public boolean onWorking(IWorkableMultiController controller) {
+        
         ItemStack helper = this.getHeldItem(false);
-        if (helper.isEmpty()) {
-            controller.getRecipeLogic().resetRecipeLogic();
+        RecipeLogic logic = controller.getRecipeLogic();
+        CompoundTag data = logic.getLastRecipe().data;
+        boolean helperNeeded = (data.contains("specialized") || data.contains("paramount"));
+
+        if (helper.isEmpty() && helperNeeded) {
+            logic.resetRecipeLogic();
+            return false;
         }
         return super.onWorking(controller);
     }
