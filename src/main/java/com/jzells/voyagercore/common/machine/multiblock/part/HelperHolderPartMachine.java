@@ -11,10 +11,13 @@ import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifierList;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
+import com.jzells.voyagercore.common.data.VoyagerCoreRecipeModifiers;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -22,6 +25,8 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.lowdragmc.lowdraglib.utils.Position;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
 import com.jzells.voyagercore.common.item.component.EnergyModParamountHelperItemComponent;
@@ -30,6 +35,7 @@ import com.jzells.voyagercore.common.item.component.HelperItemComponent;
 import com.jzells.voyagercore.common.item.component.ParamountHelperItemComponent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -46,6 +52,9 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
     private final HelperHandler helperHandler;
 
     private int runTime = 0;
+
+    ///First is check, second is needed
+    private Boolean[] helperNeeded = {false, false};
 
     public HelperHolderPartMachine(IMachineBlockEntity holder) {
         super(holder);
@@ -285,23 +294,29 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
         return 1;
     }
 
+    private boolean helperNeededCheck(RecipeLogic logic) {
+        CompoundTag data = logic.getLastRecipe().data;
+        return (data.contains("specialized") || data.contains("paramount"));
+    }
+
     @Override
     public boolean onWorking(IWorkableMultiController controller) {
+
         ItemStack helper = this.getHeldItem(false);
-        if (helper.isEmpty()) {
-            controller.getRecipeLogic().resetRecipeLogic();
+        RecipeLogic logic = controller.getRecipeLogic();
+
+        if (helperNeeded[0] == false) {
+            helperNeeded[0] = true;
+            helperNeeded[1] = helperNeededCheck(logic);
         }
+
+        if (helper.isEmpty() && !helperNeeded[1]) {
+            logic.setWaiting(Component.literal("Missing Helper! If found, please return to controller."));
+        }
+
         return super.onWorking(controller);
     }
 
-    // @Override
-    // public boolean beforeWorking(IWorkableMultiController controller) {
-    // ItemStack helper = this.getHeldItem(false);
-    // if (helper.isEmpty()) {
-    // return false;
-    // }
-    // return super.beforeWorking(controller);
-    // }
 
     @Override
     public boolean afterWorking(IWorkableMultiController controller) {
@@ -321,6 +336,7 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
                 }
             }
         }
+        this.helperNeeded[0] = false;
         return super.afterWorking(controller);
     }
 

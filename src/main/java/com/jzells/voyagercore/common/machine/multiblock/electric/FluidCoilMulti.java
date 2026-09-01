@@ -50,8 +50,8 @@ public class FluidCoilMulti extends CoilWorkableElectricMultiblockMachine {
             return RecipeModifier.nullWrongType(FluidCoilMulti.class, machine);
         }
         if (RecipeHelper.matchRecipe(fluidMachine, fluidMachine.getFluidConsumptionRecipe()).isSuccess()) {
-            LOGGER.info("Machine is: {}", fluidMachine.getDefinition().getName());
-            LOGGER.info("Fluid of Machine is: {}", fluidMachine.requiredFluid.getDisplayName().getString());
+//            LOGGER.info("Machine is: {}", fluidMachine.getDefinition().getName());
+//            LOGGER.info("Fluid of Machine is: {}", fluidMachine.requiredFluid.getDisplayName().getString());
             return ModifierFunction.IDENTITY;
         }
         return ModifierFunction.NULL;
@@ -61,10 +61,11 @@ public class FluidCoilMulti extends CoilWorkableElectricMultiblockMachine {
     public boolean onWorking() {
         boolean val = super.onWorking();
 
+        if (recipeLogic.isWaiting()) return val;
         if (runningTimer % fluidConsumeInterval == 0) {
             var fluidRecipe = this.getFluidConsumptionRecipe();
             // LOGGER.info("Required Fluid:");
-            LOGGER.info("Required Fluid:{}", this.requiredFluid.getDisplayName().getString());
+//            LOGGER.info("Required Fluid:{}", this.requiredFluid.getDisplayName().getString());
             if (!RecipeHelper
                     .handleRecipeIO(this, fluidRecipe, IO.IN, this.recipeLogic.getChanceCaches())
                     .isSuccess()) {
