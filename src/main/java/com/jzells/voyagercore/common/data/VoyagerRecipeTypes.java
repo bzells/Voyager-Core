@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 
+import com.jzells.voyagercore.common.data.recipe.helper.LootTableRecipeLogic;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
@@ -28,6 +29,10 @@ public class VoyagerRecipeTypes {
     // .setProgressBar(GuiTextures.PROGRESS_BAR_RECYCLER, ProgressTexture.FillDirection.DOWN_TO_UP)
     // .setSlotOverlay(false, false, GuiTextures.ARROW_INPUT_OVERLAY)
     // .setSound(GTSoundEntries.BATH);
+    public static final GTRecipeType FISH_NORMAL = voyagerRecipeType("fish_normal",
+            GTRecipeTypes.MULTIBLOCK, IO.OUT, 1, 27, 0, 0,
+            GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT, GuiTextures.BOXED_OVERLAY,
+            GTSoundEntries.BATH);
 
     public static final GTRecipeType ADVANCED_CALORIE_CONVERSION = voyagerRecipeType("advanced_calorie_conversion",
             GTRecipeTypes.MULTIBLOCK, IO.OUT, 1, 1, 0, 1,
@@ -191,6 +196,34 @@ public class VoyagerRecipeTypes {
                 .setProgressBar(pBar, fillDir)
                 .setSlotOverlay(true, false, guiOutputOverlay)
                 .setMaxTooltips(5)
+                .addDataInfo(tag -> {
+                    if (tag.contains("paramount")) {
+                        return "Paramount Application Required: \n" +
+                                VoyagerVoltageTierUtils.paramountApplicationFromData(tag.getString("paramount")) +
+                                "\nParamount Level Required: " + tag.getInt("paramount_level");
+                    }
+                    return "";
+                })
+                .addDataInfo(data -> {
+                    String specialized = (data.contains("specialized")) ? data.getString("specialized") : "none";
+                    return (specialized.equals("none")) ? "" :
+                            "Helper Specialization: §6" +
+                                    VoyagerVoltageTierUtils.helperSpecializationFromData(specialized);
+                })
+                .setSound(sound);
+    }
+    public static GTRecipeType voyagerRecipeType(String id, String type, IO io, int maxInputs, int maxOutputs,
+                                                 int fluidInputs, int fluidOutputs, ResourceTexture pBar,
+                                                 ProgressTexture.FillDirection fillDir,
+                                                 ResourceTexture guiOutputOverlay, SoundEntry sound, GTRecipeType.ICustomRecipeLogic customRecipeLogic) {
+        return GTRecipeTypes
+                .register(id, type)
+                .setEUIO(io)
+                .setMaxIOSize(maxInputs, maxOutputs, fluidInputs, fluidOutputs)
+                .setProgressBar(pBar, fillDir)
+                .setSlotOverlay(true, false, guiOutputOverlay)
+                .setMaxTooltips(5)
+                .addCustomRecipeLogic(customRecipeLogic)
                 .addDataInfo(tag -> {
                     if (tag.contains("paramount")) {
                         return "Paramount Application Required: \n" +

@@ -11,5 +11,6 @@ public class VoyagerRecipes {
         PulverizerRecipes.init(provider);
         HelperSpecialRecipes.init(provider);
         DummyRecipes.init(provider);
+        FishingPortRecipes.init(provider);
     }
 }

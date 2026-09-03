@@ -50,8 +50,6 @@ public class FluidCoilMulti extends CoilWorkableElectricMultiblockMachine {
             return RecipeModifier.nullWrongType(FluidCoilMulti.class, machine);
         }
         if (RecipeHelper.matchRecipe(fluidMachine, fluidMachine.getFluidConsumptionRecipe()).isSuccess()) {
-            LOGGER.info("Machine is: {}", fluidMachine.getDefinition().getName());
-            LOGGER.info("Fluid of Machine is: {}", fluidMachine.requiredFluid.getDisplayName().getString());
             return ModifierFunction.IDENTITY;
         }
         return ModifierFunction.NULL;

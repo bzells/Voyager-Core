@@ -88,6 +88,15 @@ public class VoyagerBlocks {
     public static final BlockEntry<Block> CASING_ENERGETIC = createCasingBlock(
             "energetic_casing", VoyagerCore.id("block/casing/energetic_casing"));
 
+    public static final BlockEntry<Block> CASING_AQUATIC = createCasingBlock(
+            "aquatic_casing", VoyagerCore.id("block/casing/aquatic_casing"));
+
+    public static final BlockEntry<Block> CASING_WOODLAND = createCasingBlock(
+            "woodland_casing", VoyagerCore.id("block/casing/woodland_casing"));
+
+
+    public static final BlockEntry<Block> ALUMINIUM_PIPE_CASING = fastCreatePipeCasingBlock("aluminium");
+    public static final BlockEntry<Block> ALUMINIUM_GEARBOX_CASING = fastCreateGearboxBlock("aluminium");
     /// 0: Casing, 1: Gearbox, 2: Pipe Casing
     public static final BlockEntry<Block>[] STRUCTURE_ARRAY_RHODIUM_PLATED_PALLADIUM = fastBulkBlock(
             "rhodium_plated_palladium");

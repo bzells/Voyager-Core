@@ -2,6 +2,7 @@ package com.jzells.voyagercore.common.machine.multiblock.electric;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
@@ -10,13 +11,18 @@ import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
+import com.jzells.voyagercore.common.data.VoyagerPartAbilityRegistry;
+import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.Block;
 
 import com.jzells.voyagercore.VoyagerCore;
@@ -25,6 +31,9 @@ import com.jzells.voyagercore.common.data.VoyagerCoreRecipeModifiers;
 import com.jzells.voyagercore.common.data.VoyagerMaterials;
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
 import com.jzells.voyagercore.common.machine.multiblock.part.VoyagerPartAbilities;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
+import net.minecraft.world.level.material.Fluids;
 
 import java.util.Objects;
 
@@ -44,6 +53,8 @@ import static com.jzells.voyagercore.common.data.VoyagerBlocks.*;
 @SuppressWarnings("removal")
 
 public class ElectricMultiMachines {
+
+
 
     // Multiblocks
     public static final MultiblockMachineDefinition MAGMATIC_FOUNDRY = VOYAGERCORE_REGISTRATE
@@ -588,34 +599,65 @@ public class ElectricMultiMachines {
                     GTCEu.id("block/machines/arc_furnace"))
             .register();
 
-    // .aisle("abbba", "acccc", "acccc", "acccc", "aaaaa", "adddd", "jdddd")
-    // .aisle("beeeb", "adddf", "adddf", "adddf", "aggga", "adddd", "adddd")
-    // .aisle("beheb", "adddf", "adddf", "adddf", "aghga", "idddd", "adddd")
-    // .aisle("beeeb", "adddf", "adddf", "adddf", "aggga", "adddd", "adddd")
-    // .aisle("abbba", "acccc", "acccc", "acccc", "aaaaa", "adddd", "ddddd")
-    //
-    // .where("a", Predicates.blocks("gtceu:solid_machine_casing"))
-    // .where("b", Predicates.blocks("gtceu:steel_firebox_casing"))
-    // .where("c", Predicates.blocks("gtceu:clean_machine_casing"))
-    // .where("d", Predicates.blocks("minecraft:air"))
-    // .where("e", Predicates.blocks("kubejs:desh_coil_block"))
-    // .where("f", Predicates.blocks("gtceu:laminated_glass"))
-    // .where("g", Predicates.blocks("gtceu:high_temperature_smelting_casing"))
-    // .where("h", Predicates.blocks("gtceu:tungstensteel_pipe_casing"))
-    // .where("i", Predicates.blocks("voyagercore:clean_assembly_casing"))
-    // .where("j", Predicates.blocks("gtceu:uxv_output_bus"))
+    public static final MultiblockMachineDefinition FISHING_PORT = VOYAGERCORE_REGISTRATE
+            .multiblock("loch_ness_fishing_port", FishingPortMachine::new)
+            .rotationState(RotationState.ALL)
+            .appearanceBlock(CASING_AQUATIC)
+            .recipeTypes(VoyagerRecipeTypes.FISH_NORMAL)
+            .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, FishingPortMachine::recipeModifier)
+            .pattern(def -> FactoryBlockPattern.start()
+                    .aisle("aaaaabbbbbaaaaa", "aaaaabbbbbaaaaa", "aaaaabbbbbaaaaa", "aaaaabbbbbaaaaa", "aaaaabbbbbaaaaa")
+                    .aisle("aaabbbbbbbbbaaa", "aaabbcdcdcbbaaa", "aaabbcccccbbaaa", "aaabbcccccbbaaa", "aaabbeeeeebbaaa")
+                    .aisle("aabbbbbbbbbbbaa", "aabcccdcdcccbaa", "aabcccccccccbaa", "aabcccccccccbaa", "aabeeaaaaaeebaa")
+                    .aisle("abbbbbbbbbbbbba", "abccccdcdccccba", "abcccccccccccba", "abcccccccccccba", "abeaaaaaaaaaeba")
+                    .aisle("abbbbbbbbbbbbba", "abccccdcdccccba", "abcccccccccccba", "abcccccccccccba", "abeaaaaaaaaaeba")
+                    .aisle("bbbbbbbbbbbbbbb", "bcccccdcdcccccb", "bcccccccccccccb", "bcccccccccccccb", "beaaaaaaaaaaaeb")
+                    .aisle("bbbbbbbbbbbbbbb", "bdddddddddddddb", "bcccccccccccccb", "bcccccccccccccb", "beaaaaaaaaaaaeb")
+                    .aisle("bbbbbbbbbbbbbbb", "bcccccdcdcccccb", "bcccccccccccccb", "bcccccccccccccb", "beaaaaaaaaaaaeb")
+                    .aisle("bbbbbbbbbbbbbbb", "bdddddddddddddb", "bcccccccccccccb", "bcccccccccccccb", "beaaaaaaaaaaaeb")
+                    .aisle("bbbbbbbbbbbbbbb", "bcccccdcdcccccb", "bcccccccccccccb", "bcccccccccccccb", "beaaaaaaaaaaaeb")
+                    .aisle("abbbbbbbbbbbbba", "abccccdcdccccba", "abcccccccccccba", "abcccccccccccba", "abeaaaaaaaaaeba")
+                    .aisle("abbbbbbbbbbbbba", "abccccdcdccccba", "abcccccccccccba", "abcccccccccccba", "abeaaaaaaaaaeba")
+                    .aisle("aabbbbbbbbbbbaa", "aabcccdcdcccbaa", "aabcccccccccbaa", "aabcccccccccbaa", "aabeeaaaaaeebaa")
+                    .aisle("aaabbbbbbbbbaaa", "aaabbcdcdcbbaaa", "aaabbcccccbbaaa", "aaabbcccccbbaaa", "aaabbeeeeebbaaa")
+                    .aisle("aaaaabbbbbaaaaa", "aaaaabbbbbaaaaa", "aaaaabbfbbaaaaa", "aaaaabbbbbaaaaa", "aaaaabbbbbaaaaa")
 
-    //
-    // .where("a", Predicates.blocks("minecraft:air"))
-    // .where("b", Predicates.blocks("gtceu:raw_chalcopyrite_block"))
-    // .where("c", Predicates.blocks("kubejs:condensation_resistant_tungsten_casing"))
-    // .where("d", Predicates.blocks("kubejs:platinum_casing"))
-    // .where("e", Predicates.blocks("gtceu:assembly_line_grating"))
-    // .where("f", Predicates.blocks("gtceu:black_steel_frame"))
-    // .where("g", Predicates.blocks("gtceu:laminated_glass"))
-    // .where("h", Predicates.blocks("gtceu:tungsten_frame"))
-    // .where("i", Predicates.blocks("gtceu:stainless_steel_gearbox"))
-    // .where("j", Predicates.blocks("gtceu:cube_assembler"))
+                    .where("a", Predicates.any())
+                    .where("b", Predicates.blocks(CASING_AQUATIC.get())
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(2).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS))
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS)))
+                    .where("c", Predicates.fluids(Fluids.WATER))
+                    .where("d", new TraceabilityPredicate(
+                            blockWorldState -> {
+                                Block block = blockWorldState.getBlockState().getBlock();
 
-    public static void init() {}
+                                if (!VoyagerPartAbilities.PIPE_CASING.isApplicable(block)) {
+                                    return false;
+                                }
+
+                                Block current = blockWorldState.getMatchContext()
+                                        .getOrPut("pipe_casing", block);
+
+                                return current == block;
+                            },
+                            () -> VoyagerPartAbilities.PIPE_CASING.getAllBlocks().stream()
+                                    .map(block -> BlockInfo.fromBlockState(block.defaultBlockState()))
+                                    .toArray(BlockInfo[]::new)
+                    ))
+                    .where("e", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
+                                    .get(TagPrefix.frameGt, GTMaterials.WatertightSteel)).get()))
+                    .where("f", Predicates.controller(Predicates.blocks(def.get())))
+
+                    .build())
+            .workableCasingModel(VoyagerCore.id("block/casing/aquatic_casing"),
+                    GTCEu.id("block/machines/arc_furnace"))
+            .register();
+
+    
+
+    public static void init() {
+
+    }
 }
