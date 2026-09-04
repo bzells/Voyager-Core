@@ -9,7 +9,6 @@ import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 
-import com.jzells.voyagercore.common.data.recipe.helper.LootTableRecipeLogic;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
@@ -32,6 +31,11 @@ public class VoyagerRecipeTypes {
     public static final GTRecipeType FISH_NORMAL = voyagerRecipeType("fish_normal",
             GTRecipeTypes.MULTIBLOCK, IO.OUT, 1, 27, 0, 0,
             GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT, GuiTextures.BOXED_OVERLAY,
+            GTSoundEntries.BATH);
+
+    public static final GTRecipeType FOREST_REGROWTH_CHAMBER = voyagerRecipeType("forest_regrowth_chamber",
+            GTRecipeTypes.MULTIBLOCK, IO.OUT, 3, 9, 2, 2,
+            GuiTextures.PROGRESS_BAR_EXTRACT, ProgressTexture.FillDirection.LEFT_TO_RIGHT, GuiTextures.BOXED_OVERLAY,
             GTSoundEntries.BATH);
 
     public static final GTRecipeType ADVANCED_CALORIE_CONVERSION = voyagerRecipeType("advanced_calorie_conversion",
@@ -212,10 +216,12 @@ public class VoyagerRecipeTypes {
                 })
                 .setSound(sound);
     }
+
     public static GTRecipeType voyagerRecipeType(String id, String type, IO io, int maxInputs, int maxOutputs,
                                                  int fluidInputs, int fluidOutputs, ResourceTexture pBar,
                                                  ProgressTexture.FillDirection fillDir,
-                                                 ResourceTexture guiOutputOverlay, SoundEntry sound, GTRecipeType.ICustomRecipeLogic customRecipeLogic) {
+                                                 ResourceTexture guiOutputOverlay, SoundEntry sound,
+                                                 GTRecipeType.ICustomRecipeLogic customRecipeLogic) {
         return GTRecipeTypes
                 .register(id, type)
                 .setEUIO(io)

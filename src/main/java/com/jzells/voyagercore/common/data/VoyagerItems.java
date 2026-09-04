@@ -236,16 +236,13 @@ public class VoyagerItems {
         createHelperEUModifierModule("stomach_hungry_helper_module", "§6Stomach Module", 6, 0, 0.125f, 0.25f, .1f,
                 1, 3, "hungry", 3);
 
-
-
-
-
-
     }
-    public static final ItemEntry<FishNetComponentItem> FISH_NET_STRING = createFishNetItem("fish_net", "String Fish Net", 1, 1);
-    public static final ItemEntry<FishNetComponentItem> FISH_NET_FIBER = createFishNetItem("fiber_fish_net", "Fiber Fish Net", 3, 8);
-    public static final ItemEntry<FishNetComponentItem> FISH_NET_PBI = createFishNetItem("pbi_fish_net", "PBI Plastic Fish Net", 5, 64);
-
+    public static final ItemEntry<FishNetComponentItem> FISH_NET_STRING = createFishNetItem("fish_net",
+            "String Fish Net", 1, 1);
+    public static final ItemEntry<FishNetComponentItem> FISH_NET_FIBER = createFishNetItem("fiber_fish_net",
+            "Fiber Fish Net", 3, 8);
+    public static final ItemEntry<FishNetComponentItem> FISH_NET_PBI = createFishNetItem("pbi_fish_net",
+            "PBI Plastic Fish Net", 5, 64);
 
     private static void createHelperModifierModule(String id, String lang,
                                                    int tier, int pars,
@@ -494,14 +491,11 @@ public class VoyagerItems {
         return helper;
     }
 
-    private static ItemEntry<FishNetComponentItem> createFishNetItem(String name, String lang, int tier, int pars)
-    {
-
+    private static ItemEntry<FishNetComponentItem> createFishNetItem(String name, String lang, int tier, int pars) {
         return VOYAGERCORE_REGISTRATE.item(name, FishNetComponentItem::new)
                 .lang(lang)
                 .onRegister(i -> i.attachComponents(
-                        new FishNetItemComponent(tier, pars)
-                ))
+                        new FishNetItemComponent(tier, pars)))
                 .register();
     }
 

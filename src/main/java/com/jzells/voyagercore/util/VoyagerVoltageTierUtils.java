@@ -11,10 +11,11 @@ import com.gregtechceu.gtceu.common.data.GTMaterialBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterialItems;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
+import net.minecraft.world.level.block.Block;
+
 import com.jzells.voyagercore.common.data.VoyagerBlocks;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
-import net.minecraft.world.level.block.Block;
 
 import java.util.Objects;
 
@@ -35,8 +36,6 @@ public class VoyagerVoltageTierUtils {
     public static ModifierFunction getModifierFunctionWithParallels(GTRecipe recipe, int pars, float outputMod,
                                                                     float eutMod, float speed) {
         float parMultiplier = getParallelMultiplierForSequentialRecipeModifier(recipe, pars);
-
-        
 
         return ModifierFunction.builder()
                 .outputModifier(ContentModifier.multiplier(outputMod * parMultiplier))
@@ -224,14 +223,13 @@ public class VoyagerVoltageTierUtils {
         return p;
     }
 
-    public static int getPipeCasingTier(Block block)
-    {
-        if(block == GTBlocks.CASING_BRONZE_PIPE.get()) return 0;
-        if(block == GTBlocks.CASING_STEEL_PIPE.get()) return 1;
-        if(block == VoyagerBlocks.ALUMINIUM_PIPE_CASING.get()) return 2;
-        if(block == GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()) return 3;
-        if(block == GTBlocks.CASING_TITANIUM_PIPE.get()) return 4;
-        if(block == GTBlocks.CASING_TUNGSTENSTEEL_PIPE.get()) return 5;
+    public static int getPipeCasingTier(Block block) {
+        if (block == GTBlocks.CASING_BRONZE_PIPE.get()) return 0;
+        if (block == GTBlocks.CASING_STEEL_PIPE.get()) return 1;
+        if (block == VoyagerBlocks.ALUMINIUM_PIPE_CASING.get()) return 2;
+        if (block == GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()) return 3;
+        if (block == GTBlocks.CASING_TITANIUM_PIPE.get()) return 4;
+        if (block == GTBlocks.CASING_TUNGSTENSTEEL_PIPE.get()) return 5;
 
         return 0;
     }

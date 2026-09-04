@@ -62,8 +62,6 @@ public class VoyagerCore {
         VoyagerTinkersDataGen.init();
         modEventBus.register(new VCTConModifiers());
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> VoyagerCore::initializeDynamicRenders);
-
-
     }
 
     private static void init() {
@@ -138,10 +136,8 @@ public class VoyagerCore {
      * @param event
      */
     private void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
-
         VoyagerMultiRegistry.init();
         VoyagerMachines.init();
-
     }
 
     /**

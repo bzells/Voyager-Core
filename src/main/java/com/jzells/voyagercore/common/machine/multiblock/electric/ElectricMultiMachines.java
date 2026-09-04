@@ -2,7 +2,6 @@ package com.jzells.voyagercore.common.machine.multiblock.electric;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
@@ -11,19 +10,16 @@ import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
-import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
-import com.jzells.voyagercore.common.data.VoyagerPartAbilityRegistry;
-import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluids;
 
 import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.client.renderer.machine.VoyagerRenderHelper;
@@ -31,9 +27,7 @@ import com.jzells.voyagercore.common.data.VoyagerCoreRecipeModifiers;
 import com.jzells.voyagercore.common.data.VoyagerMaterials;
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
 import com.jzells.voyagercore.common.machine.multiblock.part.VoyagerPartAbilities;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
-import net.minecraft.world.level.material.Fluids;
+import com.jzells.voyagercore.util.VoyagerMultiblockUtils;
 
 import java.util.Objects;
 
@@ -53,8 +47,6 @@ import static com.jzells.voyagercore.common.data.VoyagerBlocks.*;
 @SuppressWarnings("removal")
 
 public class ElectricMultiMachines {
-
-
 
     // Multiblocks
     public static final MultiblockMachineDefinition MAGMATIC_FOUNDRY = VOYAGERCORE_REGISTRATE
@@ -542,8 +534,8 @@ public class ElectricMultiMachines {
             .pattern(def -> FactoryBlockPattern.start()
                     .aisle("aaaaaaa", "aaaaaaa", "aacccaa", "aacccaa", "aacccaa", "aaaaaaa", "aaaaaaa")
                     .aisle("aabbbaa", "abbbbba", "bbdddbb", "bbdddbb", "bbdddbb", "abbbbba", "aabbbaa")
-                    .aisle("aaeeeaa", "aebfbea", "eagbgbe", "efahafe", "ebgagbe", "aebfbea", "aaeeeaa")
-                    .aisle("aaaaaaa", "aabfbaa", "aagagba", "afahafa", "abgagba", "aabfbaa", "aaaaaaa")
+                    .aisle("aaeeeaa", "aebfbea", "ebgbgbe", "efahafe", "ebgagbe", "aebfbea", "aaeeeaa")
+                    .aisle("aaaaaaa", "aabfbaa", "abgagba", "afahafa", "abgagba", "aabfbaa", "aaaaaaa")
                     .aisle("aaaaaaa", "aabfbaa", "abgagba", "afahafa", "abgagba", "aabfbaa", "aaaaaaa")
                     .aisle("aaaaaaa", "abbfbba", "abgagba", "abahaba", "abgagba", "abbfbba", "aaaaaaa")
                     .aisle("aaaaaaa", "abbfbba", "abgagba", "afahafa", "abgagba", "abbfbba", "aaaaaaa")
@@ -606,58 +598,103 @@ public class ElectricMultiMachines {
             .recipeTypes(VoyagerRecipeTypes.FISH_NORMAL)
             .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, FishingPortMachine::recipeModifier)
             .pattern(def -> FactoryBlockPattern.start()
-                    .aisle("aaaaabbbbbaaaaa", "aaaaabbbbbaaaaa", "aaaaabbbbbaaaaa", "aaaaabbbbbaaaaa", "aaaaabbbbbaaaaa")
-                    .aisle("aaabbbbbbbbbaaa", "aaabbcdcdcbbaaa", "aaabbcccccbbaaa", "aaabbcccccbbaaa", "aaabbeeeeebbaaa")
-                    .aisle("aabbbbbbbbbbbaa", "aabcccdcdcccbaa", "aabcccccccccbaa", "aabcccccccccbaa", "aabeeaaaaaeebaa")
-                    .aisle("abbbbbbbbbbbbba", "abccccdcdccccba", "abcccccccccccba", "abcccccccccccba", "abeaaaaaaaaaeba")
-                    .aisle("abbbbbbbbbbbbba", "abccccdcdccccba", "abcccccccccccba", "abcccccccccccba", "abeaaaaaaaaaeba")
-                    .aisle("bbbbbbbbbbbbbbb", "bcccccdcdcccccb", "bcccccccccccccb", "bcccccccccccccb", "beaaaaaaaaaaaeb")
-                    .aisle("bbbbbbbbbbbbbbb", "bdddddddddddddb", "bcccccccccccccb", "bcccccccccccccb", "beaaaaaaaaaaaeb")
-                    .aisle("bbbbbbbbbbbbbbb", "bcccccdcdcccccb", "bcccccccccccccb", "bcccccccccccccb", "beaaaaaaaaaaaeb")
-                    .aisle("bbbbbbbbbbbbbbb", "bdddddddddddddb", "bcccccccccccccb", "bcccccccccccccb", "beaaaaaaaaaaaeb")
-                    .aisle("bbbbbbbbbbbbbbb", "bcccccdcdcccccb", "bcccccccccccccb", "bcccccccccccccb", "beaaaaaaaaaaaeb")
-                    .aisle("abbbbbbbbbbbbba", "abccccdcdccccba", "abcccccccccccba", "abcccccccccccba", "abeaaaaaaaaaeba")
-                    .aisle("abbbbbbbbbbbbba", "abccccdcdccccba", "abcccccccccccba", "abcccccccccccba", "abeaaaaaaaaaeba")
-                    .aisle("aabbbbbbbbbbbaa", "aabcccdcdcccbaa", "aabcccccccccbaa", "aabcccccccccbaa", "aabeeaaaaaeebaa")
-                    .aisle("aaabbbbbbbbbaaa", "aaabbcdcdcbbaaa", "aaabbcccccbbaaa", "aaabbcccccbbaaa", "aaabbeeeeebbaaa")
-                    .aisle("aaaaabbbbbaaaaa", "aaaaabbbbbaaaaa", "aaaaabbfbbaaaaa", "aaaaabbbbbaaaaa", "aaaaabbbbbaaaaa")
+                    .aisle("aaaaabbbbbaaaaa", "aaaaabbbbbaaaaa", "aaaaabbbbbaaaaa", "aaaaabbbbbaaaaa",
+                            "aaaaabbbbbaaaaa")
+                    .aisle("aaabbbbbbbbbaaa", "aaabbcdcdcbbaaa", "aaabbcccccbbaaa", "aaabbcccccbbaaa",
+                            "aaabbeeeeebbaaa")
+                    .aisle("aabbbbbbbbbbbaa", "aabcccdcdcccbaa", "aabcccccccccbaa", "aabcccccccccbaa",
+                            "aabeeaaaaaeebaa")
+                    .aisle("abbbbbbbbbbbbba", "abccccdcdccccba", "abcccccccccccba", "abcccccccccccba",
+                            "abeaaaaaaaaaeba")
+                    .aisle("abbbbbbbbbbbbba", "abccccdcdccccba", "abcccccccccccba", "abcccccccccccba",
+                            "abeaaaaaaaaaeba")
+                    .aisle("bbbbbbbbbbbbbbb", "bcccccdcdcccccb", "bcccccccccccccb", "bcccccccccccccb",
+                            "beaaaaaaaaaaaeb")
+                    .aisle("bbbbbbbbbbbbbbb", "bdddddddddddddb", "bcccccccccccccb", "bcccccccccccccb",
+                            "beaaaaaaaaaaaeb")
+                    .aisle("bbbbbbbbbbbbbbb", "bcccccdcdcccccb", "bcccccccccccccb", "bcccccccccccccb",
+                            "beaaaaaaaaaaaeb")
+                    .aisle("bbbbbbbbbbbbbbb", "bdddddddddddddb", "bcccccccccccccb", "bcccccccccccccb",
+                            "beaaaaaaaaaaaeb")
+                    .aisle("bbbbbbbbbbbbbbb", "bcccccdcdcccccb", "bcccccccccccccb", "bcccccccccccccb",
+                            "beaaaaaaaaaaaeb")
+                    .aisle("abbbbbbbbbbbbba", "abccccdcdccccba", "abcccccccccccba", "abcccccccccccba",
+                            "abeaaaaaaaaaeba")
+                    .aisle("abbbbbbbbbbbbba", "abccccdcdccccba", "abcccccccccccba", "abcccccccccccba",
+                            "abeaaaaaaaaaeba")
+                    .aisle("aabbbbbbbbbbbaa", "aabcccdcdcccbaa", "aabcccccccccbaa", "aabcccccccccbaa",
+                            "aabeeaaaaaeebaa")
+                    .aisle("aaabbbbbbbbbaaa", "aaabbcdcdcbbaaa", "aaabbcccccbbaaa", "aaabbcccccbbaaa",
+                            "aaabbeeeeebbaaa")
+                    .aisle("aaaaabbbbbaaaaa", "aaaaabbbbbaaaaa", "aaaaabbfbbaaaaa", "aaaaabbbbbaaaaa",
+                            "aaaaabbbbbaaaaa")
 
                     .where("a", Predicates.any())
                     .where("b", Predicates.blocks(CASING_AQUATIC.get())
                             .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1).setPreviewCount(1))
-                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(2).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2, 1)
+                                    .setPreviewCount(1))
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS))
                             .or(Predicates.abilities(PartAbility.EXPORT_ITEMS)))
                     .where("c", Predicates.fluids(Fluids.WATER))
-                    .where("d", new TraceabilityPredicate(
-                            blockWorldState -> {
-                                Block block = blockWorldState.getBlockState().getBlock();
-
-                                if (!VoyagerPartAbilities.PIPE_CASING.isApplicable(block)) {
-                                    return false;
-                                }
-
-                                Block current = blockWorldState.getMatchContext()
-                                        .getOrPut("pipe_casing", block);
-
-                                return current == block;
-                            },
-                            () -> VoyagerPartAbilities.PIPE_CASING.getAllBlocks().stream()
-                                    .map(block -> BlockInfo.fromBlockState(block.defaultBlockState()))
-                                    .toArray(BlockInfo[]::new)
-                    ))
+                    .where("d", VoyagerMultiblockUtils.pipeCasingTraceable())
                     .where("e", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
-                                    .get(TagPrefix.frameGt, GTMaterials.WatertightSteel)).get()))
+                            .get(TagPrefix.frameGt, GTMaterials.WatertightSteel)).get()))
                     .where("f", Predicates.controller(Predicates.blocks(def.get())))
 
                     .build())
             .workableCasingModel(VoyagerCore.id("block/casing/aquatic_casing"),
-                    GTCEu.id("block/machines/arc_furnace"))
+                    GTCEu.id("block/machines/chemical_bath"))
             .register();
 
-    
+    public static final MultiblockMachineDefinition FOREST_REGROWTH_CHAMBER = VOYAGERCORE_REGISTRATE
+            .multiblock("forest_regrowth_chamber", ForestRegrowthChamberMachine::new)
+            .rotationState(RotationState.ALL)
+            .appearanceBlock(CASING_WOODLAND)
+            .recipeTypes(VoyagerRecipeTypes.FOREST_REGROWTH_CHAMBER)
+            .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT_SUBTICK, ForestRegrowthChamberMachine::recipeModifier)
+            .pattern(def -> FactoryBlockPattern.start()
+                    .aisle("aaabaaabaaa", "aaabaaabaaa", "aaabaaabaaa", "dddbdddbddd", "dddbdddbddd", "dddbdddbddd",
+                            "dddbdddbddd", "dddbdddbddd")
+                    .aisle("aaabaaabaaa", "aeeeeeeeeea", "afabafabafa", "dbdbdbdbdbd", "dbdbdbdbdbd", "dbdbdbdbdbd",
+                            "dbdbdbdbdbd", "dddbdddbddd")
+                    .aisle("aaabaaabaaa", "aeabaeabaea", "aaabaaabaaa", "dddbdddbddd", "dddbdddbddd", "dddbdddbddd",
+                            "dddbdddbddd", "dddbdddbddd")
+                    .aisle("bbbbbbbbbbb", "bebbbebbbeb", "bbbbbbbbbbb", "bbbbbbbbbbb", "bbbbbbbbbbb", "bbbbbbbbbbb",
+                            "bbbbbbbbbbb", "bbbbbbbbbbb")
+                    .aisle("aaabaaabaaa", "aeabaeabaea", "aaabaaabaaa", "dddbdddbddd", "dddbdddbddd", "dddbdddbddd",
+                            "dddbdddbddd", "dddbdddbddd")
+                    .aisle("aaabaaabaaa", "aeeeeeeeeea", "afabafabafa", "dbdbdbdbdbd", "dbdbdbdbdbd", "dbdbdbdbdbd",
+                            "dbdbdbdbdbd", "dddbdddbddd")
+                    .aisle("aaabaaabaaa", "aeabaeabaea", "aaabaaabaaa", "dddbdddbddd", "dddbdddbddd", "dddbdddbddd",
+                            "dddbdddbddd", "dddbdddbddd")
+                    .aisle("bbbbbbbbbbb", "bebbbebbbeb", "bbbbbbbbbbb", "bbbbbbbbbbb", "bbbbbbbbbbb", "bbbbbbbbbbb",
+                            "bbbbbbbbbbb", "bbbbbbbbbbb")
+                    .aisle("aaabaaabaaa", "aeabaeabaea", "aaabaaabaaa", "dddbdddbddd", "dddbdddbddd", "dddbdddbddd",
+                            "dddbdddbddd", "dddbdddbddd")
+                    .aisle("aaabaaabaaa", "aeeeeeeeeea", "afabafabafa", "dbdbdbdbdbd", "dbdbdbdbdbd", "dbdbdbdbdbd",
+                            "dbdbdbdbdbd", "dddbdddbddd")
+                    .aisle("aaabaaabaaa", "aaabacabaaa", "aaabaaabaaa", "dddbdddbddd", "dddbdddbddd", "dddbdddbddd",
+                            "dddbdddbddd", "dddbdddbddd")
 
-    public static void init() {
+                    .where("a", Predicates.blocks(CASING_WOODLAND.get())
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2, 1)
+                                    .setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(4, 1))
+                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(4, 1))
+                            .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(4, 1))
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(4, 1)))
+                    .where("b", Predicates.any())
+                    .where("c", Predicates.controller(Predicates.blocks(def.get())))
+                    .where("d", Predicates.blocks(CASING_LAMINATED_GLASS.get()))
+                    .where("e", VoyagerMultiblockUtils.pipeCasingTraceable())
+                    .where("f", Predicates.blocks(Blocks.DIRT))
 
-    }
+                    .build())
+            .workableCasingModel(VoyagerCore.id("block/casing/woodland_casing"),
+                    GTCEu.id("block/machines/cutter"))
+            .register();
+
+    public static void init() {}
 }

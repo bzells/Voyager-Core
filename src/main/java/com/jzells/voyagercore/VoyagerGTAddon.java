@@ -4,8 +4,6 @@ import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 
-
-import com.jzells.voyagercore.common.data.VoyagerPartAbilityRegistry;
 import net.minecraft.data.recipes.FinishedRecipe;
 
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
@@ -25,7 +23,7 @@ public class VoyagerGTAddon implements IGTAddon {
 
     @Override
     public void initializeAddon() {
-//        VoyagerPartAbilityRegistry.register();
+        // VoyagerPartAbilityRegistry.register();
     }
 
     @Override
@@ -46,7 +44,6 @@ public class VoyagerGTAddon implements IGTAddon {
 
     @Override
     public void registerElements() {
-
         // CustomElements.init();
     }
 

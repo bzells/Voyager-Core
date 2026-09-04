@@ -11,14 +11,10 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "voyagercore:block/casing/aquatic_casing",
-          "overlay_back": "gtceu:block/machines/arc_furnace/overlay_back",
-          "overlay_back_emissive": "gtceu:block/machines/arc_furnace/overlay_back_emissive",
-          "overlay_bottom": "gtceu:block/machines/arc_furnace/overlay_bottom",
-          "overlay_bottom_emissive": "gtceu:block/machines/arc_furnace/overlay_bottom_emissive",
-          "overlay_front": "gtceu:block/machines/arc_furnace/overlay_front",
-          "overlay_front_emissive": "gtceu:block/machines/arc_furnace/overlay_front_emissive",
-          "overlay_side": "gtceu:block/machines/arc_furnace/overlay_side",
-          "overlay_side_emissive": "gtceu:block/machines/arc_furnace/overlay_side_emissive"
+          "overlay_front": "gtceu:block/machines/chemical_bath/overlay_front",
+          "overlay_front_emissive": "gtceu:block/machines/chemical_bath/overlay_front_emissive",
+          "overlay_side": "gtceu:block/machines/chemical_bath/overlay_side",
+          "overlay_side_emissive": "gtceu:block/machines/chemical_bath/overlay_side_emissive"
         }
       }
     },
@@ -27,14 +23,10 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "voyagercore:block/casing/aquatic_casing",
-          "overlay_back": "gtceu:block/machines/arc_furnace/overlay_back",
-          "overlay_back_emissive": "gtceu:block/machines/arc_furnace/overlay_back_emissive",
-          "overlay_bottom": "gtceu:block/machines/arc_furnace/overlay_bottom",
-          "overlay_bottom_emissive": "gtceu:block/machines/arc_furnace/overlay_bottom_emissive",
-          "overlay_front": "gtceu:block/machines/arc_furnace/overlay_front",
-          "overlay_front_emissive": "gtceu:block/machines/arc_furnace/overlay_front_emissive",
-          "overlay_side": "gtceu:block/machines/arc_furnace/overlay_side",
-          "overlay_side_emissive": "gtceu:block/machines/arc_furnace/overlay_side_emissive"
+          "overlay_front": "gtceu:block/machines/chemical_bath/overlay_front",
+          "overlay_front_emissive": "gtceu:block/machines/chemical_bath/overlay_front_emissive",
+          "overlay_side": "gtceu:block/machines/chemical_bath/overlay_side",
+          "overlay_side_emissive": "gtceu:block/machines/chemical_bath/overlay_side_emissive"
         }
       }
     },
@@ -43,14 +35,10 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "voyagercore:block/casing/aquatic_casing",
-          "overlay_back": "gtceu:block/machines/arc_furnace/overlay_back_active",
-          "overlay_back_emissive": "gtceu:block/machines/arc_furnace/overlay_back_active_emissive",
-          "overlay_bottom": "gtceu:block/machines/arc_furnace/overlay_bottom_active",
-          "overlay_bottom_emissive": "gtceu:block/machines/arc_furnace/overlay_bottom_active_emissive",
-          "overlay_front": "gtceu:block/machines/arc_furnace/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/machines/arc_furnace/overlay_front_active_emissive",
-          "overlay_side": "gtceu:block/machines/arc_furnace/overlay_side_active",
-          "overlay_side_emissive": "gtceu:block/machines/arc_furnace/overlay_side_active_emissive"
+          "overlay_front": "gtceu:block/machines/chemical_bath/overlay_front_active",
+          "overlay_front_emissive": "gtceu:block/machines/chemical_bath/overlay_front_active_emissive",
+          "overlay_side": "gtceu:block/machines/chemical_bath/overlay_side_active",
+          "overlay_side_emissive": "gtceu:block/machines/chemical_bath/overlay_side_active_emissive"
         }
       }
     },
@@ -59,14 +47,10 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "voyagercore:block/casing/aquatic_casing",
-          "overlay_back": "gtceu:block/machines/arc_furnace/overlay_back_active",
-          "overlay_back_emissive": "gtceu:block/machines/arc_furnace/overlay_back_active_emissive",
-          "overlay_bottom": "gtceu:block/machines/arc_furnace/overlay_bottom_active",
-          "overlay_bottom_emissive": "gtceu:block/machines/arc_furnace/overlay_bottom_active_emissive",
-          "overlay_front": "gtceu:block/machines/arc_furnace/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/machines/arc_furnace/overlay_front_active_emissive",
-          "overlay_side": "gtceu:block/machines/arc_furnace/overlay_side_active",
-          "overlay_side_emissive": "gtceu:block/machines/arc_furnace/overlay_side_active_emissive"
+          "overlay_front": "gtceu:block/machines/chemical_bath/overlay_front_active",
+          "overlay_front_emissive": "gtceu:block/machines/chemical_bath/overlay_front_active_emissive",
+          "overlay_side": "gtceu:block/machines/chemical_bath/overlay_side_active",
+          "overlay_side_emissive": "gtceu:block/machines/chemical_bath/overlay_side_active_emissive"
         }
       }
     },
@@ -75,14 +59,10 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "voyagercore:block/casing/aquatic_casing",
-          "overlay_back": "gtceu:block/machines/arc_furnace/overlay_back",
-          "overlay_back_emissive": "gtceu:block/machines/arc_furnace/overlay_back_emissive",
-          "overlay_bottom": "gtceu:block/machines/arc_furnace/overlay_bottom",
-          "overlay_bottom_emissive": "gtceu:block/machines/arc_furnace/overlay_bottom_emissive",
-          "overlay_front": "gtceu:block/machines/arc_furnace/overlay_front",
-          "overlay_front_emissive": "gtceu:block/machines/arc_furnace/overlay_front_emissive",
-          "overlay_side": "gtceu:block/machines/arc_furnace/overlay_side",
-          "overlay_side_emissive": "gtceu:block/machines/arc_furnace/overlay_side_emissive"
+          "overlay_front": "gtceu:block/machines/chemical_bath/overlay_front",
+          "overlay_front_emissive": "gtceu:block/machines/chemical_bath/overlay_front_emissive",
+          "overlay_side": "gtceu:block/machines/chemical_bath/overlay_side",
+          "overlay_side_emissive": "gtceu:block/machines/chemical_bath/overlay_side_emissive"
         }
       }
     },
@@ -91,14 +71,10 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "voyagercore:block/casing/aquatic_casing",
-          "overlay_back": "gtceu:block/machines/arc_furnace/overlay_back",
-          "overlay_back_emissive": "gtceu:block/machines/arc_furnace/overlay_back_emissive",
-          "overlay_bottom": "gtceu:block/machines/arc_furnace/overlay_bottom",
-          "overlay_bottom_emissive": "gtceu:block/machines/arc_furnace/overlay_bottom_emissive",
-          "overlay_front": "gtceu:block/machines/arc_furnace/overlay_front",
-          "overlay_front_emissive": "gtceu:block/machines/arc_furnace/overlay_front_emissive",
-          "overlay_side": "gtceu:block/machines/arc_furnace/overlay_side",
-          "overlay_side_emissive": "gtceu:block/machines/arc_furnace/overlay_side_emissive"
+          "overlay_front": "gtceu:block/machines/chemical_bath/overlay_front",
+          "overlay_front_emissive": "gtceu:block/machines/chemical_bath/overlay_front_emissive",
+          "overlay_side": "gtceu:block/machines/chemical_bath/overlay_side",
+          "overlay_side_emissive": "gtceu:block/machines/chemical_bath/overlay_side_emissive"
         }
       }
     },
@@ -107,14 +83,10 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "voyagercore:block/casing/aquatic_casing",
-          "overlay_back": "gtceu:block/machines/arc_furnace/overlay_back_active",
-          "overlay_back_emissive": "gtceu:block/machines/arc_furnace/overlay_back_active_emissive",
-          "overlay_bottom": "gtceu:block/machines/arc_furnace/overlay_bottom_active",
-          "overlay_bottom_emissive": "gtceu:block/machines/arc_furnace/overlay_bottom_active_emissive",
-          "overlay_front": "gtceu:block/machines/arc_furnace/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/machines/arc_furnace/overlay_front_active_emissive",
-          "overlay_side": "gtceu:block/machines/arc_furnace/overlay_side_active",
-          "overlay_side_emissive": "gtceu:block/machines/arc_furnace/overlay_side_active_emissive"
+          "overlay_front": "gtceu:block/machines/chemical_bath/overlay_front_active",
+          "overlay_front_emissive": "gtceu:block/machines/chemical_bath/overlay_front_active_emissive",
+          "overlay_side": "gtceu:block/machines/chemical_bath/overlay_side_active",
+          "overlay_side_emissive": "gtceu:block/machines/chemical_bath/overlay_side_active_emissive"
         }
       }
     },
@@ -123,14 +95,10 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "voyagercore:block/casing/aquatic_casing",
-          "overlay_back": "gtceu:block/machines/arc_furnace/overlay_back_active",
-          "overlay_back_emissive": "gtceu:block/machines/arc_furnace/overlay_back_active_emissive",
-          "overlay_bottom": "gtceu:block/machines/arc_furnace/overlay_bottom_active",
-          "overlay_bottom_emissive": "gtceu:block/machines/arc_furnace/overlay_bottom_active_emissive",
-          "overlay_front": "gtceu:block/machines/arc_furnace/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/machines/arc_furnace/overlay_front_active_emissive",
-          "overlay_side": "gtceu:block/machines/arc_furnace/overlay_side_active",
-          "overlay_side_emissive": "gtceu:block/machines/arc_furnace/overlay_side_active_emissive"
+          "overlay_front": "gtceu:block/machines/chemical_bath/overlay_front_active",
+          "overlay_front_emissive": "gtceu:block/machines/chemical_bath/overlay_front_active_emissive",
+          "overlay_side": "gtceu:block/machines/chemical_bath/overlay_side_active",
+          "overlay_side_emissive": "gtceu:block/machines/chemical_bath/overlay_side_active_emissive"
         }
       }
     }
