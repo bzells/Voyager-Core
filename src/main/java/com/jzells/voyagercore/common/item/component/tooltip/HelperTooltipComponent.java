@@ -116,7 +116,7 @@ public class HelperTooltipComponent implements IAddInformation {
 
         if (remaining != 0)
             tooltipComponents.add(Component
-                    .literal((specialized ? "§7Remaining Specialization Slots: §a" : "§7Remaining Module Slots: §a") +
+                    .literal(("§7Remaining Module Slots: §a") +
                             remaining));
         tooltipComponents.add(Component.literal("§6Helper Stats:"));
 
@@ -195,7 +195,7 @@ public class HelperTooltipComponent implements IAddInformation {
         if (!isParamount) {
             if (remainingRecipes != 0) {
 
-                tooltipComponents.add(Component.literal("§7Remaining Recipe Slots: §a" + remainingRecipes));
+                tooltipComponents.add(Component.literal(specialized ? "§7Remaining Specialization Slots: §a" : "§7Remaining Recipe Slots: §a" + remainingRecipes));
             }
 
             tooltipComponents.add(Component.literal(specialized ? "§3Specialized In:" : "§6Compatible Recipes:"));

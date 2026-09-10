@@ -34,15 +34,26 @@ public class VoyagerVoltageTierUtils {
     }
 
     public static ModifierFunction getModifierFunctionWithParallels(GTRecipe recipe, int pars, float outputMod,
-                                                                    float eutMod, float speed) {
+                                                                    float eutMod, float speed, int availablePars) {
         float parMultiplier = getParallelMultiplierForSequentialRecipeModifier(recipe, pars);
 
+        if (availablePars >= parMultiplier)
+
+        {
+            return ModifierFunction.builder()
+                    .outputModifier(ContentModifier.multiplier(outputMod * parMultiplier))
+                    .inputModifier(ContentModifier.multiplier(parMultiplier))
+                    .eutMultiplier(eutMod)
+                    .durationMultiplier(speed)
+                    .parallels((int) Math.ceil(parMultiplier))
+                    .build();
+        }
         return ModifierFunction.builder()
-                .outputModifier(ContentModifier.multiplier(outputMod * parMultiplier))
-                .inputModifier(ContentModifier.multiplier(parMultiplier))
+                .outputModifier(ContentModifier.multiplier(outputMod * availablePars))
+                .inputModifier(ContentModifier.multiplier(availablePars))
                 .eutMultiplier(eutMod)
                 .durationMultiplier(speed)
-                .parallels((int) Math.ceil(parMultiplier))
+                .parallels((int) Math.ceil(availablePars))
                 .build();
     }
 
