@@ -37,36 +37,72 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
 
     public static final int MIN_DURABILITY_TO_WARN = 10; // Copy of psf from LTM, because it can be changed.
     private final long BASE_EU_OUTPUT;
+    private final double EFFICIENCY_BOOST;
     @Getter
     private final int tier;
+    @Getter
+    private List<IRotorHolderMachine> rotorHolders = new ArrayList<>();
 
     // protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
     // MultiTurbineMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
-    public MultiTurbineMachine(IMachineBlockEntity holder, int tier) {
-        super(holder);
-        this.tier = tier;
-        this.BASE_EU_OUTPUT = GTValues.V[tier] * 2;
+    public MultiTurbineMachine(IMachineBlockEntity holder, int tier){
+        this(holder, tier,1.5);
     }
 
-    private ArrayList<IRotorHolderMachine> getRotorHolders() {
-        var rotorHolders = new ArrayList<IRotorHolderMachine>(); //this might be fucking up garbage collection
+    /**
+     *
+     * @param holder Used in Builder
+     * @param tier Needs to be defined
+     * @param efficiency Base boost to efficiency, if omitted, defaults to 1.5
+     */
+    public MultiTurbineMachine(IMachineBlockEntity holder, int tier, double efficiency) {
+        super(holder);
+        this.tier = tier; //This is needed for IRotorHolderMachine, since the tier in WEMM is based on energyHatch
+        this.BASE_EU_OUTPUT = (long) (GTValues.VEX[tier] * 1.5);
+        this.EFFICIENCY_BOOST = efficiency;
+    }
+
+    @Override
+    public void onStructureFormed() {
+        super.onStructureFormed();
+        setRotorHolders();
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+        this.rotorHolders.clear();
+    }
+
+    @Override
+    public void onPartUnload() {
+        super.onPartUnload();
+        this.rotorHolders.clear();
+    }
+
+    private void setRotorHolders() {
+//        rotorHolders = new ArrayList<IRotorHolderMachine>();
+        rotorHolders.clear();
         for (IMultiPart part : getParts()) {
             if (part instanceof IRotorHolderMachine rotorHolder) {
                 rotorHolders.add(rotorHolder);
             }
         }
-        return rotorHolders;
+//        rotorHolders = list;
+    }
+
+    private int getEUBoost(){
+        return rotorHolders.stream().mapToInt(IRotorHolderMachine::getTotalPower).sum();
     }
 
     @Override
     public long getOverclockVoltage() {
-        var rotorHolders = getRotorHolders();
-        long total;
+//        var rotorHolders = getRotorHolders();
+        double total;
         if (rotorHolders.isEmpty()) return 0;
-        total = rotorHolders.stream().mapToInt(IRotorHolderMachine::getTotalPower).sum() /
-                (100 * (long) getRotorCount());
-        return total * BASE_EU_OUTPUT;
+        total =  getEUBoost() / (100.0 );//* getRotorCount());
+        return (long) (total * BASE_EU_OUTPUT);
     }
 
     // Shutup.
@@ -78,7 +114,7 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
     }
 
     protected double productionBoost() {
-        var rotorHolders = getRotorHolders();
+//        var rotorHolders = getRotorHolders();
         if (rotorHolders.isEmpty()) return 0;
         return rotorHolders.stream()
                 .filter(IRotorHolderMachine::hasRotor)
@@ -88,7 +124,7 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
     }
 
     public int getRotorCount() {
-        var rotorHolders = getRotorHolders();
+//        var rotorHolders = getRotorHolders();
         int count = 0;
         if (rotorHolders.isEmpty()) return 0;
         for (IRotorHolderMachine holder : rotorHolders) {
@@ -107,7 +143,7 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
      */
     @Override
     public int getRotorSpeed() {
-        var rotorHolders = getRotorHolders();
+//        var rotorHolders = getRotorHolders();
         int count = 0;
         if (rotorHolders.isEmpty()) return 0;
         for (IRotorHolderMachine holder : rotorHolders) {
@@ -121,9 +157,19 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
         return 0;
     }
 
+    /**
+     * Due to limitation/design choices in {@link IRotorHolderMachine}
+     * @return Percentage duration boost of recipe
+     */
     @Override
     public int getTotalEfficiency() {
-        return 0;
+        int eff = 0;
+        for (IRotorHolderMachine rholder : rotorHolders) {
+            int reff = rholder.getTotalEfficiency();
+            if (reff == -1 ) return -1;
+            eff += reff;
+        }
+        return (int) (eff * EFFICIENCY_BOOST);
     }
 
     @Override
@@ -147,9 +193,10 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
 
         EnergyStack EUt = recipe.getOutputEUt();
         long turbineMaxVoltage = turbineMachine.getOverclockVoltage();
-        double holderEfficiency = 1.5 * rotorHolders.stream()
-                .map(h -> (double) h.getTotalEfficiency())
-                .reduce(0.0, Double::sum) / (100 * Math.max(turbineMachine.getRotorCount(), 1));
+        double holderEfficiency = turbineMachine.getTotalEfficiency() / (100.0 * Math.max(turbineMachine.getRotorCount(),1));
+//        double holderEfficiency = 1.5 * rotorHolders.stream()
+//                .map(h -> (double) h.getTotalEfficiency())
+//                .reduce(0.0, Double::sum) / (100 * Math.max(turbineMachine.getRotorCount(), 1));
 //        VoyagerCore.LOGGER.info("Duration modifier: {}", holderEfficiency);
 
         if (EUt.isEmpty() || turbineMaxVoltage <= EUt.voltage() || holderEfficiency <= 0) return ModifierFunction.NULL;
@@ -186,21 +233,43 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
         if (isFormed()) {
-            var rotorHolders = getRotorHolders();
-            if (rotorHolders.isEmpty()) return;
-
+//            var rotorHolders = this.getRotorHolders();
+            if (rotorHolders == null || rotorHolders.isEmpty()) return;
             List<IRotorHolderMachine> filtered = rotorHolders.stream()
                     .filter(r -> r.getTotalEfficiency() > 0)
                     .toList();
 
             if (filtered.isEmpty()) return;
 
+            var efficiency = this.getTotalEfficiency() / Math.max(this.getRotorCount(), 1);
+
+
+            if (efficiency <= 0) {
+                textList.add( Component.literal("Missing Rotor!").withStyle(ChatFormatting.RED));
+                return;
+            }
+
+//            VoyagerCore.LOGGER.info("{}",GTValues.CLIENT_TIME);
+//            TextColor rainbow = TooltipHelper.rainbowColor(2.5f);
+//            VoyagerCore.LOGGER.info("{}",rainbow.getValue());
+            textList.add(Component.translatable("gtceu.multiblock.turbine.efficiency", efficiency));
+            textList.add(Component.literal("EU/t Boost: %s%%".formatted(getEUBoost()/ Math.max(this.getRotorCount(), 1))));//.withStyle(style -> {
+
+//                return style.withColor(rainbow.getValue() - 0xFF000000);
+//            }));
+
+//            UnaryOperator<Style> modifunc = style -> {
+//                int color = 161616;
+//                if (getLevel() != null) color = getLevel().random.nextInt();
+//                style.withColor(TextColor.parseColor());
+//            }
+
             for (IRotorHolderMachine rotorHolder : filtered) {
-                textList.add(Component.translatable("gtceu.multiblock.turbine.rotor_speed",
-                        FormattingUtil.formatNumbers(rotorHolder.getRotorSpeed()),
-                        FormattingUtil.formatNumbers(rotorHolder.getMaxRotorHolderSpeed())));
-                textList.add(Component.translatable("gtceu.multiblock.turbine.efficiency",
-                        rotorHolder.getTotalEfficiency()));
+//                textList.add(Component.translatable("gtceu.multiblock.turbine.rotor_speed",
+//                        FormattingUtil.formatNumbers(rotorHolder.getRotorSpeed()),
+//                        FormattingUtil.formatNumbers(rotorHolder.getMaxRotorHolderSpeed())));
+//                textList.add(Component.translatable("gtceu.multiblock.turbine.efficiency",
+//                        rotorHolder.getTotalEfficiency()));
 
                 int rotorDurability = rotorHolder.getRotorDurabilityPercent();
                 if (rotorDurability > MIN_DURABILITY_TO_WARN) {
