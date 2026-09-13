@@ -6,10 +6,14 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterialBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterialItems;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
+import net.minecraft.world.level.block.Block;
+
+import com.jzells.voyagercore.common.data.VoyagerBlocks;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 
@@ -30,15 +34,26 @@ public class VoyagerVoltageTierUtils {
     }
 
     public static ModifierFunction getModifierFunctionWithParallels(GTRecipe recipe, int pars, float outputMod,
-                                                                    float eutMod, float speed) {
+                                                                    float eutMod, float speed, int availablePars) {
         float parMultiplier = getParallelMultiplierForSequentialRecipeModifier(recipe, pars);
 
+        if (availablePars >= parMultiplier)
+
+        {
+            return ModifierFunction.builder()
+                    .outputModifier(ContentModifier.multiplier(outputMod * parMultiplier))
+                    .inputModifier(ContentModifier.multiplier(parMultiplier))
+                    .eutMultiplier(eutMod)
+                    .durationMultiplier(speed)
+                    .parallels((int) Math.ceil(parMultiplier))
+                    .build();
+        }
         return ModifierFunction.builder()
-                .outputModifier(ContentModifier.multiplier(outputMod * parMultiplier))
-                .inputModifier(ContentModifier.multiplier(parMultiplier))
+                .outputModifier(ContentModifier.multiplier(outputMod * availablePars))
+                .inputModifier(ContentModifier.multiplier(availablePars))
                 .eutMultiplier(eutMod)
                 .durationMultiplier(speed)
-                .parallels((int) Math.ceil(parMultiplier))
+                .parallels((int) Math.ceil(availablePars))
                 .build();
     }
 
@@ -217,5 +232,16 @@ public class VoyagerVoltageTierUtils {
             return p + (q - p) * (2.0 / 3.0 - t) * 6.0;
 
         return p;
+    }
+
+    public static int getPipeCasingTier(Block block) {
+        if (block == GTBlocks.CASING_BRONZE_PIPE.get()) return 0;
+        if (block == GTBlocks.CASING_STEEL_PIPE.get()) return 1;
+        if (block == VoyagerBlocks.ALUMINIUM_PIPE_CASING.get()) return 2;
+        if (block == GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()) return 3;
+        if (block == GTBlocks.CASING_TITANIUM_PIPE.get()) return 4;
+        if (block == GTBlocks.CASING_TUNGSTENSTEEL_PIPE.get()) return 5;
+
+        return 0;
     }
 }

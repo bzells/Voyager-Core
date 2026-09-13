@@ -70,10 +70,7 @@ public class VoyagerCore {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-            LOGGER.info("Hello from common setup! This is *after* registries are done, so we can do this:");
-            // LOGGER.info("Look, I found a {}!", Items.DIAMOND);
-        });
+        VoyagerPartAbilityRegistry.register();
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
@@ -141,7 +138,6 @@ public class VoyagerCore {
     private void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
         VoyagerMultiRegistry.init();
         VoyagerMachines.init();
-        // VoyagerPartAbilityRegistry.register();
     }
 
     /**
