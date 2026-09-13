@@ -16,6 +16,7 @@ import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
 import net.minecraftforge.fluids.FluidStack;
 
+import com.jzells.voyagercore.common.data.VoyagerMaterials;
 import com.jzells.voyagercore.common.machine.multiblock.part.HelperHolderPartMachine;
 import lombok.Getter;
 import lombok.val;
@@ -145,7 +146,8 @@ public class AdvancedHelperCalorieConverterType extends WorkableElectricMultiblo
                 if (calorieConverter.getHelperHolder().getHelperIsHull()) return ModifierFunction.NULL;
 
                 return ModifierFunction.builder()
-                        .eutMultiplier(calorieConverter.getEUtMultiplier() * calorieConverter.getHelperEUtMod())
+                        .eutMultiplier(calorieConverter.getEUtMultiplier() * calorieConverter.getHelperEUtMod() *
+                                calorieConverter.getHelperParallels())
                         .durationMultiplier(calorieConverter.getDurationModifier() * calorieConverter.getHelperEatMod())
                         .inputModifier(ContentModifier.multiplier(calorieConverter.getHelperParallels()))
                         .outputModifier(ContentModifier.multiplier(
@@ -184,7 +186,7 @@ public class AdvancedHelperCalorieConverterType extends WorkableElectricMultiblo
         WATER_STACK = GTMaterials.Water.getFluid(5000);
         DISTILLED_WATER_STACK = GTMaterials.DistilledWater.getFluid(1000);
         MILK_STACK = GTMaterials.Milk.getFluid(350);
-        BLUE_HELPERADE_STACK = GTMaterials.Ammonia.getFluid(50);
+        BLUE_HELPERADE_STACK = VoyagerMaterials.Helperade_BR.getFluid(50);
 
     }
 

@@ -5,11 +5,7 @@ repositories {
     mavenLocal()
     mavenCentral()
 
-    maven {
-        //Tinkers+Mantle
-        name 'DVS1 Maven FS'
-        url 'https://dvs1.progwml6.com/files/maven'
-    }
+
 
     maven {
         name = 'ModKit'
@@ -90,5 +86,11 @@ repositories {
     maven {
         url = "https://api.modrinth.com/maven"
     }
+
+//    maven {
+//        //Tinkers+Mantle
+//        name 'DVS1 Maven FS'
+//        url 'https://dvs1.progwml6.com/files/maven'
+//    }
 
 }

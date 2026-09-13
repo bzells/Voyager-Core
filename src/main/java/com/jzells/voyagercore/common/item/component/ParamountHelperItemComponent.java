@@ -99,7 +99,7 @@ public class ParamountHelperItemComponent extends HelperItemComponent {
         return getData().getInt("max_module_count");
     }
 
-    public void levelHelper(float recipeTime, int recipeTier) {
+    public void levelHelper(float recipeTime, int recipeTier, int pars) {
         CompoundTag tag = getData();
 
         long currentXP = tag.getLong("current_xp");
@@ -108,7 +108,7 @@ public class ParamountHelperItemComponent extends HelperItemComponent {
         int maxModuleCount = tag.getInt("max_module_count");
         int tier = tag.getInt("tier");
 
-        currentXP += VoyagerConstants.PARAMOUNT_XP_FORMULA(recipeTime, recipeTier);
+        currentXP += VoyagerConstants.PARAMOUNT_XP_FORMULA(recipeTime, recipeTier, pars);
 
         while (currentXP >= levelUpXP) {
             currentXP -= levelUpXP;

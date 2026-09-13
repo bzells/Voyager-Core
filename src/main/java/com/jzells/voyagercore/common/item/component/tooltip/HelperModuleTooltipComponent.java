@@ -35,7 +35,7 @@ public class HelperModuleTooltipComponent implements IAddInformation {
                     if (helperModuleItemComponent instanceof EnergyHelperModuleItemModifierComponent e) {
                         addTooltip("§7EUt Boost: ", e.getEUTMOD(), tooltipComponents, false);
                         addTooltipReverse("§7Hunger: ", e.getEAT_MOD(), tooltipComponents, true);
-                        addTooltip("§7Output Modifier: ", e.getOUTPUT_MOD(), tooltipComponents, false);
+                        addTooltip("§7Output Modifier: ", e.getOUTPUT(), tooltipComponents, false);
                     }
                     if (helperModuleItemComponent instanceof HelperRecipeModuleItemComponent recipeModule) {
                         // good lord i love Java

@@ -22,7 +22,9 @@ public class VoyagerGTAddon implements IGTAddon {
     }
 
     @Override
-    public void initializeAddon() {}
+    public void initializeAddon() {
+        // VoyagerPartAbilityRegistry.register();
+    }
 
     @Override
     public String addonModId() {
