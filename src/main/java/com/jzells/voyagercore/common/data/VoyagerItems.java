@@ -116,6 +116,10 @@ public class VoyagerItems {
                 GTValues.MV, "ebf_helper_recipe_module", "Recipe Helper Module", "gtceu:electric_blast_furnace", false,
                 1);
 
+        final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_MIXER = createHelperRecipeModule(
+                GTValues.EV, "mixer_helper_recipe_module", "Recipe Helper Module", "gtceu:mixer", false,
+                1);
+
         final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_HELPER_WHEEL = createHelperRecipeModule(
                 GTValues.HV, "helper_wheel_recipe_module", "Recipe Helper Module", "gtceu:large_helper_wheel", false,
                 1);

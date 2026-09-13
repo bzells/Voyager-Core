@@ -53,7 +53,7 @@ public class VoyagerVoltageTierUtils {
                 .inputModifier(ContentModifier.multiplier(availablePars))
                 .eutMultiplier(eutMod)
                 .durationMultiplier(speed)
-                .parallels((int) Math.ceil(availablePars))
+                .parallels((int) (double) availablePars)
                 .build();
     }
 

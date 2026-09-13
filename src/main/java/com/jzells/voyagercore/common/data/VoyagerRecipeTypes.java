@@ -33,6 +33,11 @@ public class VoyagerRecipeTypes {
             GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT, GuiTextures.BOXED_OVERLAY,
             GTSoundEntries.BATH);
 
+    public static final GTRecipeType HOMESTEAD_GARDEN = voyagerRecipeType("homestead_garden",
+            GTRecipeTypes.MULTIBLOCK, IO.OUT, 1, 3, 1, 0,
+            GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT, GuiTextures.BOXED_OVERLAY,
+            GTSoundEntries.CUT);
+
     public static final GTRecipeType FOREST_REGROWTH_CHAMBER = voyagerRecipeType("forest_regrowth_chamber",
             GTRecipeTypes.MULTIBLOCK, IO.OUT, 3, 9, 2, 2,
             GuiTextures.PROGRESS_BAR_EXTRACT, ProgressTexture.FillDirection.LEFT_TO_RIGHT, GuiTextures.BOXED_OVERLAY,

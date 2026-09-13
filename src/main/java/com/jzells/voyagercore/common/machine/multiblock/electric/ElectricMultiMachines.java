@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
@@ -693,6 +694,34 @@ public class ElectricMultiMachines {
 
                     .build())
             .workableCasingModel(VoyagerCore.id("block/casing/woodland_casing"),
+                    GTCEu.id("block/machines/cutter"))
+            .register();
+
+    public static final MultiblockMachineDefinition HOMESTEAD_GARDEN = VOYAGERCORE_REGISTRATE
+            .multiblock("homestead_garden", WorkableElectricMultiblockMachine::new)
+            .rotationState(RotationState.ALL)
+            .recipeTypes(VoyagerRecipeTypes.HOMESTEAD_GARDEN)
+            .appearanceBlock(() -> Blocks.SPRUCE_PLANKS)
+            .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, VoyagerCoreRecipeModifiers.HELPER_COMPATABILITY)
+            .pattern(def -> FactoryBlockPattern.start()
+                    .aisle("aaaaa", "aafaa", "cbbbc")
+                    .aisle("addda", "aeeea", "ccccc")
+                    .aisle("addda", "beeeb", "ccccc")
+                    .aisle("abbba", "ccccc", "ccccc")
+
+                    .where("a", Predicates.blocks(Blocks.SPRUCE_PLANKS))
+                    .where("b", Predicates.blocks(Blocks.SPRUCE_SLAB)
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setExactLimit(1).setPreviewCount(1))
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS))
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS))
+                            .or(Predicates.abilities(VoyagerPartAbilities.HELPER_HOLDER).setMaxGlobalLimited(1, 1)))
+                    .where("c", Predicates.any())
+                    .where("d", Predicates.blocks(Blocks.COARSE_DIRT))
+                    .where("e", Predicates.blocks(Blocks.FLOWER_POT))
+                    .where("f", Predicates.controller(Predicates.blocks(def.get())))
+                    .build())
+            .workableCasingModel(ResourceLocation.withDefaultNamespace("block/spruce_planks"),
                     GTCEu.id("block/machines/cutter"))
             .register();
 
