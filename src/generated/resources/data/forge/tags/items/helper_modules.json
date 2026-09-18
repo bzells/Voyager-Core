@@ -47,6 +47,7 @@
     "voyagercore:ev_plat_line_helper_recipe_module",
     "voyagercore:ev_desh_line_helper_recipe_module",
     "voyagercore:ev_petrochem_helper_recipe_module",
+    "voyagercore:ev_chemist_helper_recipe_module",
     "voyagercore:heart_grandma_helper_module_1",
     "voyagercore:xp_grandma_helper_module_1",
     "voyagercore:baking_sheet_grandma_helper_module_1",

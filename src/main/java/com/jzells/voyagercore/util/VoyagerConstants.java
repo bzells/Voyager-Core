@@ -9,19 +9,20 @@ public class VoyagerConstants {
     public static float MIN_HELPER_EUT = 0.01f;
 
     public static float PARAMOUNT_HELPER_LEVEL_UP_XP_MULTIPLIER(int level) {
-        if (level < 12) {
+        if (level < 10) {
             return 4f;
         }
-        if (level < 14) {
-            return 3f;
+        if (level < 12) {
+            return 1.5f;
         }
         if (level < 16) {
-            return 2f;
+            return 1.25f;
         }
         return 1.05f;
     }
 
-    public static long PARAMOUNT_XP_FORMULA(float recipeTime, int recipeTier) {
-        return (long) ((Math.pow(recipeTime, 1.8) * Math.pow(recipeTier, 1.2)) / 3200) + (recipeTier);
+    public static long PARAMOUNT_XP_FORMULA(float recipeTime, int recipeTier, int pars) {
+        return (long) ((((Math.pow(recipeTime, 1.8) * Math.pow(recipeTier, 1.2)) / 3200) + (recipeTier)) *
+                (1 + pars / 3.0));
     }
 }

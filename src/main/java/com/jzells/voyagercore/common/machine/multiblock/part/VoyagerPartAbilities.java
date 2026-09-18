@@ -17,6 +17,8 @@ public final class VoyagerPartAbilities {
     public static final PartAbility HELPER_HOLDER = new PartAbility("helper_holder");
     public static final PartAbility PRECISE_ROBOT_ARM = new PartAbility("precise_robot_arm");
 
+    public static final PartAbility PIPE_CASING = new PartAbility("pipe_casing");
+
     private static final Map<Block, Integer> CRUSHING_WHEEL_TIERS = new HashMap<>();
 
     private static final Map<Block, Integer> BEAM_LENSES = new HashMap<>();
@@ -34,6 +36,16 @@ public final class VoyagerPartAbilities {
     public static int getCrushingWheelTier(Block block) {
         return CRUSHING_WHEEL_TIERS.getOrDefault(block, 0);
     }
+
+    // where the fuck does this go GT docs?????????????
+    // public static void register()
+    // {
+    // registerPipeCasing(GTValues.LV, GTBlocks.CASING_STEEL_PIPE);
+    // registerPipeCasing(GTValues.MV, VoyagerBlocks.ALUMINIUM_PIPE_CASING);
+    // registerPipeCasing(GTValues.HV, GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE);
+    // registerPipeCasing(GTValues.EV, GTBlocks.CASING_TITANIUM_PIPE);
+    // registerPipeCasing(GTValues.IV, GTBlocks.CASING_TUNGSTENSTEEL_PIPE);
+    // }
 
     private VoyagerPartAbilities() {}
 }

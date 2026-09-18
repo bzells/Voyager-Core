@@ -37,8 +37,6 @@ public class HelperAssemblerRecipeLogic implements GTRecipeType.ICustomRecipeLog
         ItemStack helperItem = ItemStack.EMPTY;
         ItemStack moduleItem = ItemStack.EMPTY;
 
-        String data = null;
-
         HelperItemComponent helperItemComponent = null;
         HelperModuleItemComponent helperModuleItemComponent = null;
 
@@ -98,9 +96,6 @@ public class HelperAssemblerRecipeLogic implements GTRecipeType.ICustomRecipeLog
             }
 
             helperModuleItemComponent.apply(outputHelper);
-
-            helperItem.setCount(1);
-            moduleItem.setCount(1);
 
             CompoundTag modifiers = outputHelper.getOrCreateTagElement("modifiers");
 

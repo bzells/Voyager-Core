@@ -116,6 +116,10 @@ public class VoyagerItems {
                 GTValues.MV, "ebf_helper_recipe_module", "Recipe Helper Module", "gtceu:electric_blast_furnace", false,
                 1);
 
+        final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_MIXER = createHelperRecipeModule(
+                GTValues.EV, "mixer_helper_recipe_module", "Recipe Helper Module", "gtceu:mixer", false,
+                1);
+
         final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_HELPER_WHEEL = createHelperRecipeModule(
                 GTValues.HV, "helper_wheel_recipe_module", "Recipe Helper Module", "gtceu:large_helper_wheel", false,
                 1);
@@ -148,11 +152,15 @@ public class VoyagerItems {
                 GTValues.HV, "smd_assembler_helper_recipe_module", "Recipe Helper Module", "smd_assembly", true,
                 1);
         final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_PLAT_LINE = createHelperRecipeModule(
-                GTValues.EV, "plat_line_helper_recipe_module", "Recipe Helper Module", "plat_line", true, 1);
+                GTValues.EV, "plat_line_helper_recipe_module", "Specialized Helper Module", "plat_line", true, 1);
         final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_DESH_LINE = createHelperRecipeModule(
-                GTValues.EV, "desh_line_helper_recipe_module", "Recipe Helper Module", "desh_line", true, 1);
+                GTValues.EV, "desh_line_helper_recipe_module", "Specialized Helper Module", "desh_line", true, 1);
         final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_PETROCHEM = createHelperRecipeModule(
-                GTValues.EV, "petrochem_helper_recipe_module", "Recipe Helper Module", "petrochem", true, 1);
+                GTValues.EV, "petrochem_helper_recipe_module", "Specialized Helper Module", "petrochem", true, 1);
+
+        final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_CHEMIST = createHelperRecipeModule(
+                GTValues.EV, "chemist_helper_recipe_module", "Specialized Helper Module", "chemist", true,
+                1);
 
         String grandmaName = "§eGrandma Helper";
 
@@ -233,6 +241,12 @@ public class VoyagerItems {
                 1, 3, "hungry", 3);
 
     }
+    public static final ItemEntry<FishNetComponentItem> FISH_NET_STRING = createFishNetItem("fish_net",
+            "String Fish Net", 1, 1);
+    public static final ItemEntry<FishNetComponentItem> FISH_NET_FIBER = createFishNetItem("fiber_fish_net",
+            "Fiber Fish Net", 3, 8);
+    public static final ItemEntry<FishNetComponentItem> FISH_NET_PBI = createFishNetItem("pbi_fish_net",
+            "PBI Plastic Fish Net", 5, 64);
 
     private static void createHelperModifierModule(String id, String lang,
                                                    int tier, int pars,
@@ -479,6 +493,14 @@ public class VoyagerItems {
         PARAMOUNT_HULL_TO_HELPER.put(paramountData, helper);
 
         return helper;
+    }
+
+    private static ItemEntry<FishNetComponentItem> createFishNetItem(String name, String lang, int tier, int pars) {
+        return VOYAGERCORE_REGISTRATE.item(name, FishNetComponentItem::new)
+                .lang(lang)
+                .onRegister(i -> i.attachComponents(
+                        new FishNetItemComponent(tier, pars)))
+                .register();
     }
 
     public static void init() {}

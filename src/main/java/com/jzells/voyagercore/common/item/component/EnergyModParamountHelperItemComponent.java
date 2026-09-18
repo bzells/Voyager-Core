@@ -44,14 +44,14 @@ public class EnergyModParamountHelperItemComponent extends ParamountHelperItemCo
     }
 
     @Override
-    public void levelHelper(float recipeTime, int recipeTier) {
+    public void levelHelper(float recipeTime, int recipeTier, int pars) {
         CompoundTag tag = getData();
 
         long currentXP = tag.getLong("current_xp");
         long levelUpXP = tag.getLong("level_up_xp");
         int level = tag.getInt("level");
         int maxModuleCount = tag.getInt("max_module_count");
-        currentXP += VoyagerConstants.PARAMOUNT_XP_FORMULA(recipeTime, recipeTier);
+        currentXP += VoyagerConstants.PARAMOUNT_XP_FORMULA(recipeTime, recipeTier, pars);
 
         while (currentXP >= levelUpXP) {
             currentXP -= levelUpXP;
