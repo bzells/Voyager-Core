@@ -6,9 +6,11 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import com.jzells.voyagercore.common.block.ReflectorBlock;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GlassBlock;
@@ -19,6 +21,7 @@ import com.jzells.voyagercore.VoyagerCore;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.client.model.generators.loaders.ObjModelBuilder;
 import net.minecraftforge.client.model.obj.ObjModel;
@@ -89,6 +92,7 @@ public class VoyagerBlocks {
 
     public static final BlockEntry<Block> CASING_LEAD = createCasingBlock(
             "radiation_proof_lead_casing", VoyagerCore.id("block/casing/radiation_proof_lead_casing"));
+
     public static final BlockEntry<ReflectorBlock> REFLECTOR_STANDARD = VOYAGERCORE_REGISTRATE
             .block("reflector",ReflectorBlock::new)
             .initialProperties(()->Blocks.IRON_BLOCK)
@@ -103,11 +107,14 @@ public class VoyagerBlocks {
                         .end()
                         .texture("reflector", VoyagerCore.id("block/reflector"));
 
-
-                prov.simpleBlock(ctx.getEntry(), model);
-
+                prov.getVariantBuilder(ctx.getEntry()).forAllStates(state ->{
+                    Direction dir = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+                    return ConfiguredModel.builder()
+                            .modelFile(model)
+                            .rotationY(dir.getAxis().isVertical() ? 0 : ((int) dir.toYRot() %360))
+                            .build();
+                });
             })
-//            .exBlockstate(GTModels.cubeAllModel(VoyagerCore.id("block/cooling_lamp")))
             .item(BlockItem::new)
             .build()
             .register();

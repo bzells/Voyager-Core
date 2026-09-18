@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
+import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.util.debug.DebugVector;
 import com.jzells.voyagercore.util.debug.DebugVectors;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
@@ -76,11 +77,11 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
+        Direction dir = holder.getMetaMachine().getFrontFacing();
+        centerVec3 = holder.getCurrentPos().getCenter().relative(dir.getOpposite(), 1);
         thermalSolarSet.add(this);
         updateReflectorCount();
         restoreCache();
-        Direction dir = holder.getMetaMachine().getFrontFacing();
-        centerVec3 = holder.getCurrentPos().getCenter().relative(dir.getOpposite(),1);
         //There's a weird bug that maybe exists
         //apparently a dummy machine gets loaded before the world loads
         //and the position is logged in this code...
@@ -110,15 +111,15 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
         Vec3 mpos = getCenterVec3();
         Vec3 tpos = pos.getCenter().relative(Direction.UP,0.4);
         Vec3 nvec = mpos.vectorTo(tpos).normalize();
-        Vec3 gap = nvec.scale(4);
+        Vec3 gap = nvec.scale(3);
         Vec3 tvec = mpos.add(gap);
         ClipContext bc = new ClipContext(tvec, tpos, ClipContext.Block.VISUAL, ClipContext.Fluid.NONE, null);
         BlockHitResult result = getLevel().clip(bc);
 
 
         boolean hit = result.getBlockPos().equals(pos);
-        DebugVectors.VECTORS.put(String.valueOf(pos.hashCode()), new DebugVector(tvec, result.getLocation(), hit ? Color.GREEN : Color.RED, true));
-        DebugVectors.VECTORS.put(pos.hashCode() + "target", new DebugVector(result.getLocation(), tpos, Color.GRAY, false));
+//        DebugVectors.VECTORS.put(String.valueOf(pos.hashCode()), new DebugVector(tvec, result.getLocation(), hit ? Color.GREEN : Color.RED, true));
+//        DebugVectors.VECTORS.put(pos.hashCode() + "target", new DebugVector(result.getLocation(), tpos, Color.GRAY, false));
 
         return hit;
     }
@@ -189,6 +190,9 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
         super.onStructureInvalid();
         thermalSolarSet.remove(this);
         reflectorCount = 0;
+        centerVec3 = null;
+        reflectorPositions = null;
+        blockCache = null;
     }
 
     @Override

@@ -1,20 +1,17 @@
 package com.jzells.voyagercore.util.debug;
 
-import com.jzells.voyagercore.VoyagerCore;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import org.joml.Matrix4f;
 
 import java.awt.*;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Mod.EventBusSubscriber(modid = VoyagerCore.MOD_ID)
 public class DebugVectors {
 
     public static final Map<String, DebugVector> VECTORS = new ConcurrentHashMap<>();
