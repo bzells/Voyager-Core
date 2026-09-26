@@ -94,6 +94,11 @@ public class VoyagerBlocks {
     public static final BlockEntry<Block> CASING_WOODLAND = createCasingBlock(
             "woodland_casing", VoyagerCore.id("block/casing/woodland_casing"));
 
+    public static final BlockEntry<Block> SUPER_FLUID_HEATING = createCasingBlock(
+            "super_fluid_heating_casing", VoyagerCore.id("block/casing/super_fluid_heating_casing"));
+
+    // super_fluid_heating_casing
+
     public static final BlockEntry<Block> ALUMINIUM_PIPE_CASING = fastCreatePipeCasingBlock("aluminium");
     public static final BlockEntry<Block> ALUMINIUM_GEARBOX_CASING = fastCreateGearboxBlock("aluminium");
     /// 0: Casing, 1: Gearbox, 2: Pipe Casing

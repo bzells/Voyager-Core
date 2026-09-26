@@ -16,8 +16,6 @@ import net.minecraftforge.fluids.FluidStack;
 import com.jzells.voyagercore.common.data.VoyagerMaterials;
 import org.jetbrains.annotations.NotNull;
 
-import static com.jzells.voyagercore.VoyagerCore.LOGGER;
-
 public class FluidCoilMulti extends CoilWorkableElectricMultiblockMachine {
 
     private int runningTimer = 0;
@@ -63,7 +61,7 @@ public class FluidCoilMulti extends CoilWorkableElectricMultiblockMachine {
         if (runningTimer % fluidConsumeInterval == 0) {
             var fluidRecipe = this.getFluidConsumptionRecipe();
             // LOGGER.info("Required Fluid:");
-//            LOGGER.info("Required Fluid:{}", this.requiredFluid.getDisplayName().getString());
+            // LOGGER.info("Required Fluid:{}", this.requiredFluid.getDisplayName().getString());
             if (!RecipeHelper
                     .handleRecipeIO(this, fluidRecipe, IO.IN, this.recipeLogic.getChanceCaches())
                     .isSuccess()) {

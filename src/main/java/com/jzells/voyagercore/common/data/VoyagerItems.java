@@ -116,6 +116,11 @@ public class VoyagerItems {
                 GTValues.MV, "ebf_helper_recipe_module", "Recipe Helper Module", "gtceu:electric_blast_furnace", false,
                 1);
 
+        final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_VACUUM_FREEZER = createHelperRecipeModule(
+                GTValues.IV, "vacuum_freezer_helper_recipe_module", "Recipe Helper Module", "gtceu:vacuum_freezer",
+                false,
+                1);
+
         final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_HELPER_MIXER = createHelperRecipeModule(
                 GTValues.EV, "mixer_helper_recipe_module", "Recipe Helper Module", "gtceu:mixer", false,
                 1);
@@ -126,6 +131,15 @@ public class VoyagerItems {
         final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_CENTRIFUGE = createHelperRecipeModule(
                 GTValues.EV, "centrifuge_helper_recipe_module", "Recipe Helper Module", "gtceu:centrifuge", false,
                 1);
+
+        final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_SIFTER = createHelperRecipeModule(
+                GTValues.EV, "sifter_helper_recipe_module", "Recipe Helper Module", "gtceu:sifter", false,
+                1);
+
+        final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_CHEM_BATH = createHelperRecipeModule(
+                GTValues.EV, "chem_bath_helper_recipe_module", "Recipe Helper Module", "gtceu:chemical_bath", false,
+                1);
+
         final ItemEntry<HelperModuleComponentTooltipItem> RECIPE_MODULE_THERMAL_CENTRIFUGE = createHelperRecipeModule(
                 GTValues.EV, "thermal_centrifuge_helper_recipe_module", "Recipe Helper Module",
                 "gtceu:thermal_centrifuge", false,

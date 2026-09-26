@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "voyagercore:block/super_fluid_heating_casing"
+    }
+  }
+}

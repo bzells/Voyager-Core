@@ -265,10 +265,10 @@ public class VoyagerCoreRecipeModifiers {
             }
         }
 
-        if (helperHolder == null && (recipe.data.contains("specialized"))) {
+        if (helperHolder == null && (recipe.data.contains("paramount"))) {
             return ModifierFunction
-                    .cancel(Component.literal("This recipe needs a " + (recipe.data.contains("specialized") ?
-                            recipe.data.getString("specialized") : recipe.data.getString("paramount")) + " helper"));
+                    .cancel(Component.literal(
+                            "This recipe needs a " + recipe.data.getString("paramount") + " paramount helper"));
         }
 
         if (helperHolder == null) {
@@ -277,20 +277,22 @@ public class VoyagerCoreRecipeModifiers {
 
         ItemStack helper = helperHolder.getHeldItem(false);
 
-        if (helperHolder.getHeldItem(false).isEmpty() &&
-                !(recipe.data.contains("specialized") && !recipe.data.contains("paramount")))
-            return ModifierFunction.cancel(Component.literal("No helper installed"));
+        if (helperHolder.getHeldItem(false).isEmpty() && !recipe.data.contains("paramount"))
+            return ModifierFunction.IDENTITY;
+
+        if (helper.isEmpty() && (recipe.data.contains("paramount"))) {
+            return ModifierFunction
+                    .cancel(Component.literal(
+                            "This recipe needs a " + recipe.data.getString("paramount") + " paramount helper"));
+        }
 
         if (helper.isEmpty()) {
-            return ModifierFunction
-                    .cancel(Component.literal("This recipe needs a " + (recipe.data.contains("specialized") ?
-                            recipe.data.getString("specialized") : recipe.data.getString("paramount")) + " helper"));
+            return ModifierFunction.IDENTITY;
         }
 
         if (helperHolder.getHelperIsHull()) {
             return ModifierFunction
-                    .cancel(Component.literal("This recipe needs a " + (recipe.data.contains("specialized") ?
-                            recipe.data.getString("specialized") : recipe.data.getString("paramount")) + " helper"));
+                    .cancel(Component.literal("Hulls do not work as helpers"));
         }
 
         ArrayList<String> helperRecipes = helperHolder.getRecipes();
@@ -316,11 +318,12 @@ public class VoyagerCoreRecipeModifiers {
 
         if (helperHolder.getHelperIsParamount()) {
             ParamountHelperItemComponent parHelper = helperHolder.getParamountHelperComponent();
+            parHelper.setOwner(helper);
             if (parHelper.getGTTier() + 1 < GTUtil.getTierByVoltage(recipe.getInputEUt().voltage()))
                 return ModifierFunction.cancel(Component.literal("Helper level is too low for this recipe"));
         }
 
-        else if (helperHolder.getHelperTier() < GTUtil.getTierByVoltage(recipe.getInputEUt().voltage()))
+        else if (helperHolder.getHelperTier() + 1 < GTUtil.getTierByVoltage(recipe.getInputEUt().voltage()))
             return ModifierFunction.cancel(Component.literal("Helper tier is too low for this recipe"));
 
         int newPars = helperHolder.getHelperParallels();

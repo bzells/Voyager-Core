@@ -725,5 +725,38 @@ public class ElectricMultiMachines {
                     GTCEu.id("block/machines/cutter"))
             .register();
 
+    public static final MultiblockMachineDefinition SUPERHEATED_BOILER = VOYAGERCORE_REGISTRATE
+            .multiblock("superheated_boiler", WorkableElectricMultiblockMachine::new)
+            .rotationState(RotationState.ALL)
+            .recipeTypes(VoyagerRecipeTypes.SUPER_FLUID_HEATING)
+            .appearanceBlock(CASING_HIGH_TEMPERATURE_SMELTING)
+            .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, VoyagerCoreRecipeModifiers.HELPER_COMPATABILITY)
+            .pattern(def -> FactoryBlockPattern.start()
+                    .aisle("aaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaa", "aaaaaabbbaaaaaa", "aaaaaaaaaaaaaaa")
+                    .aisle("aaaaaaaaaaaaaaa", "aaaaaadddaaaaaa", "aaaabbeeebbaaaa", "aaaaaadddaaaaaa")
+                    .aisle("aaaaaaaaaaaaaaa", "aaaaddaaaddaaaa", "aaabeebbbeebaaa", "aaaaddaaaddaaaa")
+                    .aisle("aaaaaaaaaaaaaaa", "aaadaaaaaaadaaa", "aabebbaaabbebaa", "aaadaaaaaaadaaa")
+                    .aisle("aaaaaaaaaaaaaaa", "aadaaaaaaaaadaa", "abebaaaaaaabeba", "aadaaaaaaaaadaa")
+                    .aisle("aaaaaaaaaaaaaaa", "aadaaaaaaaaadaa", "abebaaaaaaabeba", "aadaaaaaaaaadaa")
+                    .aisle("aaaaaaaaaaaaaaa", "adaaaaaaaaaaada", "bebaaaaaaaaabeb", "adaaaaaaaaaaada")
+                    .aisle("aaaaaaaaaaaaaaa", "adaaaaaaaaaaada", "bebaaaaaaaaabeb", "adaaaaaaaaaaada")
+                    .aisle("aaaaaaaaaaaaaaa", "adaaaaaaaaaaada", "bebaaaaaaaaabeb", "adaaaaaaaaaaada")
+                    .aisle("aaaaaaaaaaaaaaa", "aadaaaaaaaaadaa", "abebaaaaaaabeba", "aadaaaaaaaaadaa")
+                    .aisle("aaaaaaaaaaaaaaa", "aadaaaaaaaaadaa", "abebaaaaaaabeba", "aadaaaaaaaaadaa")
+                    .aisle("aaaaaaaaaaaaaaa", "aaadaaaaaaadaaa", "aabebbaaabbebaa", "aaadaaaaaaadaaa")
+                    .aisle("aaaaaaaaaaaaaaa", "aaaaddaaaddaaaa", "aaabeebbbeebaaa", "aaaaddaaaddaaaa")
+                    .aisle("aaaaaaaaaaaaaaa", "aaaaaadddaaaaaa", "aaaabbeeebbaaaa", "aaaaaadddaaaaaa")
+                    .aisle("aaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaa", "aaaaaabcbaaaaaa", "aaaaaaaaaaaaaaa")
+
+                    .where("a", Predicates.any())
+                    .where("b", Predicates.blocks(CASING_HIGH_TEMPERATURE_SMELTING.get()))
+                    .where("c", Predicates.controller(Predicates.blocks(def.get())))
+                    .where("d", Predicates.blocks(CASING_LAMINATED_GLASS.get()))
+                    .where("e", VoyagerMultiblockUtils.pipeCasingTraceable())
+                    .build())
+            .workableCasingModel(GTCEu.id("block/casings/gcym/high_temperature_smelting_casing"),
+                    GTCEu.id("block/multiblock/fusion_reactor/fusion"))
+            .register();
+
     public static void init() {}
 }

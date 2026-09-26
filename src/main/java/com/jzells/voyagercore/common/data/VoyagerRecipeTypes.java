@@ -33,6 +33,12 @@ public class VoyagerRecipeTypes {
             GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT, GuiTextures.BOXED_OVERLAY,
             GTSoundEntries.BATH);
 
+    public static final GTRecipeType SUPER_FLUID_HEATING = voyagerRecipeType("super_fluid_heating",
+            GTRecipeTypes.MULTIBLOCK, IO.OUT, 1, 1, 1, 1,
+            GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT,
+            GuiTextures.BOXED_OVERLAY,
+            GTSoundEntries.JET_ENGINE);
+
     public static final GTRecipeType HOMESTEAD_GARDEN = voyagerRecipeType("homestead_garden",
             GTRecipeTypes.MULTIBLOCK, IO.OUT, 1, 3, 1, 0,
             GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT, GuiTextures.BOXED_OVERLAY,

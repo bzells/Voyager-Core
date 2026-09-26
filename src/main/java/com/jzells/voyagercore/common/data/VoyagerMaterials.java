@@ -17,6 +17,9 @@ public class VoyagerMaterials {
     public static Material Helperade_BR;
     public static Material HIGH_STRESS_LUBRICANT;
 
+    public static Material Super_Heated_Steam;
+    public static Material Super_Critical_Steam;
+
     public static Material Lunarium;
 
     public static Material Calorite;

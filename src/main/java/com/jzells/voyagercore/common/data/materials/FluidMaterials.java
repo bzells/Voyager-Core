@@ -30,5 +30,17 @@ public class FluidMaterials {
                 .liquid(new FluidBuilder().temperature(150))
                 .langValue("Helperade (Blue Raspberry)")
                 .buildAndRegister();
+
+        Super_Heated_Steam = new Material.Builder(VoyagerCore.id("superheated_steam"))
+                .color(0xffadb5, true)
+                .liquid(new FluidBuilder().temperature(1000))
+                .langValue("Superheated Steam")
+                .buildAndRegister();
+
+        Super_Critical_Steam = new Material.Builder(VoyagerCore.id("super_critical_steam"))
+                .color(0xe0727d, true)
+                .liquid(new FluidBuilder().temperature(2000))
+                .langValue("Super Critical Steam")
+                .buildAndRegister();
     }
 }

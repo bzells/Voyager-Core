@@ -62,66 +62,71 @@ public class HelperAssemblerRecipeLogic implements GTRecipeType.ICustomRecipeLog
 
         }
 
-        if (helperItemComponent != null && helperModuleItemComponent != null &&
-                helperModuleItemComponent.canApply(helperItem, helperItemComponent)) {
-            ItemStack outputHelper;
+        if (helperItemComponent != null && helperModuleItemComponent != null) {
+            if (helperItemComponent instanceof ParamountHelperItemComponent) {
+                ((ParamountHelperItemComponent) helperItemComponent).setOwner(helperItem); // this codebase is a mess..
+            }
+            if (helperModuleItemComponent.canApply(helperItem, helperItemComponent)) {
+                ItemStack outputHelper;
 
-            ItemEntry<HelperComponentItem> helper = null;
+                ItemEntry<HelperComponentItem> helper = null;
 
-            boolean paramount = false;
+                boolean paramount = false;
 
-            if (helperItemComponent.isHull()) {
-                if (helperItemComponent instanceof ParamountHelperItemComponent p) {
-                    helper = PARAMOUNT_HULL_TO_HELPER
-                            .get(((ParamountHelperItemComponent) helperItemComponent).getPARAMOUNT_DATA());
+                if (helperItemComponent.isHull()) {
+                    if (helperItemComponent instanceof ParamountHelperItemComponent p) {
+                        helper = PARAMOUNT_HULL_TO_HELPER
+                                .get(((ParamountHelperItemComponent) helperItemComponent).getPARAMOUNT_DATA());
 
-                    paramount = true;
+                        paramount = true;
+                    } else {
+                        helper = helperItemComponent.isSpecialized() ?
+                                SPECIALIZED_HELPERS.get(helperItemComponent.getTier()) :
+                                HELPERS.get(helperItemComponent.getTier());
+                    }
+
+                    outputHelper = new ItemStack(helper.get());
+                    if (paramount) ((ParamountHelperItemComponent) helperItemComponent).setOwner(outputHelper);
+                    outputHelper.getOrCreateTagElement("modifiers").putString("count", "0");
+
                 } else {
-                    helper = helperItemComponent.isSpecialized() ?
-                            SPECIALIZED_HELPERS.get(helperItemComponent.getTier()) :
-                            HELPERS.get(helperItemComponent.getTier());
+                    outputHelper = helperItem.copy();
                 }
 
-                outputHelper = new ItemStack(helper.get());
-                if (paramount) ((ParamountHelperItemComponent) helperItemComponent).setOwner(outputHelper);
-                outputHelper.getOrCreateTagElement("modifiers").putString("count", "0");
-
-            } else {
-                outputHelper = helperItem.copy();
-            }
-
-            if (helperItem.hasTag() && !helperItemComponent.isHull()) {
-                assert helperItem.getTag() != null;
-                outputHelper.setTag(helperItem.getTag().copy());
-            }
-
-            helperModuleItemComponent.apply(outputHelper);
-
-            CompoundTag modifiers = outputHelper.getOrCreateTagElement("modifiers");
-
-            int current = 0;
-
-            if (modifiers.contains("count")) {
-                current = Integer.parseInt(modifiers.getString("count"));
-            }
-
-            if (!(helperModuleItemComponent instanceof HelperRecipeModuleItemComponent helperRecipeModuleItemComponent)) {
-                if (helperModuleItemComponent instanceof HelperModuleItemModifierComponent modifierComponent) {
-                    current += modifierComponent.getMODULE_SPACE();
-                } else {
-                    current++;
+                if (helperItem.hasTag() && !helperItemComponent.isHull()) {
+                    assert helperItem.getTag() != null;
+                    outputHelper.setTag(helperItem.getTag().copy());
                 }
+
+                helperModuleItemComponent.apply(outputHelper);
+
+                CompoundTag modifiers = outputHelper.getOrCreateTagElement("modifiers");
+
+                int current = 0;
+
+                if (modifiers.contains("count")) {
+                    current = Integer.parseInt(modifiers.getString("count"));
+                }
+
+                if (!(helperModuleItemComponent instanceof HelperRecipeModuleItemComponent helperRecipeModuleItemComponent)) {
+                    if (helperModuleItemComponent instanceof HelperModuleItemModifierComponent modifierComponent) {
+                        current += modifierComponent.getMODULE_SPACE();
+                    } else {
+                        current++;
+                    }
+                }
+
+                modifiers.putString("count", Integer.toString(current));
+
+                return VoyagerRecipeTypes.HELPER_ASSEMBLY
+                        .recipeBuilder("helper_module_apply")
+                        .inputItems(helperItem, moduleItem)
+                        .EUt(GTValues.VA[helperModuleItemComponent.getGT_TIER()])
+                        .duration(20 * 5)
+                        .outputItems(outputHelper)
+                        .buildRawRecipe();
             }
 
-            modifiers.putString("count", Integer.toString(current));
-
-            return VoyagerRecipeTypes.HELPER_ASSEMBLY
-                    .recipeBuilder("helper_module_apply")
-                    .inputItems(helperItem, moduleItem)
-                    .EUt(GTValues.VA[helperModuleItemComponent.getGT_TIER()])
-                    .duration(20 * 5)
-                    .outputItems(outputHelper)
-                    .buildRawRecipe();
         }
 
         return null;

@@ -13,11 +13,9 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifierList;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
-import com.jzells.voyagercore.common.data.VoyagerCoreRecipeModifiers;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -35,7 +33,6 @@ import com.jzells.voyagercore.common.item.component.HelperItemComponent;
 import com.jzells.voyagercore.common.item.component.ParamountHelperItemComponent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -53,8 +50,8 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
 
     private int runTime = 0;
 
-    ///First is check, second is needed
-    private Boolean[] helperNeeded = {false, false};
+    /// First is check, second is needed
+    private Boolean[] helperNeeded = { false, false };
 
     public HelperHolderPartMachine(IMachineBlockEntity holder) {
         super(holder);
@@ -301,7 +298,6 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
 
     @Override
     public boolean onWorking(IWorkableMultiController controller) {
-
         ItemStack helper = this.getHeldItem(false);
         RecipeLogic logic = controller.getRecipeLogic();
 
@@ -316,7 +312,6 @@ public class HelperHolderPartMachine extends MultiblockPartMachine implements IM
 
         return super.onWorking(controller);
     }
-
 
     @Override
     public boolean afterWorking(IWorkableMultiController controller) {

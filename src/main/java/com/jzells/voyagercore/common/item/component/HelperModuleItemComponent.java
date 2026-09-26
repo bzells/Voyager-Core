@@ -8,6 +8,8 @@ import net.minecraft.world.item.ItemStack;
 import com.jzells.voyagercore.common.item.helpermodules.IHelperModuleModifier;
 import lombok.Getter;
 
+import java.util.Objects;
+
 import javax.annotation.Nullable;
 
 @Getter
@@ -71,8 +73,11 @@ public class HelperModuleItemComponent implements IItemComponent, IHelperModuleM
         if (this.PARAMOUNT) {
             if (isParamountHelper) {
                 ((ParamountHelperItemComponent) helperItemComponent).setOwner(stack);
+                String paramountHelperData = ((ParamountHelperItemComponent) helperItemComponent).getPARAMOUNT_DATA();
+                String moduleParamountData = this.getModuleData();
                 return (currentModuleCount + MODULE_SPACE <= helperMaxModules) &&
-                        (((ParamountHelperItemComponent) helperItemComponent).getLevel() >= this.PARAMOUNT_LEVEL);
+                        (((ParamountHelperItemComponent) helperItemComponent).getLevel() >= this.PARAMOUNT_LEVEL) &&
+                        (Objects.equals(paramountHelperData, moduleParamountData));
             }
             return false;
 
