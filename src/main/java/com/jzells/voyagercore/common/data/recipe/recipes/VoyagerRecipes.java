@@ -13,5 +13,6 @@ public class VoyagerRecipes {
         DummyRecipes.init(provider);
         FishingPortRecipes.init(provider);
         ForestRegrowthChamberRecipes.init(provider);
+        SolarTowerRecipes.init(provider);
     }
 }

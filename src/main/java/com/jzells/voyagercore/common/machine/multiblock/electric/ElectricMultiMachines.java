@@ -16,7 +16,6 @@ import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
-import com.jzells.voyagercore.common.machine.multiblock.steam.ThermalSolarMachine;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -28,9 +27,9 @@ import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.client.renderer.VoyagerRenderHelper;
 import com.jzells.voyagercore.common.data.VoyagerCoreRecipeModifiers;
 import com.jzells.voyagercore.common.data.VoyagerMaterials;
-import com.jzells.voyagercore.common.data.VoyagerPredicates;
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
 import com.jzells.voyagercore.common.machine.multiblock.part.VoyagerPartAbilities;
+import com.jzells.voyagercore.common.machine.multiblock.steam.ThermalSolarMachine;
 import com.jzells.voyagercore.util.VoyagerMultiblockUtils;
 
 import java.util.Objects;
@@ -575,14 +574,18 @@ public class ElectricMultiMachines {
             .multiblock("thermal_solar", ThermalSolarMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .appearanceBlock(CASING_INDUSTRIAL_SOLID)
-            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
-            .pattern(def -> FactoryBlockPattern.start(RelativeDirection.RIGHT, RelativeDirection.BACK, RelativeDirection.UP)
+            .recipeType(VoyagerRecipeTypes.SOLAR_TOWER)
+            .recipeModifier(ThermalSolarMachine::recipeModifier,true)
+            .pattern(def -> FactoryBlockPattern
+                    .start(RelativeDirection.RIGHT, RelativeDirection.BACK, RelativeDirection.UP)
                     .aisle("A A", "   ", "A A").setRepeatable(5)
                     .aisle("BBB", "BBB", "BBB")
                     .aisle("B@B", "B B", "BBB")
                     .aisle("BBB", "BBB", "BBB")
                     .where('A', Predicates.frames(GTMaterials.Tungsten))
-                    .where('B', Predicates.blocks(CASING_INDUSTRIAL_SOLID.get()))
+                    .where('B', Predicates.blocks(CASING_INDUSTRIAL_SOLID.get())
+                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setExactLimit(1))
+                            .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setExactLimit(1)))
                     .where('@', Predicates.controller(Predicates.blocks(def.get())))
                     .build())
             .workableCasingModel(VoyagerCore.id("block/casing/condensation_resistant_tungsten_casing"),
