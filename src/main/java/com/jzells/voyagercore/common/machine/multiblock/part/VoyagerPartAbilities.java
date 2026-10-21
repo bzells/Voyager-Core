@@ -2,7 +2,6 @@ package com.jzells.voyagercore.common.machine.multiblock.part;
 
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 
-import com.gregtechceu.gtceu.common.data.GTBlocks;
 import net.minecraft.world.level.block.Block;
 
 import java.util.HashMap;

@@ -1,7 +1,5 @@
 package com.jzells.voyagercore.common.block;
 
-import com.jzells.voyagercore.common.machine.multiblock.steam.ThermalSolarMachine;
-import com.jzells.voyagercore.util.debug.DebugVectors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -14,6 +12,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import com.jzells.voyagercore.common.machine.multiblock.steam.ThermalSolarMachine;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
@@ -28,15 +28,14 @@ public class ReflectorBlock extends Block {
 
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-//        super.onPlace(state, level, pos, oldState, movedByPiston);
+        // super.onPlace(state, level, pos, oldState, movedByPiston);
         ThermalSolarMachine therm = findClosestSolar(level, pos);
         if (therm != null && therm.attemptReflector(pos)) {
             therm.addReflectorPosition(pos);
-            therm.updateReflectors(pos,false);
+            therm.updateReflectors(pos, false);
             therm.updateReflectorCount();
         }
     }
-
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
@@ -52,10 +51,10 @@ public class ReflectorBlock extends Block {
             thermal.updateReflectors(pos, true);
             thermal.removeReflectorFromCache(pos);
             thermal.updateReflectorCount();
-        };
+        } ;
 
-//        DebugVectors.VECTORS.remove(String.valueOf(pos.hashCode()));
-//        DebugVectors.VECTORS.remove(pos.hashCode() + "target");
+        // DebugVectors.VECTORS.remove(String.valueOf(pos.hashCode()));
+        // DebugVectors.VECTORS.remove(pos.hashCode() + "target");
     }
 
     @Override
@@ -68,7 +67,7 @@ public class ReflectorBlock extends Block {
         return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
-    protected ThermalSolarMachine findClosestSolar(Level level, BlockPos pos){
+    protected ThermalSolarMachine findClosestSolar(Level level, BlockPos pos) {
         double minDist = 0;
         ThermalSolarMachine closest = null;
         var thermals = ThermalSolarMachine.getThermalSolarSet();
@@ -88,10 +87,10 @@ public class ReflectorBlock extends Block {
         return null;
     }
 
-    protected ThermalSolarMachine findActiveThermal(Level level, BlockPos pos){
+    protected ThermalSolarMachine findActiveThermal(Level level, BlockPos pos) {
         var thermals = ThermalSolarMachine.getThermalSolarSet();
         if (thermals.isEmpty()) return null;
-        for (ThermalSolarMachine thermal : thermals){
+        for (ThermalSolarMachine thermal : thermals) {
             if (thermal.getLevel() != level) continue;
             if (thermal.getReflectorPositions().contains(pos) || thermal.getBlockCache().containsKey(pos)) {
                 return thermal;

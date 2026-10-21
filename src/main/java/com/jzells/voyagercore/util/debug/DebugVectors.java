@@ -1,11 +1,12 @@
 package com.jzells.voyagercore.util.debug;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import org.joml.Matrix4f;
 
 import java.awt.*;
@@ -42,7 +43,6 @@ public class DebugVectors {
             Vec3 start = v.start();
             Vec3 end = v.end();
 
-
             Color color = v.color();
             float r = color.getRed() / 255F;
             float g = color.getGreen() / 255F;
@@ -56,7 +56,6 @@ public class DebugVectors {
             bufferBuilder.vertex(pose, (float) end.x, (float) end.y, (float) end.z)
                     .color(r, g, b, a)
                     .endVertex();
-
 
             if (v.drawArrow()) {
                 Vec3 dir = end.subtract(start);
@@ -78,13 +77,13 @@ public class DebugVectors {
                 };
 
                 for (Vec3 prong : prongs) {
-                    bufferBuilder.vertex(pose, (float) end.x, (float) end.y, (float) end.z).color(r, g, b, a).endVertex();
-                    bufferBuilder.vertex(pose, (float) prong.x, (float) prong.y, (float) prong.z).color(r, g, b, a).endVertex();
+                    bufferBuilder.vertex(pose, (float) end.x, (float) end.y, (float) end.z).color(r, g, b, a)
+                            .endVertex();
+                    bufferBuilder.vertex(pose, (float) prong.x, (float) prong.y, (float) prong.z).color(r, g, b, a)
+                            .endVertex();
                 }
             }
         }
-
-
 
         tesselator.end();
 
@@ -95,4 +94,3 @@ public class DebugVectors {
         poseStack.popPose();
     }
 }
-

@@ -21,7 +21,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 
-import com.jzells.voyagercore.VoyagerCore;
 import com.mojang.logging.annotations.MethodsReturnNonnullByDefault;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -46,19 +45,19 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
     // protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
     // MultiTurbineMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
-    public MultiTurbineMachine(IMachineBlockEntity holder, int tier){
-        this(holder, tier,1.5);
+    public MultiTurbineMachine(IMachineBlockEntity holder, int tier) {
+        this(holder, tier, 1.5);
     }
 
     /**
      *
-     * @param holder Used in Builder
-     * @param tier Needs to be defined
+     * @param holder     Used in Builder
+     * @param tier       Needs to be defined
      * @param efficiency Base boost to efficiency, if omitted, defaults to 1.5
      */
     public MultiTurbineMachine(IMachineBlockEntity holder, int tier, double efficiency) {
         super(holder);
-        this.tier = tier; //This is needed for IRotorHolderMachine, since the tier in WEMM is based on energyHatch
+        this.tier = tier; // This is needed for IRotorHolderMachine, since the tier in WEMM is based on energyHatch
         this.BASE_EU_OUTPUT = (long) (GTValues.VEX[tier] * 1.5);
         this.EFFICIENCY_BOOST = efficiency;
     }
@@ -82,26 +81,26 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
     }
 
     private void setRotorHolders() {
-//        rotorHolders = new ArrayList<IRotorHolderMachine>();
+        // rotorHolders = new ArrayList<IRotorHolderMachine>();
         rotorHolders.clear();
         for (IMultiPart part : getParts()) {
             if (part instanceof IRotorHolderMachine rotorHolder) {
                 rotorHolders.add(rotorHolder);
             }
         }
-//        rotorHolders = list;
+        // rotorHolders = list;
     }
 
-    private int getEUBoost(){
+    private int getEUBoost() {
         return rotorHolders.stream().mapToInt(IRotorHolderMachine::getTotalPower).sum();
     }
 
     @Override
     public long getOverclockVoltage() {
-//        var rotorHolders = getRotorHolders();
+        // var rotorHolders = getRotorHolders();
         double total;
         if (rotorHolders.isEmpty()) return 0;
-        total =  getEUBoost() / (100.0 );//* getRotorCount());
+        total = getEUBoost() / (100.0);// * getRotorCount());
         return (long) (total * BASE_EU_OUTPUT);
     }
 
@@ -114,7 +113,7 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
     }
 
     protected double productionBoost() {
-//        var rotorHolders = getRotorHolders();
+        // var rotorHolders = getRotorHolders();
         if (rotorHolders.isEmpty()) return 0;
         return rotorHolders.stream()
                 .filter(IRotorHolderMachine::hasRotor)
@@ -124,7 +123,7 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
     }
 
     public int getRotorCount() {
-//        var rotorHolders = getRotorHolders();
+        // var rotorHolders = getRotorHolders();
         int count = 0;
         if (rotorHolders.isEmpty()) return 0;
         for (IRotorHolderMachine holder : rotorHolders) {
@@ -143,7 +142,7 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
      */
     @Override
     public int getRotorSpeed() {
-//        var rotorHolders = getRotorHolders();
+        // var rotorHolders = getRotorHolders();
         int count = 0;
         if (rotorHolders.isEmpty()) return 0;
         for (IRotorHolderMachine holder : rotorHolders) {
@@ -159,6 +158,7 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
 
     /**
      * Due to limitation/design choices in {@link IRotorHolderMachine}
+     * 
      * @return Percentage duration boost of recipe
      */
     @Override
@@ -166,7 +166,7 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
         int eff = 0;
         for (IRotorHolderMachine rholder : rotorHolders) {
             int reff = rholder.getTotalEfficiency();
-            if (reff == -1 ) return -1;
+            if (reff == -1) return -1;
             eff += reff;
         }
         return (int) (eff * EFFICIENCY_BOOST);
@@ -193,11 +193,12 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
 
         EnergyStack EUt = recipe.getOutputEUt();
         long turbineMaxVoltage = turbineMachine.getOverclockVoltage();
-        double holderEfficiency = turbineMachine.getTotalEfficiency() / (100.0 * Math.max(turbineMachine.getRotorCount(),1));
-//        double holderEfficiency = 1.5 * rotorHolders.stream()
-//                .map(h -> (double) h.getTotalEfficiency())
-//                .reduce(0.0, Double::sum) / (100 * Math.max(turbineMachine.getRotorCount(), 1));
-//        VoyagerCore.LOGGER.info("Duration modifier: {}", holderEfficiency);
+        double holderEfficiency = turbineMachine.getTotalEfficiency() /
+                (100.0 * Math.max(turbineMachine.getRotorCount(), 1));
+        // double holderEfficiency = 1.5 * rotorHolders.stream()
+        // .map(h -> (double) h.getTotalEfficiency())
+        // .reduce(0.0, Double::sum) / (100 * Math.max(turbineMachine.getRotorCount(), 1));
+        // VoyagerCore.LOGGER.info("Duration modifier: {}", holderEfficiency);
 
         if (EUt.isEmpty() || turbineMaxVoltage <= EUt.voltage() || holderEfficiency <= 0) return ModifierFunction.NULL;
 
@@ -216,7 +217,6 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
                 .parallels(actualParallel)
                 .durationMultiplier(holderEfficiency)
                 .build();
-
     }
 
     @Override
@@ -233,7 +233,7 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
         if (isFormed()) {
-//            var rotorHolders = this.getRotorHolders();
+            // var rotorHolders = this.getRotorHolders();
             if (rotorHolders == null || rotorHolders.isEmpty()) return;
             List<IRotorHolderMachine> filtered = rotorHolders.stream()
                     .filter(r -> r.getTotalEfficiency() > 0)
@@ -243,33 +243,35 @@ public class MultiTurbineMachine extends WorkableElectricMultiblockMachine imple
 
             var efficiency = this.getTotalEfficiency() / Math.max(this.getRotorCount(), 1);
 
-
             if (efficiency <= 0) {
-                textList.add( Component.literal("Missing Rotor!").withStyle(ChatFormatting.RED));
+                textList.add(Component.literal("Missing Rotor!").withStyle(ChatFormatting.RED));
                 return;
             }
 
-//            VoyagerCore.LOGGER.info("{}",GTValues.CLIENT_TIME);
-//            TextColor rainbow = TooltipHelper.rainbowColor(2.5f);
-//            VoyagerCore.LOGGER.info("{}",rainbow.getValue());
+            // VoyagerCore.LOGGER.info("{}",GTValues.CLIENT_TIME);
+            // TextColor rainbow = TooltipHelper.rainbowColor(2.5f);
+            // VoyagerCore.LOGGER.info("{}",rainbow.getValue());
             textList.add(Component.translatable("gtceu.multiblock.turbine.efficiency", efficiency));
-            textList.add(Component.literal("EU/t Boost: %s%%".formatted(getEUBoost()/ Math.max(this.getRotorCount(), 1))));//.withStyle(style -> {
+            textList.add(
+                    Component.literal("EU/t Boost: %s%%".formatted(getEUBoost() / Math.max(this.getRotorCount(), 1))));// .withStyle(style
+                                                                                                                       // ->
+                                                                                                                       // {
 
-//                return style.withColor(rainbow.getValue() - 0xFF000000);
-//            }));
+            // return style.withColor(rainbow.getValue() - 0xFF000000);
+            // }));
 
-//            UnaryOperator<Style> modifunc = style -> {
-//                int color = 161616;
-//                if (getLevel() != null) color = getLevel().random.nextInt();
-//                style.withColor(TextColor.parseColor());
-//            }
+            // UnaryOperator<Style> modifunc = style -> {
+            // int color = 161616;
+            // if (getLevel() != null) color = getLevel().random.nextInt();
+            // style.withColor(TextColor.parseColor());
+            // }
 
             for (IRotorHolderMachine rotorHolder : filtered) {
-//                textList.add(Component.translatable("gtceu.multiblock.turbine.rotor_speed",
-//                        FormattingUtil.formatNumbers(rotorHolder.getRotorSpeed()),
-//                        FormattingUtil.formatNumbers(rotorHolder.getMaxRotorHolderSpeed())));
-//                textList.add(Component.translatable("gtceu.multiblock.turbine.efficiency",
-//                        rotorHolder.getTotalEfficiency()));
+                // textList.add(Component.translatable("gtceu.multiblock.turbine.rotor_speed",
+                // FormattingUtil.formatNumbers(rotorHolder.getRotorSpeed()),
+                // FormattingUtil.formatNumbers(rotorHolder.getMaxRotorHolderSpeed())));
+                // textList.add(Component.translatable("gtceu.multiblock.turbine.efficiency",
+                // rotorHolder.getTotalEfficiency()));
 
                 int rotorDurability = rotorHolder.getRotorDurabilityPercent();
                 if (rotorDurability > MIN_DURABILITY_TO_WARN) {
