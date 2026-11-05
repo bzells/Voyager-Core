@@ -3,8 +3,8 @@ package com.jzells.voyagercore.tools;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.tools.data.VoyagerCoreModifierProvider;
@@ -18,9 +18,8 @@ public class VCTConModifiers {
 
     private static final ModifierDeferredRegister MODIFIERS = ModifierDeferredRegister.create(VoyagerCore.MOD_ID);
 
-    @SuppressWarnings("removal")
-    public VCTConModifiers() {
-        MODIFIERS.register(FMLJavaModLoadingContext.get().getModEventBus());
+    public VCTConModifiers(IEventBus eventBus) {
+        MODIFIERS.register(eventBus);
     }
 
     /// Have to add tags to this for tinkers to recognize it correctly. Oh, and datagen.

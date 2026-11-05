@@ -1,4 +1,4 @@
-package com.jzells.voyagercore.common.machine.multiblock.electric;
+package com.jzells.voyagercore.common.machine.multiblock;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
-import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
@@ -28,9 +27,9 @@ import com.jzells.voyagercore.client.renderer.VoyagerRenderHelper;
 import com.jzells.voyagercore.common.data.VoyagerCoreRecipeModifiers;
 import com.jzells.voyagercore.common.data.VoyagerMaterials;
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
+import com.jzells.voyagercore.common.machine.multiblock.electric.*;
 import com.jzells.voyagercore.common.machine.multiblock.part.VoyagerPartAbilities;
-import com.jzells.voyagercore.common.machine.multiblock.steam.ThermalSolarMachine;
-import com.jzells.voyagercore.util.VoyagerMultiblockUtils;
+import com.jzells.voyagercore.util.VoyagerPredicates;
 
 import java.util.Objects;
 
@@ -570,28 +569,6 @@ public class ElectricMultiMachines {
                     VoyagerCore.id("block/multiblock/helper_factory"))
             .register();
 
-    public static final MultiblockMachineDefinition THERMAL_SOLAR = VOYAGERCORE_REGISTRATE
-            .multiblock("thermal_solar", ThermalSolarMachine::new)
-            .rotationState(RotationState.NON_Y_AXIS)
-            .appearanceBlock(CASING_INDUSTRIAL_SOLID)
-            .recipeType(VoyagerRecipeTypes.SOLAR_TOWER)
-            .recipeModifier(ThermalSolarMachine::recipeModifier,true)
-            .pattern(def -> FactoryBlockPattern
-                    .start(RelativeDirection.RIGHT, RelativeDirection.BACK, RelativeDirection.UP)
-                    .aisle("A A", "   ", "A A").setRepeatable(5)
-                    .aisle("BBB", "BBB", "BBB")
-                    .aisle("B@B", "B B", "BBB")
-                    .aisle("BBB", "BBB", "BBB")
-                    .where('A', Predicates.frames(GTMaterials.Tungsten))
-                    .where('B', Predicates.blocks(CASING_INDUSTRIAL_SOLID.get())
-                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setExactLimit(1))
-                            .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setExactLimit(1)))
-                    .where('@', Predicates.controller(Predicates.blocks(def.get())))
-                    .build())
-            .workableCasingModel(VoyagerCore.id("block/casing/condensation_resistant_tungsten_casing"),
-                    VoyagerCore.id("block/multiblock/helper_factory"))
-            .register();
-
     public static final MultiblockMachineDefinition MULTIBLOCK_OVEN = VOYAGERCORE_REGISTRATE
             .multiblock("large_industrial_oven", WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.ALL)
@@ -662,7 +639,7 @@ public class ElectricMultiMachines {
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS))
                             .or(Predicates.abilities(PartAbility.EXPORT_ITEMS)))
                     .where("c", Predicates.fluids(Fluids.WATER))
-                    .where("d", VoyagerMultiblockUtils.pipeCasingTraceable())
+                    .where("d", VoyagerPredicates.pipeCasingTraceable())
                     .where("e", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
                             .get(TagPrefix.frameGt, GTMaterials.WatertightSteel)).get()))
                     .where("f", Predicates.controller(Predicates.blocks(def.get())))
@@ -713,7 +690,7 @@ public class ElectricMultiMachines {
                     .where("b", Predicates.any())
                     .where("c", Predicates.controller(Predicates.blocks(def.get())))
                     .where("d", Predicates.blocks(CASING_LAMINATED_GLASS.get()))
-                    .where("e", VoyagerMultiblockUtils.pipeCasingTraceable())
+                    .where("e", VoyagerPredicates.pipeCasingTraceable())
                     .where("f", Predicates.blocks(Blocks.DIRT))
 
                     .build())

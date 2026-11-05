@@ -24,8 +24,8 @@ public class SolarTowerRecipes {
                 10);
 
         solarRecipe(provider, "liquid_salt_to_molten_salt",
-                GTMaterials.Salt.getFluid(FluidStorageKeys.LIQUID,20),
-                GTMaterials.Salt.getFluid(FluidStorageKeys.MOLTEN,20),
+                GTMaterials.Salt.getFluid(FluidStorageKeys.LIQUID, 20),
+                GTMaterials.Salt.getFluid(FluidStorageKeys.MOLTEN, 20),
                 20,
                 20);
     }

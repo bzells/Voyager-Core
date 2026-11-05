@@ -34,6 +34,7 @@
     "voyagercore:luv_parallel_helper_module",
     "voyagercore:zpm_parallel_helper_module",
     "voyagercore:mv_ebf_helper_recipe_module",
+    "voyagercore:ev_mixer_helper_recipe_module",
     "voyagercore:hv_helper_wheel_recipe_module",
     "voyagercore:ev_centrifuge_helper_recipe_module",
     "voyagercore:ev_thermal_centrifuge_helper_recipe_module",

@@ -13,13 +13,16 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import com.jzells.voyagercore.common.machine.multiblock.steam.ThermalSolarMachine;
+import com.jzells.voyagercore.common.machine.multiblock.unpowered.ThermalSolarMachine;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public class ReflectorBlock extends Block {
 
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    private static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final double TOP_OF_REFLECTOR = 0.4; // Effectively is -0.5 than actual. Measured from center.
+    // private static final VoxelShape BASE = Block.box();//TODO: Finish Bounding Box, get Gio to make texture :P
+    // private static final VoxelShape BOUNDING;
 
     public ReflectorBlock(Properties properties) {
         super(properties);

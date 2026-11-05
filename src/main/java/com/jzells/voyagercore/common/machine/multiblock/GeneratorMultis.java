@@ -1,4 +1,4 @@
-package com.jzells.voyagercore.common.machine.multiblock.generator;
+package com.jzells.voyagercore.common.machine.multiblock;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;

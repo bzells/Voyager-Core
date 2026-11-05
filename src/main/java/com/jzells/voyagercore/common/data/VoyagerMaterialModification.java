@@ -8,8 +8,11 @@ import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 public class VoyagerMaterialModification {
+
     public static void init() {
-        GTMaterials.Salt.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder().state(FluidState.LIQUID).temperature(900)));
-        GTMaterials.Salt.getProperty(PropertyKey.FLUID).getStorage().enqueueRegistration(FluidStorageKeys.MOLTEN, new FluidBuilder().state(FluidState.LIQUID).temperature(1400));
+        GTMaterials.Salt.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID,
+                new FluidBuilder().state(FluidState.LIQUID).temperature(900)));
+        GTMaterials.Salt.getProperty(PropertyKey.FLUID).getStorage().enqueueRegistration(FluidStorageKeys.MOLTEN,
+                new FluidBuilder().state(FluidState.LIQUID).temperature(1400));
     }
 }

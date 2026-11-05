@@ -1,30 +1,27 @@
 package com.jzells.voyagercore.common.data;
 
-import com.gregtechceu.gtceu.api.registry.registrate.provider.GTBlockstateProvider;
 import com.gregtechceu.gtceu.common.data.models.GTModels;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
-import com.jzells.voyagercore.common.block.ReflectorBlock;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GlassBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-
-import com.jzells.voyagercore.VoyagerCore;
-import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.nullness.NonNullFunction;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.client.model.generators.loaders.ObjModelBuilder;
-import net.minecraftforge.client.model.obj.ObjModel;
+
+import com.jzells.voyagercore.VoyagerCore;
+import com.jzells.voyagercore.common.block.ReflectorBlock;
+import com.tterrag.registrate.util.entry.BlockEntry;
+import com.tterrag.registrate.util.nullness.NonNullFunction;
+import com.tterrag.registrate.util.nullness.NonNullSupplier;
 
 import java.util.function.Supplier;
 
@@ -94,12 +91,12 @@ public class VoyagerBlocks {
             "radiation_proof_lead_casing", VoyagerCore.id("block/casing/radiation_proof_lead_casing"));
 
     public static final BlockEntry<ReflectorBlock> REFLECTOR_STANDARD = VOYAGERCORE_REGISTRATE
-            .block("reflector",ReflectorBlock::new)
-            .initialProperties(()->Blocks.IRON_BLOCK)
-            .properties(p->p.isValidSpawn((a,b,c,d)->false)
+            .block("reflector", ReflectorBlock::new)
+            .initialProperties(() -> Blocks.IRON_BLOCK)
+            .properties(p -> p.isValidSpawn((a, b, c, d) -> false)
                     .noOcclusion())
-            .addLayer(()->RenderType::solid)
-            .exBlockstate((ctx,prov)->{
+            .addLayer(() -> RenderType::solid)
+            .exBlockstate((ctx, prov) -> {
                 var model = prov.models().getBuilder("reflector")
                         .customLoader(ObjModelBuilder::begin)
                         .modelLocation(VoyagerCore.id("models/block/reflector/reflector.obj"))
@@ -107,18 +104,17 @@ public class VoyagerBlocks {
                         .end()
                         .texture("reflector", VoyagerCore.id("block/reflector"));
 
-                prov.getVariantBuilder(ctx.getEntry()).forAllStates(state ->{
+                prov.getVariantBuilder(ctx.getEntry()).forAllStates(state -> {
                     Direction dir = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
                     return ConfiguredModel.builder()
                             .modelFile(model)
-                            .rotationY(dir.getAxis().isVertical() ? 0 : ((int) dir.toYRot() %360))
+                            .rotationY(dir.getAxis().isVertical() ? 0 : ((int) dir.toYRot() % 360))
                             .build();
                 });
             })
             .item(BlockItem::new)
             .build()
             .register();
-
 
     public static final BlockEntry<Block> CASING_ENERGETIC = createCasingBlock(
             "energetic_casing", VoyagerCore.id("block/casing/energetic_casing"));

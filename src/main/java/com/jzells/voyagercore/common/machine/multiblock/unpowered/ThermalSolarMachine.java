@@ -1,12 +1,10 @@
-package com.jzells.voyagercore.common.machine.multiblock.steam;
+package com.jzells.voyagercore.common.machine.multiblock.unpowered;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
-import com.gregtechceu.gtceu.api.gui.fancy.IFancyTooltip;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
@@ -17,8 +15,6 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 
-import com.jzells.voyagercore.VoyagerCore;
-import com.jzells.voyagercore.util.DimensionList;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -33,12 +29,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
-import com.jzells.voyagercore.util.debug.*;
+import com.jzells.voyagercore.VoyagerCore;
+import com.jzells.voyagercore.common.block.ReflectorBlock;
+import com.jzells.voyagercore.util.DimensionList;
 import com.mojang.logging.annotations.MethodsReturnNonnullByDefault;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -46,7 +43,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class ThermalSolarMachine extends WorkableMultiblockMachine implements IFancyUIMachine, IDisplayUIMachine{
+public class ThermalSolarMachine extends WorkableMultiblockMachine implements IFancyUIMachine, IDisplayUIMachine {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             ThermalSolarMachine.class, MultiblockControllerMachine.MANAGED_FIELD_HOLDER);
@@ -70,6 +67,8 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
     @Getter
     protected Vec3 centerVec3;
     protected DimensionList dimension = DimensionList.DEFAULT;
+    public static final int TANK_EXCLUSION_RADIUS = 3;
+    public static final int TANK_SELF_RADIUS = 3;
 
     public ThermalSolarMachine(IMachineBlockEntity holder) {
         super(holder);
@@ -118,19 +117,17 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
 
     public boolean attemptReflector(BlockPos pos) {
         if (getLevel() != null && !getLevel().canSeeSky(pos.above())) return false;
-        // Direction dir = holder.getMetaMachine().getFrontFacing();
-        // Vec3 mpos = holder.getCurrentPos().getCenter().relative(dir.getOpposite(),1);
         Vec3 mpos = getCenterVec3();
-        Vec3 tpos = pos.getCenter().relative(Direction.UP, 0.4);
+        Vec3 tpos = pos.getCenter().relative(Direction.UP, ReflectorBlock.TOP_OF_REFLECTOR);
         Vec3 nvec = mpos.vectorTo(tpos).normalize();
-        Vec3 gap = nvec.scale(3);
+        Vec3 gap = nvec.scale(TANK_EXCLUSION_RADIUS);
         Vec3 tvec = mpos.add(gap);
         ClipContext bc = new ClipContext(tvec, tpos, ClipContext.Block.VISUAL, ClipContext.Fluid.NONE, null);
         BlockHitResult result = getLevel().clip(bc);
 
         boolean hit = result.getBlockPos().equals(pos);
-        DebugVectors.VECTORS.put(String.valueOf(pos.hashCode()),
-                new DebugVector(tvec, result.getLocation(), hit ? Color.GREEN : Color.RED, true));
+        // DebugVectors.VECTORS.put(String.valueOf(pos.hashCode()),
+        // new DebugVector(tvec, result.getLocation(), hit ? Color.GREEN : Color.RED, true));
         // DebugVectors.VECTORS.put(pos.hashCode() + "target", new DebugVector(result.getLocation(), tpos, Color.GRAY,
         // false));
 
@@ -153,8 +150,9 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
     protected Vec3 calculateNormalToMachine(BlockPos pos) {
         // Direction dir = holder.getMetaMachine().getFrontFacing();
         // Vec3 machine = holder.getCurrentPos().getCenter().relative(dir.getOpposite(),1);
+        var TOP_OF_BLOCK = 0.5;
         Vec3 machine = getCenterVec3();
-        Vec3 reflector = pos.getCenter().relative(Direction.UP, 0.5);
+        Vec3 reflector = pos.getCenter().relative(Direction.UP, TOP_OF_BLOCK);
         Vec3 vec = machine.vectorTo(reflector);
         return vec.normalize();
     }
@@ -171,7 +169,8 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
             // Skip if the cached block is the checking block
             if (cache.equals(blockPos)) continue;
             // Skip the cached if the DotProd isn't similar
-            if (!checkDirection(blockPos, cache, 0.98F)) continue;
+            float SAMENESS = 0.98F;
+            if (!checkDirection(blockPos, cache, SAMENESS)) continue;
             // If the altered Block is being added and the cached block is active, attempt check
             if (!removing && reflectorPositions.contains(cache) && !attemptReflector(cache)) {
                 // If check returns false, remove cached from Active
@@ -203,9 +202,9 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
         thermalSolarSet.remove(this);
         centerVec3 = null;
         // This might be needed, unsure
-//        reflectorCount = 0;
-//        reflectorPositions.clear();
-//        blockCache.clear();
+        // reflectorCount = 0;
+        // reflectorPositions.clear();
+        // blockCache.clear();
     }
 
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
@@ -217,21 +216,20 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
                 .cancel(Component.literal("Too few reflectors, Minimum of %d needed".formatted(minReflectors)));
         Level level = solarMachine.getLevel();
         if (level == null) return ModifierFunction.NULL;
-//        String rlMachine = level.dimension().location().getPath();
+        // String rlMachine = level.dimension().location().getPath();
         byte parallelMultiplier;
         // Planet-Based Switch Statement;
-//        DimensionList dim = DimensionList.getFromString(rlMachine);
+        // DimensionList dim = DimensionList.getFromString(rlMachine);
         DimensionList dim = solarMachine.dimension;
 
-//        Map<String, Byte> dimensionMap = new HashMap<>();
-
+        // Map<String, Byte> dimensionMap = new HashMap<>();
 
         if (!dim.isSolarAvailable()) {
             switch (dim) {
-                case VENUS,TWILIGHT -> {
+                case VENUS, TWILIGHT -> {
                     return ModifierFunction.cancel(Component.literal("Clouds block the sun here"));
                 }
-                case NETHER,END -> {
+                case NETHER, END -> {
                     return ModifierFunction.cancel(Component.literal("There's no sun"));
                 }
             }
@@ -240,8 +238,9 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
         if (level.isNight() || level.isRaining())
             return ModifierFunction.cancel(Component.literal("Sun is not visible"));
 
-        int maxParallels = Math.max((solarMachine.getReflectorCount() * parallelMultiplier / (minReflectors * minReflectors)),1);
-        int parallels = ParallelLogic.getParallelAmount(solarMachine,recipe,maxParallels);
+        int maxParallels = Math
+                .max((solarMachine.getReflectorCount() * parallelMultiplier / (minReflectors * minReflectors)), 1);
+        int parallels = ParallelLogic.getParallelAmount(solarMachine, recipe, maxParallels);
         VoyagerCore.LOGGER.info("maxParallels: {}, Actual parallels: {}", maxParallels, String.valueOf(parallels));
 
         return ModifierFunction.builder()
@@ -250,11 +249,9 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
                 .parallels(parallels)
                 .build();
 
+        // return ModifierFunction.cancel(Component.literal(dim.name()));
 
-//        return ModifierFunction.cancel(Component.literal(dim.name()));
-
-
-//        return ModifierFunction.NULL;
+        // return ModifierFunction.NULL;
     }
 
     @Override
@@ -281,11 +278,12 @@ public class ThermalSolarMachine extends WorkableMultiblockMachine implements IF
 
     @Override
     public void addDisplayText(List<Component> textList) {
-        MultiblockDisplayText.builder(textList,isFormed())
+        MultiblockDisplayText.builder(textList, isFormed())
                 .addParallelsLine(this.getParallels())
                 .addRecipeFailReasonLine(this.recipeLogic);
         textList.add(Component.literal("Reflectors: %d".formatted(reflectorCount)));
-        textList.add(Component.literal("Dimension Solar Bonus: %d%%".formatted(((int) dimension.getSolarStrength())*10)));
+        textList.add(
+                Component.literal("Dimension Solar Bonus: %d%%".formatted(((int) dimension.getSolarStrength()) * 10)));
     }
 }
 // lifecycle: Thermal Formed -> reflector placed -> reflector checks for valid thermal

@@ -66,7 +66,7 @@ public class VoyagerCore {
 
         VOYAGERCORE_REGISTRATE.registerRegistrate();
         VoyagerTinkersDataGen.init();
-        modEventBus.register(new VCTConModifiers());
+        modEventBus.register(new VCTConModifiers(modEventBus));
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> VoyagerCore::initializeDynamicRenders);
     }
 
