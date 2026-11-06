@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import com.jzells.voyagercore.VoyagerCore;
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
-import com.jzells.voyagercore.common.machine.multiblock.part.VoyagerPartAbilities;
 import com.jzells.voyagercore.common.machine.multiblock.unpowered.HeatExchangerMultiMachine;
 import com.jzells.voyagercore.common.machine.multiblock.unpowered.ThermalSolarMachine;
 import com.jzells.voyagercore.util.VoyagerPredicates;
@@ -37,11 +36,11 @@ public class UnpoweredMultiMachines {
                             .where('X', Predicates.blocks(CASING_INDUSTRIAL_SOLID.get()))
                             .where('P', VoyagerPredicates.pipeCasingTraceable())
                             .where('C', Predicates.controller(Predicates.blocks(def.get())))
-                            .where('F', VoyagerPredicates
-                                    .partDirectional(PartAbility.EXPORT_FLUIDS_1X, VoyagerPartAbilities.PIPE_CASING)
+                            .where('F', Predicates.ability(PartAbility.IMPORT_FLUIDS_1X)
                                     .setExactLimit(2)
-                                    .or(VoyagerPredicates.partDirectional(PartAbility.IMPORT_FLUIDS_1X,
-                                            VoyagerPartAbilities.PIPE_CASING).setExactLimit(2)))
+                                    .or(Predicates
+                                            .abilities(PartAbility.EXPORT_FLUIDS_1X)
+                                            .setExactLimit(2)))
                             .build())
             .workableCasingModel(VoyagerCore.id("block/casing/solid_industrial_casing"),
                     VoyagerCore.id("block/multiblock/heat_exchanger"))

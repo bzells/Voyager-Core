@@ -6,6 +6,8 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 
 import java.util.HashMap;
@@ -36,13 +38,15 @@ public class HeatExchangerMultiMachine extends WorkableMultiblockMachine impleme
         List<FluidHatchPartMachine> keys = List.copyOf(fluidHatchMap.keySet());
         FluidHatchPartMachine first = keys.get(0);
         IO firstIO = fluidHatchMap.get(first);
+        BlockPos pos1 = first.getPos();
         for (int i = 1; i < fluidHatchMap.size(); i++) {
             FluidHatchPartMachine second = keys.get(i);
             IO secondIO = fluidHatchMap.get(second);
+            BlockPos pos2 = second.getPos();
             if (!firstIO.equals(secondIO)) {
-                if (first.getFrontFacing() == second.getFrontFacing()) {
-                    return true;
-                }
+                BlockPos vec = pos1.subtract(pos2);
+                BlockPos cross = vec.cross(this.getFrontFacing().getNormal());
+                if (cross.equals(Vec3i.ZERO)) return true;
             }
         }
         return false;
