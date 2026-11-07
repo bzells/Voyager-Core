@@ -37,7 +37,7 @@ public class VoyagerPredicates {
         }, null);
     }
 
-    ///Causes a crash. It works on formation, but for SOME FUCKING REASON...
+    /// Causes a crash. It works on formation, but for SOME FUCKING REASON...
     public static TraceabilityPredicate partDirectional(PartAbility abilityOfDirectional, PartAbility ofBehindPart) {
         return new TraceabilityPredicate(
                 multiblockState -> {
