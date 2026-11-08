@@ -121,7 +121,7 @@ public class VoyagerBlocks {
             .model((ctx,prov) -> {
                 prov.blockItem(ctx.lazy()).transforms()
                         .transform(ItemDisplayContext.GUI)
-                        .rotation(VoyagerConstants.ISO_PROJECTION_DEG,45,0).scale(0.6f).end();
+                        .rotation(VoyagerConstants.ISO_PROJECTION_DEG,45,0).translation(0,2,0).scale(0.6f).end();
             })
             .build()
             .register();
