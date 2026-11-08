@@ -3,11 +3,13 @@ package com.jzells.voyagercore.common.data;
 import com.gregtechceu.gtceu.common.data.models.GTModels;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
+import com.jzells.voyagercore.util.VoyagerConstants;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GlassBlock;
@@ -22,6 +24,8 @@ import com.jzells.voyagercore.common.block.ReflectorBlock;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import net.minecraftforge.common.util.TransformationHelper;
+import org.joml.Quaternionf;
 
 import java.util.function.Supplier;
 
@@ -102,7 +106,8 @@ public class VoyagerBlocks {
                         .modelLocation(VoyagerCore.id("models/block/reflector/reflector.obj"))
                         .flipV(true)
                         .end()
-                        .texture("reflector", VoyagerCore.id("block/reflector"));
+                        .texture("reflector", VoyagerCore.id("block/reflector"))
+                        .texture("particle", VoyagerCore.id("block/reflector"));
 
                 prov.getVariantBuilder(ctx.getEntry()).forAllStates(state -> {
                     Direction dir = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
@@ -113,6 +118,11 @@ public class VoyagerBlocks {
                 });
             })
             .item(BlockItem::new)
+            .model((ctx,prov) -> {
+                prov.blockItem(ctx.lazy()).transforms()
+                        .transform(ItemDisplayContext.GUI)
+                        .rotation(VoyagerConstants.ISO_PROJECTION_DEG,45,0).scale(0.6f).end();
+            })
             .build()
             .register();
 

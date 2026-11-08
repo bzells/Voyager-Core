@@ -1,3 +1,17 @@
 {
-  "parent": "voyagercore:block/reflector"
+  "parent": "voyagercore:block/reflector",
+  "display": {
+    "gui": {
+      "rotation": [
+        35.26439,
+        45,
+        0
+      ],
+      "scale": [
+        0.6,
+        0.6,
+        0.6
+      ]
+    }
+  }
 }
