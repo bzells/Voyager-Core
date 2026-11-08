@@ -1,4 +1,4 @@
-package com.jzells.voyagercore.common.machine.multiblock.electric;
+package com.jzells.voyagercore.common.machine.multiblock;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
@@ -23,12 +23,13 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
 
 import com.jzells.voyagercore.VoyagerCore;
-import com.jzells.voyagercore.client.renderer.machine.VoyagerRenderHelper;
+import com.jzells.voyagercore.client.renderer.VoyagerRenderHelper;
 import com.jzells.voyagercore.common.data.VoyagerCoreRecipeModifiers;
 import com.jzells.voyagercore.common.data.VoyagerMaterials;
 import com.jzells.voyagercore.common.data.VoyagerRecipeTypes;
+import com.jzells.voyagercore.common.machine.multiblock.electric.*;
 import com.jzells.voyagercore.common.machine.multiblock.part.VoyagerPartAbilities;
-import com.jzells.voyagercore.util.VoyagerMultiblockUtils;
+import com.jzells.voyagercore.util.VoyagerPredicates;
 
 import java.util.Objects;
 
@@ -638,7 +639,7 @@ public class ElectricMultiMachines {
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS))
                             .or(Predicates.abilities(PartAbility.EXPORT_ITEMS)))
                     .where("c", Predicates.fluids(Fluids.WATER))
-                    .where("d", VoyagerMultiblockUtils.pipeCasingTraceable())
+                    .where("d", VoyagerPredicates.pipeCasingTraceable())
                     .where("e", Predicates.blocks(Objects.requireNonNull(GTMaterialBlocks.MATERIAL_BLOCKS
                             .get(TagPrefix.frameGt, GTMaterials.WatertightSteel)).get()))
                     .where("f", Predicates.controller(Predicates.blocks(def.get())))
@@ -689,7 +690,7 @@ public class ElectricMultiMachines {
                     .where("b", Predicates.any())
                     .where("c", Predicates.controller(Predicates.blocks(def.get())))
                     .where("d", Predicates.blocks(CASING_LAMINATED_GLASS.get()))
-                    .where("e", VoyagerMultiblockUtils.pipeCasingTraceable())
+                    .where("e", VoyagerPredicates.pipeCasingTraceable())
                     .where("f", Predicates.blocks(Blocks.DIRT))
 
                     .build())

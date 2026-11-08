@@ -1,4 +1,4 @@
-package com.jzells.voyagercore.client.renderer.machine;
+package com.jzells.voyagercore.client.renderer;
 
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
 

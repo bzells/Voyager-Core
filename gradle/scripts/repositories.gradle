@@ -6,6 +6,11 @@ repositories {
     mavenCentral()
 
 
+    maven {
+        //Tinkers+Mantle
+        name 'DVS1 Maven FS'
+        url 'https://dvs1.progwml6.com/files/maven'
+    }
 
     maven {
         name = 'ModKit'
@@ -52,8 +57,8 @@ repositories {
     }
     maven {
         // EMI
-        name = "TerraformersMC"
-        url = "https://maven.terraformersmc.com/"
+        name = "Sleeping Town"
+        url = "https://repo.sleeping.town/"
     }
     maven {
         url = "https://thedarkcolour.github.io/KotlinForForge/"
@@ -83,14 +88,10 @@ repositories {
         }
     }
 
+
     maven {
         url = "https://api.modrinth.com/maven"
     }
 
-//    maven {
-//        //Tinkers+Mantle
-//        name 'DVS1 Maven FS'
-//        url 'https://dvs1.progwml6.com/files/maven'
-//    }
 
 }

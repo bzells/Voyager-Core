@@ -34,11 +34,11 @@ dependencies {
     modImplementation(forge.forestry)
 
     //Tinkers
-//    modImplementation(forge.bundles.tinkers)
-    modImplementation("curse.maven:tinkers-construct-74072:7449219")
-    modImplementation("curse.maven:mantle-74924:7563777")
+    modImplementation(forge.bundles.tinkers)
+//    modImplementation("curse.maven:tinkers-construct-74072:7449219")
+//    modImplementation("curse.maven:mantle-74924:7563777")
 
     // lombok
-    compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    compileOnly 'org.projectlombok:lombok:1.18.46'
+    annotationProcessor 'org.projectlombok:lombok:1.18.46'
 }

@@ -20,12 +20,14 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLLoader;
 
 import com.jzells.voyagercore.client.renderer.machine.impl.SuperDonutRender;
 import com.jzells.voyagercore.common.data.*;
 import com.jzells.voyagercore.common.machine.multiblock.VoyagerMultiRegistry;
 import com.jzells.voyagercore.tools.VCTConModifiers;
 import com.jzells.voyagercore.tools.data.VoyagerTinkersDataGen;
+import com.jzells.voyagercore.util.debug.DebugVectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -58,9 +60,13 @@ public class VoyagerCore {
         // we need to register our object like this!
         MinecraftForge.EVENT_BUS.register(this);
 
+        if (!FMLLoader.isProduction()) {
+            MinecraftForge.EVENT_BUS.register(DebugVectors.class);
+        }
+
         VOYAGERCORE_REGISTRATE.registerRegistrate();
         VoyagerTinkersDataGen.init();
-        modEventBus.register(new VCTConModifiers());
+        modEventBus.register(new VCTConModifiers(modEventBus));
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> VoyagerCore::initializeDynamicRenders);
     }
 
@@ -116,6 +122,7 @@ public class VoyagerCore {
      */
     private void modifyMaterials(PostMaterialEvent event) {
         // CustomMaterials.modify();
+        VoyagerMaterialModification.init();
     }
 
     /**

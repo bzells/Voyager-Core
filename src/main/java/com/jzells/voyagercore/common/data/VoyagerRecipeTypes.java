@@ -192,6 +192,18 @@ public class VoyagerRecipeTypes {
             })
             .setSound(GTSoundEntries.ASSEMBLER);
 
+    public static final GTRecipeType SOLAR_TOWER = GTRecipeTypes
+            .register("solar_tower", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(0, 0, 1, 1)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BOILER_HEAT, ProgressTexture.FillDirection.DOWN_TO_UP)
+            .addDataInfo(tag -> {
+                if (tag.contains("reflector")) {
+                    return "Minimum Reflectors: " + tag.getInt("reflector");
+                }
+                return "";
+            })
+            .setSound(GTSoundEntries.BOILER);
+
     public static void init() {}
 
     public static GTRecipeType voyagerRecipeType(String id, String type, IO io, int maxInputs, int maxOutputs,

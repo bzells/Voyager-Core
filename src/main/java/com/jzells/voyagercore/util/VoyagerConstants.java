@@ -8,6 +8,8 @@ public class VoyagerConstants {
     public static float MIN_HELPER_SPEED = 0.01f;
     public static float MIN_HELPER_EUT = 0.01f;
 
+    public static final float ISO_PROJECTION_DEG = (float) (Math.atan(1/Math.sqrt(2)) * 180/Math.PI);
+
     public static float PARAMOUNT_HELPER_LEVEL_UP_XP_MULTIPLIER(int level) {
         if (level < 10) {
             return 4f;
